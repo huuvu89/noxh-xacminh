@@ -14,6 +14,7 @@ public static class Verifier
         RServerCommitCheck.Run,
         MasterSeedCheck.Run,
         DrawLogChainCheck.Run,
+        DrawTicketMatchCheck.Run,
     ];
 
     public static VerificationReport Verify(VerificationInput input) =>

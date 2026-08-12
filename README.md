@@ -79,7 +79,8 @@ python3 -m http.server 8080 --directory publish/wwwroot
 | 2 | Hạt giống gốc — `masterSeed == SHA-256(rServer ‖ rSupervisor ‖ blockHash)`, từng vòng một | ✅ |
 | 3 | Mã băm chồng phiếu — `deckHash == SHA-256(canonical(tickets))`, từng chồng phiếu một | ✅ |
 | 4 | Chuỗi băm nhật ký bốc — **tính lại** `entryHash` từ đúng preimage, nêu rõ bước lệch đầu tiên | ✅ |
-| 5–9 và các vòng tái lập | | chưa (vé tiếp theo) |
+| 5 | Vé từng lượt bốc — payload khớp vé ở đúng vị trí trong chồng phiếu, từng vòng một, liệt kê đủ điểm lệch | ✅ |
+| 6–9 và các vòng tái lập | | chưa (vé tiếp theo) |
 
 ## Vì sao C# WebAssembly chứ không phải JavaScript
 
