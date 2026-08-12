@@ -1,0 +1,18 @@
+{
+  "fixture": "transparency-golden.json",
+  "fixtureSha256": "72f68dded72d733a9b3383036a1035d33e95a2f61760dd7ab59d05ef39aecbe7",
+  "generatedAtUtc": "2026-08-12T20:26:52Z",
+  "generator": "fixtures/generator/GoldenTransparencyFixtureGenerator.cs",
+  "backendCommit": "89ca029dc9fa7c82fed257e728d0bd3530c7c0a7",
+  "backendCommittedAt": "2026-08-12T11:52:08+00:00",
+  "rSupervisorHex": "5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed",
+  "soLieu": {
+    "soHoSo": 40,
+    "soCan": 20,
+    "soChongPhieu": 6,
+    "soVe": 67,
+    "soLuotBoc": 54,
+    "soDongKetQua": 23,
+    "soTokenDauThoiGian": 16
+  }
+}
