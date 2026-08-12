@@ -150,7 +150,12 @@ internal static class DrawLogChainCheck
             ],
         };
 
-    /// <summary>Thứ tự duyệt của backend: vòng → tên vòng → chồng phiếu → vị trí tăng dần.</summary>
+    /// <summary>
+    /// Thứ tự duyệt của backend: vòng → tên vòng → chồng phiếu → vị trí tăng dần. Backend còn có
+    /// ràng buộc duy nhất (chồng phiếu, vị trí) nên bốn khoá đó là đủ; file người dùng thả vào thì
+    /// KHÔNG — hai bước trùng khoá phải xếp theo một trật tự cố định, nếu không cùng một file lại
+    /// cho hai kết luận khác nhau giữa hai lần chạy.
+    /// </summary>
     private static int TheoThuTuTatDinh(Buoc a, Buoc b)
     {
         var theoVong = a.ThuTuVong.CompareTo(b.ThuTuVong);
@@ -160,7 +165,13 @@ internal static class DrawLogChainCheck
         if (theoTen != 0) return theoTen;
 
         var theoChongPhieu = a.DeckId.CompareTo(b.DeckId);
-        return theoChongPhieu != 0 ? theoChongPhieu : a.Position.CompareTo(b.Position);
+        if (theoChongPhieu != 0) return theoChongPhieu;
+
+        var theoViTri = a.Position.CompareTo(b.Position);
+        if (theoViTri != 0) return theoViTri;
+
+        var theoHoSo = a.ApplicantId.CompareTo(b.ApplicantId);
+        return theoHoSo != 0 ? theoHoSo : string.CompareOrdinal(a.EntryHash, b.EntryHash);
     }
 
     /// <summary>

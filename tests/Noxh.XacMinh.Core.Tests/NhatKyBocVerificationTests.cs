@@ -81,6 +81,23 @@ public class NhatKyBocVerificationTests
         Assert.Equal(CheckStatus.Dat, HangMuc(daoNguoc).Status);
     }
 
+    [Fact]
+    public void AC1_HaiBuocTrungKhoaSapXep_VanChoCungMotKetLuanGiuaHaiLanChay()
+    {
+        // File người dùng thả vào không có ràng buộc duy nhất (chồng phiếu, vị trí) của cơ sở dữ
+        // liệu; trùng khoá mà thứ tự duyệt không cố định thì cùng một file ra hai kết luận.
+        var trung = EditGolden(root =>
+        {
+            var nhatKy = NhatKy(root);
+            nhatKy.Insert(BuocThu + 1, nhatKy[BuocThu]!.DeepClone());
+        });
+
+        var lanDau = HangMuc(Parse(trung));
+        var lanSau = HangMuc(Parse(trung));
+
+        Assert.Equal(lanDau, lanSau);
+    }
+
     // ── AC3: thiếu định danh hồ sơ / chồng phiếu → KHÔNG KIỂM ĐƯỢC kèm lý do ────────────
 
     [Theory]
