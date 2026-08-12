@@ -75,18 +75,13 @@ internal static class MasterSeedCheck
     }
 
     /// <summary>Ba nguồn đầu vào của hạt giống, hiện đủ ở chế độ chuyên sâu — kèm định danh khối neo.</summary>
-    private static IReadOnlyList<CheckMetric> SoLieu(EntropySource nguon)
-    {
-        var soLieu = new List<CheckMetric>
-        {
-            new("Vòng", NguonNgauNhienChung.Co(nguon.Round)),
-            new("Ngẫu nhiên máy chủ (R_server)", NguonNgauNhienChung.Co(Hex.ChuanHoa(nguon.RServer))),
-            new("Ngẫu nhiên tổ giám sát (R_supervisor)", NguonNgauNhienChung.Co(Hex.ChuanHoa(nguon.RSupervisor))),
-            new("Mã băm khối neo (H_blockchain)", NguonNgauNhienChung.Co(Hex.ChuanHoa(nguon.BlockHash))),
-            new("Chuỗi khối neo", NguonNgauNhienChung.Co(nguon.AnchorChain)),
-            new("Độ cao khối neo", nguon.BlockHeight?.ToString() ?? NguonNgauNhienChung.KhongCo),
-        };
-
-        return soLieu;
-    }
+    private static IReadOnlyList<CheckMetric> SoLieu(EntropySource nguon) =>
+    [
+        new CheckMetric("Vòng", NguonNgauNhienChung.Co(nguon.Round)),
+        new CheckMetric("Ngẫu nhiên máy chủ (R_server)", NguonNgauNhienChung.Co(Hex.ChuanHoa(nguon.RServer))),
+        new CheckMetric("Ngẫu nhiên tổ giám sát (R_supervisor)", NguonNgauNhienChung.Co(Hex.ChuanHoa(nguon.RSupervisor))),
+        new CheckMetric("Mã băm khối neo (H_blockchain)", NguonNgauNhienChung.Co(Hex.ChuanHoa(nguon.BlockHash))),
+        new CheckMetric("Chuỗi khối neo", NguonNgauNhienChung.Co(nguon.AnchorChain)),
+        new CheckMetric("Độ cao khối neo", nguon.BlockHeight?.ToString() ?? NguonNgauNhienChung.KhongCo),
+    ];
 }
