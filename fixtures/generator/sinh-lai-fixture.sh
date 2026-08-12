@@ -9,15 +9,16 @@ set -euo pipefail
 
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo="$(cd "$here/../.." && pwd)"
-backend="${1:-$(cd "$repo/../backend-noxh-lottery" && pwd)}"
+backend="${1:-$repo/../backend-noxh-lottery}"
 
 if [ ! -d "$backend/tests/Lottery.IntegrationTests" ]; then
   echo "Không thấy bộ integration test của backend ở: $backend" >&2
   exit 1
 fi
+# ProjectReference giải theo vị trí file .csproj, không theo thư mục đang đứng — phải tuyệt đối.
+backend="$(cd "$backend" && pwd)"
 
-dirty="$(git -C "$backend" status --porcelain | wc -l)"
-if [ "$dirty" != "0" ]; then
+if [ -n "$(git -C "$backend" status --porcelain)" ]; then
   echo "CẢNH BÁO: cây làm việc của backend đang bẩn — fixture sẽ không truy được về đúng commit:" >&2
   git -C "$backend" status --porcelain >&2
 fi
