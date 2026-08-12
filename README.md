@@ -51,11 +51,28 @@ chồng phiếu mọc ra từ hạt giống đã cam kết trước, không ph�
 | Thư mục | Nội dung |
 |---|---|
 | `fixtures/` | Fixture chuẩn vàng: JSON minh bạch **thật** của một dự án đã chạy trọn 4 vòng, kèm mã nguồn sinh lại nó từ backend. Đọc [`fixtures/README.md`](fixtures/README.md) trước khi dùng — nó nói rõ fixture chứng minh được gì và **không** chứng minh được gì. |
-| `tests/` | Test. `Noxh.XacMinh.Fixtures.Tests` là hàng rào của fixture: fixture thiếu khối dữ liệu hay mất dấu vết nguồn gốc là đỏ ngay. |
+| `src/Noxh.XacMinh.Core/` | Lõi kiểm chứng **thuần, không I/O**: lõi mật mã copy nguyên văn từ backend (`Crypto/`), model JSON minh bạch (`Transparency/`), và seam duy nhất `Verifier.Verify(VerificationInput) → VerificationReport` (`Verification/`). Thêm hạng mục kiểm = thêm một `Checks/*.cs` rồi cắm vào `Verifier`. |
+| `src/Noxh.XacMinh.Web/` | Vỏ giao diện Blazor WebAssembly: nạp file/nội dung dán, gọi lõi, vẽ kết luận. Không tự kiểm gì cả. |
+| `tests/` | Test. `Noxh.XacMinh.Fixtures.Tests` là hàng rào của fixture; `Noxh.XacMinh.Core.Tests` kiểm lõi qua đúng seam, bằng fixture chuẩn vàng và các bản bị sửa dựng từ chính nó. |
 
 ```bash
 dotnet test          # toàn bộ test trong solution
+dotnet run --project src/Noxh.XacMinh.Web      # chạy thử tại http://localhost:5xxx
 ```
+
+Dựng bản tĩnh (không cần máy chủ ứng dụng — đây là thứ đem lên GitHub Pages):
+
+```bash
+dotnet publish src/Noxh.XacMinh.Web -c Release -o publish
+python3 -m http.server 8080 --directory publish/wwwroot
+```
+
+## Hạng mục đã kiểm được
+
+| # | Hạng mục | Trạng thái |
+|---|---|---|
+| 3 | Mã băm chồng phiếu — `deckHash == SHA-256(canonical(tickets))`, từng chồng phiếu một | ✅ |
+| 1, 2, 4–9 và các vòng tái lập | | chưa (vé tiếp theo) |
 
 ## Vì sao C# WebAssembly chứ không phải JavaScript
 

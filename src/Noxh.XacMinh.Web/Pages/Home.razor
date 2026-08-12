@@ -1,0 +1,152 @@
+@page "/"
+@using System.Text
+
+<PageTitle>Kiểm chứng kết quả bốc thăm NƠXH</PageTitle>
+
+<h1>Kiểm chứng kết quả bốc thăm</h1>
+
+<p class="dan-nhap">
+    Thả vào đây file báo cáo minh bạch (JSON) tải từ trang công bố kết quả. Công cụ tự tính lại mã
+    băm và nói cho bạn biết bản công bố có đúng bản đã niêm phong hay không.
+    <strong>Dữ liệu của bạn không rời khỏi máy này.</strong>
+</p>
+
+<label class="o-tha-file">
+    <InputFile OnChange="NhanFile" accept=".json,application/json" />
+    <span>Bấm chọn hoặc kéo thả file JSON vào đây</span>
+</label>
+
+@* Không điều khiển thuộc tính open: để trình duyệt giữ trạng thái người dùng tự mở, kẻo bấm
+   "Kiểm nội dung đã dán" xong ô văn bản lại tự cụp vào. *@
+<details class="o-dan">
+    <summary>Hoặc dán nội dung JSON</summary>
+    <textarea @bind="noiDungDan" @bind:event="oninput" rows="6"
+              placeholder="Dán toàn bộ nội dung file JSON vào đây"></textarea>
+    <button type="button" @onclick="KiemNoiDungDan" disabled="@string.IsNullOrWhiteSpace(noiDungDan)">
+        Kiểm nội dung đã dán
+    </button>
+</details>
+
+@if (loi is not null)
+{
+    <div class="thong-bao-loi" role="alert">@loi</div>
+}
+
+@if (baoCao is not null)
+{
+    <section class="ket-luan @Lop(baoCao.Overall)">
+        <h2>@baoCao.Overall.Nhan()</h2>
+        <p>@KetLuanChungGiaiThich(baoCao.Overall)</p>
+        <p class="nguon">Nguồn: @nguon</p>
+    </section>
+
+    <label class="chuyen-sau">
+        <input type="checkbox" @bind="cheDoChuyenSau" /> Chế độ chuyên sâu (hiện mã băm và chuỗi nội dung vé)
+    </label>
+
+    <ul class="hang-muc">
+        @foreach (var item in baoCao.Items)
+        {
+            <li class="@Lop(item.Status)">
+                <div class="dau-hang-muc">
+                    <span class="nhan">@item.Status.Nhan()</span>
+                    <span class="ten">@item.Title</span>
+                </div>
+                <p class="giai-thich">@item.Explanation</p>
+
+                @if (cheDoChuyenSau)
+                {
+                    <dl class="chi-tiet">
+                        <dt>Mã băm đã niêm phong</dt>
+                        <dd><code>@(item.Expected ?? "(không có)")</code></dd>
+                        <dt>Mã băm tính lại được</dt>
+                        <dd><code>@(item.Actual ?? "(chưa tính được)")</code></dd>
+                        @if (item.Preimage is not null)
+                        {
+                            <dt>Chuỗi nội dung đem băm</dt>
+                            <dd><pre>@RutGon(item.Preimage)</pre></dd>
+                        }
+                    </dl>
+                }
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    // 64 MB: báo cáo của một dự án ~900 vé chỉ vài MB; giới hạn để file nhầm không treo tab.
+    private const long GioiHanByte = 64L * 1024 * 1024;
+
+    private const int SoDongPreimageHienThi = 20;
+
+    private string noiDungDan = string.Empty;
+    private string? loi;
+    private string? nguon;
+    private VerificationReport? baoCao;
+    private bool cheDoChuyenSau;
+
+    private async Task NhanFile(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            var file = e.File;
+            await using var stream = file.OpenReadStream(GioiHanByte);
+            using var buffer = new MemoryStream();
+            await stream.CopyToAsync(buffer);
+
+            Kiem(Encoding.UTF8.GetString(buffer.ToArray()), file.Name);
+        }
+        catch (Exception ex)
+        {
+            // Đọc file hỏng/quá lớn không được làm trắng trang.
+            baoCao = null;
+            loi = $"Không đọc được file: {ex.Message}";
+        }
+    }
+
+    private void KiemNoiDungDan() => Kiem(noiDungDan, "nội dung đã dán");
+
+    private void Kiem(string json, string tenNguon)
+    {
+        var nap = TransparencyJson.Parse(json);
+        if (!nap.Success)
+        {
+            baoCao = null;
+            loi = nap.ErrorMessage;
+            return;
+        }
+
+        loi = null;
+        nguon = TenNguon(nap.Report!, tenNguon);
+        baoCao = Verifier.Verify(new VerificationInput(nap.Report!));
+    }
+
+    private static string TenNguon(TransparencyReport report, string tenNguon) =>
+        string.IsNullOrWhiteSpace(report.ProjectName) ? tenNguon : $"{report.ProjectName} — {tenNguon}";
+
+    private static string Lop(CheckStatus status) => status switch
+    {
+        CheckStatus.Dat => "dat",
+        CheckStatus.KhongDat => "khong-dat",
+        _ => "khong-kiem-duoc",
+    };
+
+    private static string KetLuanChungGiaiThich(CheckStatus status) => status switch
+    {
+        CheckStatus.Dat =>
+            "Mọi hạng mục kiểm được đều khớp. Bản công bố đúng là bản đã niêm phong.",
+        CheckStatus.KhongDat =>
+            "Có hạng mục KHÔNG khớp. Số liệu công bố không đúng bản đã niêm phong — xem chi tiết bên dưới.",
+        _ =>
+            "Có hạng mục không kiểm được vì thiếu dữ liệu. Thiếu dữ liệu không có nghĩa là đạt.",
+    };
+
+    private static string RutGon(string preimage)
+    {
+        var dong = preimage.Split('\n');
+        if (dong.Length <= SoDongPreimageHienThi) return preimage;
+
+        var conLai = dong.Length - SoDongPreimageHienThi - 1; // dòng cuối rỗng do "\n" kết thúc
+        return string.Join('\n', dong.Take(SoDongPreimageHienThi)) + $"\n… (còn {conLai} dòng)";
+    }
+}

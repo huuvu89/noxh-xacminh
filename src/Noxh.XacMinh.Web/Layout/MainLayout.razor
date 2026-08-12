@@ -1,0 +1,18 @@
+@inherits LayoutComponentBase
+
+<main>
+    @* Lỗi hiển thị không được nuốt cả trang: người dùng phải còn thấy được nút thử lại. *@
+    <ErrorBoundary>
+        <ChildContent>@Body</ChildContent>
+        <ErrorContent>
+            <div class="thong-bao-loi" role="alert">
+                Công cụ gặp lỗi ngoài dự kiến khi hiển thị kết quả. Hãy tải lại trang và thử lại;
+                nếu vẫn lỗi thì file JSON có thể không đúng định dạng bản công bố.
+            </div>
+        </ErrorContent>
+    </ErrorBoundary>
+</main>
+
+<footer>
+    Công cụ chạy hoàn toàn trong trình duyệt của bạn — mã nguồn mở, không gửi dữ liệu đi đâu.
+</footer>

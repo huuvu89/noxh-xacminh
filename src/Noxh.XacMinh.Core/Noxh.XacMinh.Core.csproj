@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <!-- Lõi kiểm chứng thuần: không I/O, không mạng — vỏ UI nạp dữ liệu rồi đưa vào. -->
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+</Project>
