@@ -16,7 +16,9 @@
     <span>Bấm chọn hoặc kéo thả file JSON vào đây</span>
 </label>
 
-<details class="o-dan" open="@MoODan">
+@* Không điều khiển thuộc tính open: để trình duyệt giữ trạng thái người dùng tự mở, kẻo bấm
+   "Kiểm nội dung đã dán" xong ô văn bản lại tự cụp vào. *@
+<details class="o-dan">
     <summary>Hoặc dán nội dung JSON</summary>
     <textarea @bind="noiDungDan" @bind:event="oninput" rows="6"
               placeholder="Dán toàn bộ nội dung file JSON vào đây"></textarea>
@@ -82,8 +84,6 @@
     private string? nguon;
     private VerificationReport? baoCao;
     private bool cheDoChuyenSau;
-
-    private bool MoODan => baoCao is null && loi is null;
 
     private async Task NhanFile(InputFileChangeEventArgs e)
     {
