@@ -1,0 +1,12 @@
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Không có trang này</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p role="alert">Không có gì ở địa chỉ này. <a href="">Về trang kiểm chứng</a>.</p>
+        </LayoutView>
+    </NotFound>
+</Router>

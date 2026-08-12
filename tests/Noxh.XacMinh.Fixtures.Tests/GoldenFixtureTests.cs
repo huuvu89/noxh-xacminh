@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using System.Text.Json;
+using Noxh.XacMinh.TestSupport;
 using Xunit;
 
 namespace Noxh.XacMinh.Fixtures.Tests;
