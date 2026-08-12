@@ -1,0 +1,26 @@
+@* Kết luận tổng — hiện ở đầu trang trong cả hai chế độ; người dân không phải đọc hết mới biết. *@
+
+<section class="ket-luan @LopTrangThai.Cua(TrangThai)">
+    <h2>@TrangThai.Nhan()</h2>
+    <p>@GiaiThich(TrangThai)</p>
+    @if (!string.IsNullOrWhiteSpace(Nguon))
+    {
+        <p class="nguon">Nguồn: @Nguon</p>
+    }
+</section>
+
+@code {
+    [Parameter, EditorRequired] public CheckStatus TrangThai { get; set; }
+
+    [Parameter] public string? Nguon { get; set; }
+
+    private static string GiaiThich(CheckStatus status) => status switch
+    {
+        CheckStatus.Dat =>
+            "Mọi hạng mục kiểm được đều khớp. Bản công bố đúng là bản đã niêm phong.",
+        CheckStatus.KhongDat =>
+            "Có hạng mục KHÔNG khớp. Số liệu công bố không đúng bản đã niêm phong — xem chi tiết bên dưới.",
+        _ =>
+            "Có hạng mục không kiểm được vì thiếu dữ liệu. Thiếu dữ liệu không có nghĩa là đạt.",
+    };
+}

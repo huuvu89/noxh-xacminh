@@ -45,6 +45,10 @@ chồng phiếu mọc ra từ hạt giống đã cam kết trước, không ph�
 - **Khoá người dùng dán vào chỉ nằm trong RAM** — không lưu đĩa, không gửi đi đâu.
 - **Ba trạng thái, không phải hai**: ĐẠT · KHÔNG ĐẠT · **KHÔNG KIỂM ĐƯỢC (thiếu dữ liệu)**. Thiếu
   dữ liệu mà báo xanh là nói dối.
+- **Hai chế độ hiển thị.** Mặc định nói chuyện với người dân: mỗi hạng mục một dòng kết luận kèm
+  một câu giải thích "cái này chứng minh điều gì", không hex. Công tắc **chuyên sâu** mở giá trị kỳ
+  vọng / giá trị tính được / preimage / số liệu thô cho giám sát và kiểm toán, và giữ nguyên lựa
+  chọn đó khi nạp file mới trong cùng phiên.
 
 ## Cấu trúc repo
 
@@ -52,8 +56,8 @@ chồng phiếu mọc ra từ hạt giống đã cam kết trước, không ph�
 |---|---|
 | `fixtures/` | Fixture chuẩn vàng: JSON minh bạch **thật** của một dự án đã chạy trọn 4 vòng, kèm mã nguồn sinh lại nó từ backend. Đọc [`fixtures/README.md`](fixtures/README.md) trước khi dùng — nó nói rõ fixture chứng minh được gì và **không** chứng minh được gì. |
 | `src/Noxh.XacMinh.Core/` | Lõi kiểm chứng **thuần, không I/O**: lõi mật mã copy nguyên văn từ backend (`Crypto/`), model JSON minh bạch (`Transparency/`), và seam duy nhất `Verifier.Verify(VerificationInput) → VerificationReport` (`Verification/`). Thêm hạng mục kiểm = thêm một `Checks/*.cs` rồi cắm vào `Verifier`. |
-| `src/Noxh.XacMinh.Web/` | Vỏ giao diện Blazor WebAssembly: nạp file/nội dung dán, gọi lõi, vẽ kết luận. Không tự kiểm gì cả. |
-| `tests/` | Test. `Noxh.XacMinh.Fixtures.Tests` là hàng rào của fixture; `Noxh.XacMinh.Core.Tests` kiểm lõi qua đúng seam, bằng fixture chuẩn vàng và các bản bị sửa dựng từ chính nó. |
+| `src/Noxh.XacMinh.Web/` | Vỏ giao diện Blazor WebAssembly: nạp file/nội dung dán, gọi lõi, vẽ kết luận. Không tự kiểm gì cả. Khuôn hiển thị chung ở `Components/` (`KetQuaKiem` vẽ mọi hạng mục), chế độ hiển thị ở `HienThi/`. |
+| `tests/` | Test. `Noxh.XacMinh.Fixtures.Tests` là hàng rào của fixture; `Noxh.XacMinh.Core.Tests` kiểm lõi qua đúng seam, bằng fixture chuẩn vàng và các bản bị sửa dựng từ chính nó; `Noxh.XacMinh.Web.Tests` vẽ component ra HTML tĩnh để kiểm khuôn hiển thị hai chế độ. |
 
 ```bash
 dotnet test          # toàn bộ test trong solution
