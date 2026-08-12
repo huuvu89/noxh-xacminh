@@ -16,7 +16,35 @@ public sealed class TransparencyReport
 
     [JsonPropertyName("completedAt")] public string? CompletedAt { get; init; }
 
+    [JsonPropertyName("nguonNgauNhien")] public IReadOnlyList<EntropySource>? EntropySources { get; init; }
+
     [JsonPropertyName("decks")] public IReadOnlyList<Deck>? Decks { get; init; }
+}
+
+/// <summary>
+/// Nguồn ngẫu nhiên của một vòng (gate A/B/C). Vòng chưa đóng cổng thì các trường lộ ra sau khi
+/// đóng (<c>rServer</c>, <c>blockHash</c>, <c>masterSeed</c>) còn trống — đó là dữ liệu thiếu hợp
+/// lệ, không phải báo cáo hỏng.
+/// </summary>
+public sealed class EntropySource
+{
+    [JsonPropertyName("round")] public string? Round { get; init; }
+
+    [JsonPropertyName("masterSeed")] public string? MasterSeed { get; init; }
+
+    [JsonPropertyName("rServer")] public string? RServer { get; init; }
+
+    [JsonPropertyName("rServerCommit")] public string? RServerCommit { get; init; }
+
+    [JsonPropertyName("rSupervisor")] public string? RSupervisor { get; init; }
+
+    [JsonPropertyName("blockHeight")] public long? BlockHeight { get; init; }
+
+    [JsonPropertyName("blockHash")] public string? BlockHash { get; init; }
+
+    [JsonPropertyName("anchorChain")] public string? AnchorChain { get; init; }
+
+    [JsonPropertyName("inputHash")] public string? InputHash { get; init; }
 }
 
 /// <summary>Một chồng phiếu đã niêm phong; <c>Tickets</c> là nội dung vé sau khi mở.</summary>

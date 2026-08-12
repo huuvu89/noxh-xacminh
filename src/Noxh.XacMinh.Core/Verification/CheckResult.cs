@@ -42,4 +42,8 @@ public sealed record CheckMetric(string Label, string Value);
 public static class CheckIds
 {
     public const string DeckHash = "deck-hash";
+
+    public const string RServerCommit = "r-server-commit";
+
+    public const string MasterSeed = "master-seed";
 }
