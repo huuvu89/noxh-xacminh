@@ -1,0 +1,47 @@
+@inject TrangThaiHienThi trangThai
+
+<li class="@LopTrangThai.Cua(KetQua.Status)">
+    <div class="dau-hang-muc">
+        @* Nhãn chữ chứ không chỉ màu — người mù màu vẫn phải đọc được kết luận. *@
+        <span class="nhan">@KetQua.Status.Nhan()</span>
+        <span class="ten">@KetQua.Title</span>
+    </div>
+    <p class="giai-thich">@KetQua.Explanation</p>
+
+    @if (trangThai.ChuyenSau)
+    {
+        <dl class="chi-tiet">
+            <dt>Giá trị kỳ vọng</dt>
+            <dd><code>@(KetQua.Expected ?? "(không công bố)")</code></dd>
+            <dt>Giá trị tính được</dt>
+            <dd><code>@(KetQua.Actual ?? "(chưa tính được)")</code></dd>
+
+            @if (KetQua.Preimage is not null)
+            {
+                <dt>Chuỗi đem băm (preimage)</dt>
+                <dd><pre>@RutGon(KetQua.Preimage)</pre></dd>
+            }
+
+            @foreach (var soLieu in KetQua.Metrics)
+            {
+                <dt>@soLieu.Label</dt>
+                <dd>@soLieu.Value</dd>
+            }
+        </dl>
+    }
+</li>
+
+@code {
+    private const int SoDongPreimageHienThi = 20;
+
+    [Parameter, EditorRequired] public CheckResult KetQua { get; set; } = default!;
+
+    private static string RutGon(string preimage)
+    {
+        var dong = preimage.Split('\n');
+        if (dong.Length <= SoDongPreimageHienThi) return preimage;
+
+        var conLai = dong.Length - SoDongPreimageHienThi - 1; // dòng cuối rỗng do "\n" kết thúc
+        return string.Join('\n', dong.Take(SoDongPreimageHienThi)) + $"\n… (còn {conLai} dòng)";
+    }
+}

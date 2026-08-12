@@ -1,0 +1,27 @@
+@* Khuôn hiển thị chung: mọi hạng mục kiểm (vé sau cắm thêm vào Verifier) đều vẽ qua đây. *@
+@implements IDisposable
+@inject TrangThaiHienThi trangThai
+
+<KetLuanTong TrangThai="BaoCao.Overall" Nguon="@Nguon" />
+
+<CongTacCheDo />
+
+<ul class="hang-muc">
+    @foreach (var item in BaoCao.Items)
+    {
+        <HangMucKiem KetQua="item" />
+    }
+</ul>
+
+@code {
+    [Parameter, EditorRequired] public VerificationReport BaoCao { get; set; } = default!;
+
+    [Parameter] public string? Nguon { get; set; }
+
+    // Chế độ sống ngoài component này (theo phiên), nên phải nghe để vẽ lại cả danh sách khi đổi.
+    protected override void OnInitialized() => trangThai.DaDoi += VeLai;
+
+    public void Dispose() => trangThai.DaDoi -= VeLai;
+
+    private void VeLai() => StateHasChanged();
+}

@@ -41,8 +41,10 @@ internal static class DeckHashCheck
         var id = $"{CheckIds.DeckHash}:{ten}";
         var title = $"Mã băm chồng phiếu {ten}";
 
+        var soLieu = SoLieu(deck);
+
         CheckResult ChuaKiemDuoc(string vi) =>
-            new(id, title, CheckStatus.KhongKiemDuoc, vi, Expected: deck.DeckHash);
+            new(id, title, CheckStatus.KhongKiemDuoc, vi, Expected: deck.DeckHash) { Metrics = soLieu };
 
         if (string.IsNullOrWhiteSpace(deck.DeckHash))
             return ChuaKiemDuoc("Chồng phiếu này không công bố mã băm đã niêm phong, nên không có gì để đối chiếu.");
@@ -64,6 +66,26 @@ internal static class DeckHashCheck
             khop ? DatGiaiThich : KhongDatGiaiThich,
             Expected: deck.DeckHash!.Trim().ToLowerInvariant(),
             Actual: tinhDuoc,
-            Preimage: CanonicalDeckSerializer.CanonicalText(tickets));
+            Preimage: CanonicalDeckSerializer.CanonicalText(tickets))
+        {
+            Metrics = soLieu,
+        };
     }
+
+    /// <summary>Số liệu thô để người kiểm toán đối chiếu với biên bản niêm phong, không phải kết luận.</summary>
+    private static IReadOnlyList<CheckMetric> SoLieu(Deck deck)
+    {
+        var soLieu = new List<CheckMetric> { new("Vòng", Co(deck.Round)) };
+
+        if (deck.DeckId is not null) soLieu.Add(new CheckMetric("Mã chồng phiếu", deck.DeckId));
+        soLieu.Add(new CheckMetric("Quy mô niêm phong", deck.Size?.ToString() ?? KhongCo));
+        soLieu.Add(new CheckMetric("Số vé công bố", deck.Tickets?.Count.ToString() ?? KhongCo));
+        if (deck.SealedAt is not null) soLieu.Add(new CheckMetric("Niêm phong lúc", deck.SealedAt));
+
+        return soLieu;
+    }
+
+    private const string KhongCo = "(không công bố)";
+
+    private static string Co(string? giaTri) => string.IsNullOrWhiteSpace(giaTri) ? KhongCo : giaTri;
 }

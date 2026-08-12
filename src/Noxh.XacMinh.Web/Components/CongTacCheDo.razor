@@ -1,0 +1,11 @@
+@inject TrangThaiHienThi trangThai
+
+@* Trạng thái nằm ở dịch vụ theo phiên, không ở component: nạp file mới thì ô này vẫn đúng chế độ. *@
+<label class="chuyen-sau">
+    <input type="checkbox" @bind:get="trangThai.ChuyenSau" @bind:set="Doi" />
+    Chế độ chuyên sâu — hiện giá trị kỳ vọng, giá trị tính được, preimage và số liệu thô
+</label>
+
+@code {
+    private void Doi(bool bat) => trangThai.ChuyenSau = bat;
+}
