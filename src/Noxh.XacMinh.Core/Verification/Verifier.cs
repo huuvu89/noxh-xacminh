@@ -15,6 +15,7 @@ public static class Verifier
         MasterSeedCheck.Run,
         DrawLogChainCheck.Run,
         DrawTicketMatchCheck.Run,
+        ResultsHashCheck.Run,
     ];
 
     public static VerificationReport Verify(VerificationInput input) =>
