@@ -4,9 +4,9 @@ namespace Noxh.XacMinh.Core.Transparency;
 
 /// <summary>
 /// Báo cáo minh bạch đã công bố (<c>GET /projects/{id}/transparency</c>).
-/// Chỉ khai báo những khối đã có hạng mục kiểm dùng tới — vé sau thêm khối của vé đó, để trường
-/// thừa không âm thầm tạo cảm giác "đã kiểm rồi". Mọi trường đều nullable: thiếu dữ liệu là một
-/// trạng thái hợp lệ (KHÔNG KIỂM ĐƯỢC), không phải lỗi nạp.
+/// Chỉ khai báo những khối đã có hạng mục kiểm dùng tới (vé sau thêm khối của vé đó), nhưng khối
+/// nào đã khai thì khai đủ trường của khối đó. Mọi trường đều nullable: thiếu dữ liệu là một trạng
+/// thái hợp lệ (KHÔNG KIỂM ĐƯỢC), không phải lỗi nạp.
 /// </summary>
 public sealed class TransparencyReport
 {
