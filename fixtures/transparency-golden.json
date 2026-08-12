@@ -1,0 +1,1060 @@
+{
+  "projectId": "05d99be1-ae08-4966-9ef2-cf517bd49958",
+  "projectName": "Dự án NƠXH mẫu — fixture kiểm chứng",
+  "completedAt": "2026-08-12T20:26:52.2649640Z",
+  "waitlistSize": 5,
+  "nguonNgauNhien": [
+    {
+      "round": "A",
+      "masterSeed": "eab3963ebf8ebfbc4db3f39bba545a3dfd92dac4190d9d5938d6596c1e3da5df",
+      "rServer": "d7433a9ffd9bc5ed44d250278e2c9ed49f7e052d90fa8ff935a1cd5e75edf61e",
+      "rServerCommit": "6a3bd363938addb665bd68592b33e86639b0f0a137cd85ece1a86ca8f0f364ae",
+      "rSupervisor": "5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed",
+      "blockHeight": 840003,
+      "blockHash": "0000000000000000000320283a032748cef8227873ff4872689bf23f1cda83a5",
+      "anchorChain": "ethereum",
+      "inputHash": "22db8f127e6d71f4edd30480b2fffe0a5fbb6570b6d5ba5839f6fb5f8bda95ab"
+    },
+    {
+      "round": "B",
+      "masterSeed": "cfac33a9969e5d8c08299fde3fac68f35eae6d0bb731287d1aae544e6fdf3d8d",
+      "rServer": "f792115792daba1240cf6e60601e3bfd54ccf4aed157a5ac934ac1792aaaac67",
+      "rServerCommit": "65fa833a486ff23fc4847d004a48f5544d46ef5004ec37c36667d0e6853967fb",
+      "rSupervisor": "5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed",
+      "blockHeight": 840003,
+      "blockHash": "0000000000000000000320283a032748cef8227873ff4872689bf23f1cda83a5",
+      "anchorChain": "ethereum",
+      "inputHash": "f26fbd408b949b32b889e2f39ba5d8fc709e639e2bb9c60de98030cfc90fe759"
+    },
+    {
+      "round": "C",
+      "masterSeed": "b823ed00128f12f970bad8ddd526143562cf0494200b53ab7c7806d7585359c9",
+      "rServer": "34d4512028a0a2da77c720104014363c196d6609a5ec09f20c848e5478c7cc78",
+      "rServerCommit": "d866ed2af0aa7a6511c22f56276f9d23051f5dae54d78cdd9bcd177f2da0124d",
+      "rSupervisor": "5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed",
+      "blockHeight": 840003,
+      "blockHash": "0000000000000000000320283a032748cef8227873ff4872689bf23f1cda83a5",
+      "anchorChain": "ethereum",
+      "inputHash": "8bc0b70978f06736426ca7f2cf6786a30aedaf4576791bc5e4b4ebbf8e0a69c9"
+    }
+  ],
+  "camKetNeo": {
+    "ethTargetHeight": 840003,
+    "btcTargetHeight": 840002,
+    "anchorFrozenAt": "2026-08-12T20:26:50.8530000Z"
+  },
+  "dauThoiGian": [
+    {
+      "scope": "FREEZE",
+      "authority": "freetsa",
+      "genTime": "2026-08-12T20:26:50.8554700Z",
+      "serialNumber": "1a2cd44e8a02a4ec",
+      "digest": "1a2cd44e8a02a4ec49c878d7c846029403dd615eb8ccbf06694698855fef0368",
+      "preimage": "NOXH-FREEZE-v1\nprojectId=05d99be1-ae08-4966-9ef2-cf517bd49958\nlistHash=94a1178733df395c523a705051b5632b0afd7f8bcd69939b0e77e5e81228e958\nrSup=5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed\nrServerCommitA=6a3bd363938addb665bd68592b33e86639b0f0a137cd85ece1a86ca8f0f364ae\nrServerCommitB=65fa833a486ff23fc4847d004a48f5544d46ef5004ec37c36667d0e6853967fb\nrServerCommitC=d866ed2af0aa7a6511c22f56276f9d23051f5dae54d78cdd9bcd177f2da0124d\nethTargetHeight=840003\nbtcTargetHeight=840002\nanchorFrozenAt=2026-08-12T20:26:50.853Z\n"
+    },
+    {
+      "scope": "FREEZE",
+      "authority": "digicert",
+      "genTime": "2026-08-12T20:26:50.8555680Z",
+      "serialNumber": "1a2cd44e8a02a4ec",
+      "digest": "1a2cd44e8a02a4ec49c878d7c846029403dd615eb8ccbf06694698855fef0368",
+      "preimage": "NOXH-FREEZE-v1\nprojectId=05d99be1-ae08-4966-9ef2-cf517bd49958\nlistHash=94a1178733df395c523a705051b5632b0afd7f8bcd69939b0e77e5e81228e958\nrSup=5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed5e1ec7ed\nrServerCommitA=6a3bd363938addb665bd68592b33e86639b0f0a137cd85ece1a86ca8f0f364ae\nrServerCommitB=65fa833a486ff23fc4847d004a48f5544d46ef5004ec37c36667d0e6853967fb\nrServerCommitC=d866ed2af0aa7a6511c22f56276f9d23051f5dae54d78cdd9bcd177f2da0124d\nethTargetHeight=840003\nbtcTargetHeight=840002\nanchorFrozenAt=2026-08-12T20:26:50.853Z\n"
+    },
+    {
+      "scope": "STEPCHAIN:A1",
+      "authority": "freetsa",
+      "genTime": "2026-08-12T20:26:51.2127750Z",
+      "serialNumber": "4aed8678de7218d1",
+      "digest": "4aed8678de7218d1d5101b4b2c65937f527d53919da721e6aae3da3e2c6db6cc",
+      "preimage": "NOXH-STEPCHAIN-v1\nprojectId=05d99be1-ae08-4966-9ef2-cf517bd49958\nround=A1\nstepCount=6\nchainHead=20c986423978ec24c51e9434b6a5ea4a4bf076de95d78aeac2d71976a6b54721\n"
+    },
+    {
+      "scope": "STEPCHAIN:A1",
+      "authority": "digicert",
+      "genTime": "2026-08-12T20:26:51.2127830Z",
+      "serialNumber": "4aed8678de7218d1",
+      "digest": "4aed8678de7218d1d5101b4b2c65937f527d53919da721e6aae3da3e2c6db6cc",
+      "preimage": "NOXH-STEPCHAIN-v1\nprojectId=05d99be1-ae08-4966-9ef2-cf517bd49958\nround=A1\nstepCount=6\nchainHead=20c986423978ec24c51e9434b6a5ea4a4bf076de95d78aeac2d71976a6b54721\n"
+    },
+    {
+      "scope": "STEPCHAIN:A2",
+      "authority": "freetsa",
+      "genTime": "2026-08-12T20:26:51.5108560Z",
+      "serialNumber": "8e159e2948aa88f7",
+      "digest": "8e159e2948aa88f7671234fae83c74c525e364723143402d32703a3f61407e71",
+      "preimage": "NOXH-STEPCHAIN-v1\nprojectId=05d99be1-ae08-4966-9ef2-cf517bd49958\nround=A2\nstepCount=12\nchainHead=338a8ba8f8e5b6293841f8fb130ae432245a2f5af05d8441b5d25a651941a414\n"
+    },
+    {
+      "scope": "STEPCHAIN:A2",
+      "authority": "digicert",
+      "genTime": "2026-08-12T20:26:51.5108590Z",
+      "serialNumber": "8e159e2948aa88f7",
+      "digest": "8e159e2948aa88f7671234fae83c74c525e364723143402d32703a3f61407e71",
+      "preimage": "NOXH-STEPCHAIN-v1\nprojectId=05d99be1-ae08-4966-9ef2-cf517bd49958\nround=A2\nstepCount=12\nchainHead=338a8ba8f8e5b6293841f8fb130ae432245a2f5af05d8441b5d25a651941a414\n"
+    },
+    {
+      "scope": "RESULTS:A2",
+      "authority": "freetsa",
+      "genTime": "2026-08-12T20:26:51.5110300Z",
+      "serialNumber": "90be4f378119b084",
+      "digest": "90be4f378119b084b95cbafd171600fc3c1db7278d2c514931fc1b7d2f6742c0",
+      "preimage": "NOXH-RESULTS-v1\nprojectId=05d99be1-ae08-4966-9ef2-cf517bd49958\nround=A2\nresultCount=6\nresultsHash=0fe0ee324b3cd44059df57f1e834eb1b1bbbb95f5542a1f6584a8cdc6d4cac94\n"
+    },
+    {
+      "scope": "RESULTS:A2",
+      "authority": "digicert",
+      "genTime": "2026-08-12T20:26:51.5110310Z",
+      "serialNumber": "90be4f378119b084",
+      "digest": "90be4f378119b084b95cbafd171600fc3c1db7278d2c514931fc1b7d2f6742c0",
+      "preimage": "NOXH-RESULTS-v1\nprojectId=05d99be1-ae08-4966-9ef2-cf517bd49958\nround=A2\nresultCount=6\nresultsHash=0fe0ee324b3cd44059df57f1e834eb1b1bbbb95f5542a1f6584a8cdc6d4cac94\n"
+    },
+    {
+      "scope": "STEPCHAIN:B",
+      "authority": "freetsa",
+      "genTime": "2026-08-12T20:26:51.9569190Z",
+      "serialNumber": "c86948f9511c643d",
+      "digest": "c86948f9511c643d8f107206bf0b176ee2ab1909bdada9ef4bc3f8354663bf66",
+      "preimage": "NOXH-STEPCHAIN-v1\nprojectId=05d99be1-ae08-4966-9ef2-cf517bd49958\nround=B\nstepCount=35\nchainHead=d1f45b01391dd7415f83c31b0898d429654731be7ab821dfd4dc2631e272450a\n"
+    },
+    {
+      "scope": "STEPCHAIN:B",
+      "authority": "digicert",
+      "genTime": "2026-08-12T20:26:51.9569210Z",
+      "serialNumber": "c86948f9511c643d",
+      "digest": "c86948f9511c643d8f107206bf0b176ee2ab1909bdada9ef4bc3f8354663bf66",
+      "preimage": "NOXH-STEPCHAIN-v1\nprojectId=05d99be1-ae08-4966-9ef2-cf517bd49958\nround=B\nstepCount=35\nchainHead=d1f45b01391dd7415f83c31b0898d429654731be7ab821dfd4dc2631e272450a\n"
+    },
+    {
+      "scope": "RESULTS:B",
+      "authority": "freetsa",
+      "genTime": "2026-08-12T20:26:51.9569350Z",
+      "serialNumber": "95942c33657dd8da",
+      "digest": "95942c33657dd8da47ecaacefbc7732003494d35760e2667fe3c2c59681060b1",
+      "preimage": "NOXH-RESULTS-v1\nprojectId=05d99be1-ae08-4966-9ef2-cf517bd49958\nround=B\nresultCount=16\nresultsHash=9b5ee0769f234a083488a5a1b180c5b719bf24c8411094af31a22970f5797104\n"
+    },
+    {
+      "scope": "RESULTS:B",
+      "authority": "digicert",
+      "genTime": "2026-08-12T20:26:51.9569360Z",
+      "serialNumber": "95942c33657dd8da",
+      "digest": "95942c33657dd8da47ecaacefbc7732003494d35760e2667fe3c2c59681060b1",
+      "preimage": "NOXH-RESULTS-v1\nprojectId=05d99be1-ae08-4966-9ef2-cf517bd49958\nround=B\nresultCount=16\nresultsHash=9b5ee0769f234a083488a5a1b180c5b719bf24c8411094af31a22970f5797104\n"
+    },
+    {
+      "scope": "STEPCHAIN:C",
+      "authority": "freetsa",
+      "genTime": "2026-08-12T20:26:52.2836830Z",
+      "serialNumber": "5e9cd43dc96c38f4",
+      "digest": "5e9cd43dc96c38f47eeddaf146d1e2ad4248acdb365c0888f6870669978d33bc",
+      "preimage": "NOXH-STEPCHAIN-v1\nprojectId=05d99be1-ae08-4966-9ef2-cf517bd49958\nround=C\nstepCount=54\nchainHead=3c53bb4b4b9d8b714dd8928a5a303c087838b24fbc6c96dad51a918325557388\n"
+    },
+    {
+      "scope": "STEPCHAIN:C",
+      "authority": "digicert",
+      "genTime": "2026-08-12T20:26:52.2836850Z",
+      "serialNumber": "5e9cd43dc96c38f4",
+      "digest": "5e9cd43dc96c38f47eeddaf146d1e2ad4248acdb365c0888f6870669978d33bc",
+      "preimage": "NOXH-STEPCHAIN-v1\nprojectId=05d99be1-ae08-4966-9ef2-cf517bd49958\nround=C\nstepCount=54\nchainHead=3c53bb4b4b9d8b714dd8928a5a303c087838b24fbc6c96dad51a918325557388\n"
+    },
+    {
+      "scope": "RESULTS:C",
+      "authority": "digicert",
+      "genTime": "2026-08-12T20:26:52.2837010Z",
+      "serialNumber": "644de777c1a6303d",
+      "digest": "644de777c1a6303d3545be72e0346da9310e57e6403e262a18f355ccac45f738",
+      "preimage": "NOXH-RESULTS-v1\nprojectId=05d99be1-ae08-4966-9ef2-cf517bd49958\nround=C\nresultCount=23\nresultsHash=b66fe4b50d552bc6750008d80d8a4ebcbaf62c9e269dff3aa56f1662fc5aab05\n"
+    },
+    {
+      "scope": "RESULTS:C",
+      "authority": "freetsa",
+      "genTime": "2026-08-12T20:26:52.2837010Z",
+      "serialNumber": "644de777c1a6303d",
+      "digest": "644de777c1a6303d3545be72e0346da9310e57e6403e262a18f355ccac45f738",
+      "preimage": "NOXH-RESULTS-v1\nprojectId=05d99be1-ae08-4966-9ef2-cf517bd49958\nround=C\nresultCount=23\nresultsHash=b66fe4b50d552bc6750008d80d8a4ebcbaf62c9e269dff3aa56f1662fc5aab05\n"
+    }
+  ],
+  "decks": [
+    {
+      "round": "A1",
+      "deckHash": "3cfaf9714896381d0a43015695391c6e368caa311281b3a58126e24d42f61531",
+      "size": 6,
+      "wonCount": 4,
+      "sealedAt": "2026-08-12T20:26:51.0169640Z",
+      "revealedAt": null,
+      "tickets": [
+        "TRUNG_QUYEN_MUA",
+        "KHONG_TRUNG_UU_TIEN",
+        "KHONG_TRUNG_UU_TIEN",
+        "TRUNG_QUYEN_MUA",
+        "TRUNG_QUYEN_MUA",
+        "TRUNG_QUYEN_MUA"
+      ]
+    },
+    {
+      "round": "A2:1PN",
+      "deckHash": "ddc1243c486d5e45c611ba894c41b0f109bca39e40d98b67b182726afa71b5d4",
+      "size": 1,
+      "wonCount": 1,
+      "sealedAt": "2026-08-12T20:26:51.2444110Z",
+      "revealedAt": null,
+      "tickets": [
+        "TRUNG:1PN-004"
+      ]
+    },
+    {
+      "round": "A2:2PN",
+      "deckHash": "2bbab1f5110607fe991a0c2632f898dc5ea0b9217d11ae0daf32055ab05db540",
+      "size": 5,
+      "wonCount": 4,
+      "sealedAt": "2026-08-12T20:26:51.2452970Z",
+      "revealedAt": null,
+      "tickets": [
+        "TRUNG:2PN-001",
+        "TRUNG:2PN-007",
+        "TRUNG:2PN-012",
+        "CHO_PHAN_LOAI_DU",
+        "TRUNG:2PN-008"
+      ]
+    },
+    {
+      "round": "B:1PN",
+      "deckHash": "6fa34a46d7f4a030745a770b42c94598a9a92eb3567d87e62706c52ca003d921",
+      "size": 14,
+      "wonCount": 6,
+      "sealedAt": "2026-08-12T20:26:51.7107080Z",
+      "revealedAt": null,
+      "tickets": [
+        "TRUNG:1PN-008",
+        "KHONG_TRUNG",
+        "KHONG_TRUNG",
+        "TRUNG:1PN-003",
+        "TRUNG:1PN-001",
+        "KHONG_TRUNG",
+        "KHONG_TRUNG",
+        "KHONG_TRUNG",
+        "TRUNG:1PN-007",
+        "KHONG_TRUNG",
+        "KHONG_TRUNG",
+        "TRUNG:1PN-006",
+        "KHONG_TRUNG",
+        "TRUNG:1PN-002"
+      ]
+    },
+    {
+      "round": "B:2PN",
+      "deckHash": "2abbdc79a47ed8f651ce7f3befdaa4a0a1a929d803be5b68df9678d20d21ca5b",
+      "size": 20,
+      "wonCount": 8,
+      "sealedAt": "2026-08-12T20:26:51.7114700Z",
+      "revealedAt": null,
+      "tickets": [
+        "KHONG_TRUNG",
+        "TRUNG:2PN-006",
+        "KHONG_TRUNG",
+        "TRUNG:2PN-010",
+        "TRUNG:2PN-005",
+        "TRUNG:2PN-004",
+        "KHONG_TRUNG",
+        "KHONG_TRUNG",
+        "KHONG_TRUNG",
+        "TRUNG:2PN-003",
+        "KHONG_TRUNG",
+        "TRUNG:2PN-002",
+        "KHONG_TRUNG",
+        "KHONG_TRUNG",
+        "TRUNG:2PN-011",
+        "KHONG_TRUNG",
+        "KHONG_TRUNG",
+        "KHONG_TRUNG",
+        "TRUNG:2PN-009",
+        "KHONG_TRUNG"
+      ]
+    },
+    {
+      "round": "C",
+      "deckHash": "f7fc12ea9d8766fee5d026a7be2dd17e395a163e18827523dfdebf682742e37c",
+      "size": 21,
+      "wonCount": 4,
+      "sealedAt": "2026-08-12T20:26:52.1025700Z",
+      "revealedAt": null,
+      "tickets": [
+        "DU_KHUYET:3",
+        "DU_KHUYET:2",
+        "KHONG_TRUNG",
+        "KHONG_TRUNG",
+        "KHONG_TRUNG",
+        "KHONG_TRUNG",
+        "TRUNG:2PN-011",
+        "DU_KHUYET:1",
+        "TRUNG:1PN-002",
+        "KHONG_TRUNG",
+        "KHONG_TRUNG",
+        "KHONG_TRUNG",
+        "KHONG_TRUNG",
+        "KHONG_TRUNG",
+        "KHONG_TRUNG",
+        "DU_KHUYET:4",
+        "KHONG_TRUNG",
+        "DU_KHUYET:5",
+        "KHONG_TRUNG",
+        "TRUNG:2PN-009",
+        "TRUNG:1PN-006"
+      ]
+    }
+  ],
+  "nhatKyBoc": [
+    {
+      "round": "A1",
+      "applicantId": "9fa3bc49-54fa-4a2d-a42f-193b03f957c2",
+      "deckId": "019ff7a8-0307-7040-b9a2-09e3819ad2a8",
+      "position": 0,
+      "payload": "TRUNG_QUYEN_MUA",
+      "autoDrawn": false,
+      "prevHash": null,
+      "entryHash": "d78f284d5c3ae30f7075aea13295e607ed54c658e3ecd1783e11205443f3ab51"
+    },
+    {
+      "round": "A1",
+      "applicantId": "723f2537-7bd6-4efa-b402-65ddb1128870",
+      "deckId": "019ff7a8-0307-7040-b9a2-09e3819ad2a8",
+      "position": 1,
+      "payload": "KHONG_TRUNG_UU_TIEN",
+      "autoDrawn": false,
+      "prevHash": "d78f284d5c3ae30f7075aea13295e607ed54c658e3ecd1783e11205443f3ab51",
+      "entryHash": "09dd7ab184d857bd98e9d45daf4c905fed22c09aed24078e3855f6f5bc5fd305"
+    },
+    {
+      "round": "A1",
+      "applicantId": "85c59484-0be5-461a-be9e-025d6ca838a3",
+      "deckId": "019ff7a8-0307-7040-b9a2-09e3819ad2a8",
+      "position": 2,
+      "payload": "KHONG_TRUNG_UU_TIEN",
+      "autoDrawn": false,
+      "prevHash": "09dd7ab184d857bd98e9d45daf4c905fed22c09aed24078e3855f6f5bc5fd305",
+      "entryHash": "4e78de68b2c1b9cb486543f3398cc857e671fa40638e244f6d0fcee809644fcc"
+    },
+    {
+      "round": "A1",
+      "applicantId": "4654d3d7-d256-4c0b-8d17-086a833f24ed",
+      "deckId": "019ff7a8-0307-7040-b9a2-09e3819ad2a8",
+      "position": 3,
+      "payload": "TRUNG_QUYEN_MUA",
+      "autoDrawn": false,
+      "prevHash": "4e78de68b2c1b9cb486543f3398cc857e671fa40638e244f6d0fcee809644fcc",
+      "entryHash": "43e45aa0c1fff6332e36ea387b99145c67df9b45d966c7e372541b0c4daeee49"
+    },
+    {
+      "round": "A1",
+      "applicantId": "624cc369-434e-4492-aa5f-75bd60495314",
+      "deckId": "019ff7a8-0307-7040-b9a2-09e3819ad2a8",
+      "position": 4,
+      "payload": "TRUNG_QUYEN_MUA",
+      "autoDrawn": false,
+      "prevHash": "43e45aa0c1fff6332e36ea387b99145c67df9b45d966c7e372541b0c4daeee49",
+      "entryHash": "3997d01aa05e2ae27ac52ee112a9ed5ffeece608f3ced0fa40f0115ba5a68563"
+    },
+    {
+      "round": "A1",
+      "applicantId": "5e0a8117-43c5-467b-8406-1365d1ca0a9d",
+      "deckId": "019ff7a8-0307-7040-b9a2-09e3819ad2a8",
+      "position": 5,
+      "payload": "TRUNG_QUYEN_MUA",
+      "autoDrawn": false,
+      "prevHash": "3997d01aa05e2ae27ac52ee112a9ed5ffeece608f3ced0fa40f0115ba5a68563",
+      "entryHash": "20c986423978ec24c51e9434b6a5ea4a4bf076de95d78aeac2d71976a6b54721"
+    },
+    {
+      "round": "A2:1PN",
+      "applicantId": "091d00be-df13-477e-b5c8-a7442e8149ef",
+      "deckId": "019ff7a8-03ec-7285-9a54-25b720818c6c",
+      "position": 0,
+      "payload": "TRUNG:1PN-004",
+      "autoDrawn": false,
+      "prevHash": "20c986423978ec24c51e9434b6a5ea4a4bf076de95d78aeac2d71976a6b54721",
+      "entryHash": "9f9dd5e4f248eb6058c70d84f6af1787d63135ba082fb9f8c3dc91a12d7da42a"
+    },
+    {
+      "round": "A2:2PN",
+      "applicantId": "98c8bfe1-990b-44a3-8240-4845f6d871f3",
+      "deckId": "019ff7a8-03ed-71a6-9ecc-cf7554ab9319",
+      "position": 0,
+      "payload": "TRUNG:2PN-001",
+      "autoDrawn": false,
+      "prevHash": "9f9dd5e4f248eb6058c70d84f6af1787d63135ba082fb9f8c3dc91a12d7da42a",
+      "entryHash": "8714f351ff3e77ae5326c560a531e21a7284adad4e929d5863be54846c395c43"
+    },
+    {
+      "round": "A2:2PN",
+      "applicantId": "9fa3bc49-54fa-4a2d-a42f-193b03f957c2",
+      "deckId": "019ff7a8-03ed-71a6-9ecc-cf7554ab9319",
+      "position": 1,
+      "payload": "TRUNG:2PN-007",
+      "autoDrawn": false,
+      "prevHash": "8714f351ff3e77ae5326c560a531e21a7284adad4e929d5863be54846c395c43",
+      "entryHash": "44fb9fa6d4aad749c686975442dd05898c2d3ce896372ae956423beeea5cc68d"
+    },
+    {
+      "round": "A2:2PN",
+      "applicantId": "4654d3d7-d256-4c0b-8d17-086a833f24ed",
+      "deckId": "019ff7a8-03ed-71a6-9ecc-cf7554ab9319",
+      "position": 2,
+      "payload": "TRUNG:2PN-012",
+      "autoDrawn": false,
+      "prevHash": "44fb9fa6d4aad749c686975442dd05898c2d3ce896372ae956423beeea5cc68d",
+      "entryHash": "6ebfa70cf4a7a1532b5010d571fb03d2b9a2b10b778afb4e7400d1a9c2a755c8"
+    },
+    {
+      "round": "A2:2PN",
+      "applicantId": "624cc369-434e-4492-aa5f-75bd60495314",
+      "deckId": "019ff7a8-03ed-71a6-9ecc-cf7554ab9319",
+      "position": 3,
+      "payload": "CHO_PHAN_LOAI_DU",
+      "autoDrawn": false,
+      "prevHash": "6ebfa70cf4a7a1532b5010d571fb03d2b9a2b10b778afb4e7400d1a9c2a755c8",
+      "entryHash": "d3b02151cca1cafe814ba39b82b52b48a198deef4da4a2775914cd3ff035615c"
+    },
+    {
+      "round": "A2:2PN",
+      "applicantId": "5e0a8117-43c5-467b-8406-1365d1ca0a9d",
+      "deckId": "019ff7a8-03ed-71a6-9ecc-cf7554ab9319",
+      "position": 4,
+      "payload": "TRUNG:2PN-008",
+      "autoDrawn": true,
+      "prevHash": "d3b02151cca1cafe814ba39b82b52b48a198deef4da4a2775914cd3ff035615c",
+      "entryHash": "338a8ba8f8e5b6293841f8fb130ae432245a2f5af05d8441b5d25a651941a414"
+    },
+    {
+      "round": "B:1PN",
+      "applicantId": "fb1dcacf-bbce-4527-ae35-eedddfdf07ad",
+      "deckId": "019ff7a8-05be-70fe-b6ef-5d02f1c64be8",
+      "position": 0,
+      "payload": "TRUNG:1PN-008",
+      "autoDrawn": false,
+      "prevHash": "338a8ba8f8e5b6293841f8fb130ae432245a2f5af05d8441b5d25a651941a414",
+      "entryHash": "5bbf2f500e2430108f877bd13d853f39632633cfc438ff5aad30b38de242bc12"
+    },
+    {
+      "round": "B:1PN",
+      "applicantId": "e0054539-56db-4553-9e77-9acec308d860",
+      "deckId": "019ff7a8-05be-70fe-b6ef-5d02f1c64be8",
+      "position": 1,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "5bbf2f500e2430108f877bd13d853f39632633cfc438ff5aad30b38de242bc12",
+      "entryHash": "c56ac2b10e89219cda84fc9b036eef19e71cec6eefe915f60d97b4b4715f8bbf"
+    },
+    {
+      "round": "B:1PN",
+      "applicantId": "5a56e9d8-c36e-4318-b021-fbe197763aca",
+      "deckId": "019ff7a8-05be-70fe-b6ef-5d02f1c64be8",
+      "position": 2,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "c56ac2b10e89219cda84fc9b036eef19e71cec6eefe915f60d97b4b4715f8bbf",
+      "entryHash": "3f8493ff7d02abe90b50cc975d971f6ec7668cf9dfe5f74f129f66f14e75f5c8"
+    },
+    {
+      "round": "B:1PN",
+      "applicantId": "3fabf1ef-fec5-41b5-80ee-da94d4fff64b",
+      "deckId": "019ff7a8-05be-70fe-b6ef-5d02f1c64be8",
+      "position": 3,
+      "payload": "TRUNG:1PN-003",
+      "autoDrawn": false,
+      "prevHash": "3f8493ff7d02abe90b50cc975d971f6ec7668cf9dfe5f74f129f66f14e75f5c8",
+      "entryHash": "a0c23fc66634d74c38973be2b4db897cb0c3774ef10e27e49b4d7ea6023f3f40"
+    },
+    {
+      "round": "B:1PN",
+      "applicantId": "fd80068d-a605-445e-b142-c9bd4b222764",
+      "deckId": "019ff7a8-05be-70fe-b6ef-5d02f1c64be8",
+      "position": 4,
+      "payload": "TRUNG:1PN-001",
+      "autoDrawn": false,
+      "prevHash": "a0c23fc66634d74c38973be2b4db897cb0c3774ef10e27e49b4d7ea6023f3f40",
+      "entryHash": "f22dc773578d9b345f46ded74c1d81372e0c809d6bc695db2af4f5698d25bfff"
+    },
+    {
+      "round": "B:1PN",
+      "applicantId": "e695dcce-f767-4865-9034-145483299ab2",
+      "deckId": "019ff7a8-05be-70fe-b6ef-5d02f1c64be8",
+      "position": 5,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "f22dc773578d9b345f46ded74c1d81372e0c809d6bc695db2af4f5698d25bfff",
+      "entryHash": "b62cca07a4d8063eeb6caa243372042fbd70d1090e5b0256f7fc39ba200069de"
+    },
+    {
+      "round": "B:1PN",
+      "applicantId": "c881be27-2642-4e05-aef4-3fc95e0b590d",
+      "deckId": "019ff7a8-05be-70fe-b6ef-5d02f1c64be8",
+      "position": 6,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "b62cca07a4d8063eeb6caa243372042fbd70d1090e5b0256f7fc39ba200069de",
+      "entryHash": "adab0cfaba0679126ab37a99333e4b1704e148fc0c6987ef9c7d9471a59a0461"
+    },
+    {
+      "round": "B:1PN",
+      "applicantId": "3a8d18be-dc43-4152-ad21-d9e687b126fa",
+      "deckId": "019ff7a8-05be-70fe-b6ef-5d02f1c64be8",
+      "position": 7,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "adab0cfaba0679126ab37a99333e4b1704e148fc0c6987ef9c7d9471a59a0461",
+      "entryHash": "f456515af94e1394b0a3659189619eb24f9bcbeb6c3f802410fefd97593d8762"
+    },
+    {
+      "round": "B:1PN",
+      "applicantId": "093fdb8e-eb1c-4365-8fe7-2b242b6cfc8a",
+      "deckId": "019ff7a8-05be-70fe-b6ef-5d02f1c64be8",
+      "position": 8,
+      "payload": "TRUNG:1PN-007",
+      "autoDrawn": false,
+      "prevHash": "f456515af94e1394b0a3659189619eb24f9bcbeb6c3f802410fefd97593d8762",
+      "entryHash": "4a6c0c099b89f41f665760d08e4025f4a54dd2031ed3d19e6a4942cfed8b85c3"
+    },
+    {
+      "round": "B:1PN",
+      "applicantId": "1cc3d8d5-12c1-4561-9791-ad56230f7325",
+      "deckId": "019ff7a8-05be-70fe-b6ef-5d02f1c64be8",
+      "position": 9,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "4a6c0c099b89f41f665760d08e4025f4a54dd2031ed3d19e6a4942cfed8b85c3",
+      "entryHash": "1f9f60c5f4fe2d7b74d9c44be51379836cea863d42529b328a5530db60ff907f"
+    },
+    {
+      "round": "B:2PN",
+      "applicantId": "723f2537-7bd6-4efa-b402-65ddb1128870",
+      "deckId": "019ff7a8-05bf-70b3-9266-f6ceb705b9f6",
+      "position": 0,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "1f9f60c5f4fe2d7b74d9c44be51379836cea863d42529b328a5530db60ff907f",
+      "entryHash": "0f3f607b99d519cad0dcf14d1a133ae33816cd24d0091d53e915df66eccf4333"
+    },
+    {
+      "round": "B:2PN",
+      "applicantId": "a2ceffea-8cf5-488d-906c-cd64ca2fc02b",
+      "deckId": "019ff7a8-05bf-70b3-9266-f6ceb705b9f6",
+      "position": 1,
+      "payload": "TRUNG:2PN-006",
+      "autoDrawn": false,
+      "prevHash": "0f3f607b99d519cad0dcf14d1a133ae33816cd24d0091d53e915df66eccf4333",
+      "entryHash": "93efd236988d2f78e8f867296586607c646b82bae31c04990d72db2c5d77490d"
+    },
+    {
+      "round": "B:2PN",
+      "applicantId": "935101af-e2b6-48c0-8649-adaf052e08f9",
+      "deckId": "019ff7a8-05bf-70b3-9266-f6ceb705b9f6",
+      "position": 2,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "93efd236988d2f78e8f867296586607c646b82bae31c04990d72db2c5d77490d",
+      "entryHash": "a65894174d815d9a05bf258a3030e9cc3979cd9c0faffd9a787bf2bc19a79108"
+    },
+    {
+      "round": "B:2PN",
+      "applicantId": "9f890235-af16-4312-a1f3-79926796e7d7",
+      "deckId": "019ff7a8-05bf-70b3-9266-f6ceb705b9f6",
+      "position": 3,
+      "payload": "TRUNG:2PN-010",
+      "autoDrawn": false,
+      "prevHash": "a65894174d815d9a05bf258a3030e9cc3979cd9c0faffd9a787bf2bc19a79108",
+      "entryHash": "78804fcb1d41ecd1bebdcf0c27e6c16030703de05aa72e8e48aac30e798fbf21"
+    },
+    {
+      "round": "B:2PN",
+      "applicantId": "83983a09-772a-40fb-870e-20955bb5ae42",
+      "deckId": "019ff7a8-05bf-70b3-9266-f6ceb705b9f6",
+      "position": 4,
+      "payload": "TRUNG:2PN-005",
+      "autoDrawn": false,
+      "prevHash": "78804fcb1d41ecd1bebdcf0c27e6c16030703de05aa72e8e48aac30e798fbf21",
+      "entryHash": "e21dad01ccfee3328088eb58056fa58d4832bccffd24c841549dd6a9ee09a789"
+    },
+    {
+      "round": "B:2PN",
+      "applicantId": "c9f31e6f-7c5c-409c-9ff9-216a3052488f",
+      "deckId": "019ff7a8-05bf-70b3-9266-f6ceb705b9f6",
+      "position": 5,
+      "payload": "TRUNG:2PN-004",
+      "autoDrawn": false,
+      "prevHash": "e21dad01ccfee3328088eb58056fa58d4832bccffd24c841549dd6a9ee09a789",
+      "entryHash": "dea2abbaf545a9a6c96a911af2ea49451f8541855cf539c3e74c3d3ca9fbb916"
+    },
+    {
+      "round": "B:2PN",
+      "applicantId": "035d0bbc-538d-4963-9f60-c78b45524fba",
+      "deckId": "019ff7a8-05bf-70b3-9266-f6ceb705b9f6",
+      "position": 6,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "dea2abbaf545a9a6c96a911af2ea49451f8541855cf539c3e74c3d3ca9fbb916",
+      "entryHash": "5b56189127c4a942d0dcae4f1ec905246aefb5faa211ba230f0d2f1b259e1797"
+    },
+    {
+      "round": "B:2PN",
+      "applicantId": "f5061be6-9efa-44b4-b1fd-d500b6c71e41",
+      "deckId": "019ff7a8-05bf-70b3-9266-f6ceb705b9f6",
+      "position": 7,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "5b56189127c4a942d0dcae4f1ec905246aefb5faa211ba230f0d2f1b259e1797",
+      "entryHash": "9c743f4dec78699d1e14b6a3dc984802ba66c85f73788491bcdf2609817fa0b9"
+    },
+    {
+      "round": "B:2PN",
+      "applicantId": "01dbda3c-1b4a-4950-a866-d086e2c102b0",
+      "deckId": "019ff7a8-05bf-70b3-9266-f6ceb705b9f6",
+      "position": 8,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "9c743f4dec78699d1e14b6a3dc984802ba66c85f73788491bcdf2609817fa0b9",
+      "entryHash": "46037a7ae7f1e13def8acd56c37f3d6f44496e6c8d13c8296c5639c671127415"
+    },
+    {
+      "round": "B:2PN",
+      "applicantId": "378efd52-359e-4a6b-bf36-7e8a2270af58",
+      "deckId": "019ff7a8-05bf-70b3-9266-f6ceb705b9f6",
+      "position": 9,
+      "payload": "TRUNG:2PN-003",
+      "autoDrawn": false,
+      "prevHash": "46037a7ae7f1e13def8acd56c37f3d6f44496e6c8d13c8296c5639c671127415",
+      "entryHash": "86011a4d0fd073f21598335ccaa092b09b6c412f9c327f73f01bbf21c981ab21"
+    },
+    {
+      "round": "B:2PN",
+      "applicantId": "d890e7b8-3868-48dd-bdda-28c4a9242cf1",
+      "deckId": "019ff7a8-05bf-70b3-9266-f6ceb705b9f6",
+      "position": 10,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "86011a4d0fd073f21598335ccaa092b09b6c412f9c327f73f01bbf21c981ab21",
+      "entryHash": "812f7de75940f0b10d9ccf68944a81a3c7e5c1d7ed29ce1f98fb369945177c14"
+    },
+    {
+      "round": "B:2PN",
+      "applicantId": "0003191c-e015-4c99-91ef-7001527f6e0a",
+      "deckId": "019ff7a8-05bf-70b3-9266-f6ceb705b9f6",
+      "position": 11,
+      "payload": "TRUNG:2PN-002",
+      "autoDrawn": false,
+      "prevHash": "812f7de75940f0b10d9ccf68944a81a3c7e5c1d7ed29ce1f98fb369945177c14",
+      "entryHash": "f32bef8c16c3dd876ea44675b46b7a065370d739a24cec0c8830267de79a5302"
+    },
+    {
+      "round": "B:2PN",
+      "applicantId": "d7ea10fe-64e3-43f1-ab83-6a598640d9fa",
+      "deckId": "019ff7a8-05bf-70b3-9266-f6ceb705b9f6",
+      "position": 12,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "f32bef8c16c3dd876ea44675b46b7a065370d739a24cec0c8830267de79a5302",
+      "entryHash": "d1f45b01391dd7415f83c31b0898d429654731be7ab821dfd4dc2631e272450a"
+    },
+    {
+      "round": "C",
+      "applicantId": "723f2537-7bd6-4efa-b402-65ddb1128870",
+      "deckId": "019ff7a8-0746-7589-864f-0587c67c6733",
+      "position": 0,
+      "payload": "DU_KHUYET:3",
+      "autoDrawn": false,
+      "prevHash": "d1f45b01391dd7415f83c31b0898d429654731be7ab821dfd4dc2631e272450a",
+      "entryHash": "7f8134cb5e34401b3952e95b263b66116211f53f8cad8ee7af557d5a4d766d52"
+    },
+    {
+      "round": "C",
+      "applicantId": "85c59484-0be5-461a-be9e-025d6ca838a3",
+      "deckId": "019ff7a8-0746-7589-864f-0587c67c6733",
+      "position": 1,
+      "payload": "DU_KHUYET:2",
+      "autoDrawn": false,
+      "prevHash": "7f8134cb5e34401b3952e95b263b66116211f53f8cad8ee7af557d5a4d766d52",
+      "entryHash": "a31db652a1f85daa5ea45190ec186eb5d28f8671d2db72dab576f7de3874a2b5"
+    },
+    {
+      "round": "C",
+      "applicantId": "8bba6a7a-c50f-4f0b-a71b-be99b16a73a4",
+      "deckId": "019ff7a8-0746-7589-864f-0587c67c6733",
+      "position": 2,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "a31db652a1f85daa5ea45190ec186eb5d28f8671d2db72dab576f7de3874a2b5",
+      "entryHash": "ea87ab09c5389153def7d17e7b5f2c97d66b2c8e38ed995b61f8ec8b0914fecb"
+    },
+    {
+      "round": "C",
+      "applicantId": "935101af-e2b6-48c0-8649-adaf052e08f9",
+      "deckId": "019ff7a8-0746-7589-864f-0587c67c6733",
+      "position": 3,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "ea87ab09c5389153def7d17e7b5f2c97d66b2c8e38ed995b61f8ec8b0914fecb",
+      "entryHash": "8039cd5a38659efb21263924ab69dd70ae8ae83888d27c4eef2b97d53cc0dbe2"
+    },
+    {
+      "round": "C",
+      "applicantId": "f78ccfb1-b43c-467d-a551-98a9e140921b",
+      "deckId": "019ff7a8-0746-7589-864f-0587c67c6733",
+      "position": 4,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "8039cd5a38659efb21263924ab69dd70ae8ae83888d27c4eef2b97d53cc0dbe2",
+      "entryHash": "9e7554a0678a587a419456d808f352a55ecab574568e35b5e709a0723309eceb"
+    },
+    {
+      "round": "C",
+      "applicantId": "40a168de-b373-496c-bfca-f7c75b3e9061",
+      "deckId": "019ff7a8-0746-7589-864f-0587c67c6733",
+      "position": 5,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "9e7554a0678a587a419456d808f352a55ecab574568e35b5e709a0723309eceb",
+      "entryHash": "73e92366c58f7647e761e7cda489e7689651cca6f15314352b32493362aefb64"
+    },
+    {
+      "round": "C",
+      "applicantId": "f5061be6-9efa-44b4-b1fd-d500b6c71e41",
+      "deckId": "019ff7a8-0746-7589-864f-0587c67c6733",
+      "position": 6,
+      "payload": "TRUNG:2PN-011",
+      "autoDrawn": false,
+      "prevHash": "73e92366c58f7647e761e7cda489e7689651cca6f15314352b32493362aefb64",
+      "entryHash": "86feefd66d4b246e8431545386c76f8af1eb390a6273814cb47f7c09d6c826f6"
+    },
+    {
+      "round": "C",
+      "applicantId": "560bfad1-2e74-4c40-a382-111d35d86ab8",
+      "deckId": "019ff7a8-0746-7589-864f-0587c67c6733",
+      "position": 7,
+      "payload": "DU_KHUYET:1",
+      "autoDrawn": false,
+      "prevHash": "86feefd66d4b246e8431545386c76f8af1eb390a6273814cb47f7c09d6c826f6",
+      "entryHash": "20ad62c7d80ea41e15b45f10468bef91903dbada66bc691907889fddba253b5c"
+    },
+    {
+      "round": "C",
+      "applicantId": "53e0f98c-c417-4ba4-bd0c-3c8c4710a509",
+      "deckId": "019ff7a8-0746-7589-864f-0587c67c6733",
+      "position": 8,
+      "payload": "TRUNG:1PN-002",
+      "autoDrawn": false,
+      "prevHash": "20ad62c7d80ea41e15b45f10468bef91903dbada66bc691907889fddba253b5c",
+      "entryHash": "1e2d9e5302002b0d8812af125f1f13a514fa78a0124074bada501f0c97cd48a4"
+    },
+    {
+      "round": "C",
+      "applicantId": "01dbda3c-1b4a-4950-a866-d086e2c102b0",
+      "deckId": "019ff7a8-0746-7589-864f-0587c67c6733",
+      "position": 9,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "1e2d9e5302002b0d8812af125f1f13a514fa78a0124074bada501f0c97cd48a4",
+      "entryHash": "853060a30744a13ca34a8c6267d29a52da46a4c428ec08df23183207eda10fbd"
+    },
+    {
+      "round": "C",
+      "applicantId": "7712c73a-f8aa-4d06-9ee8-ce2bd4bdeb56",
+      "deckId": "019ff7a8-0746-7589-864f-0587c67c6733",
+      "position": 10,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "853060a30744a13ca34a8c6267d29a52da46a4c428ec08df23183207eda10fbd",
+      "entryHash": "f6ff734e0d872455162eb76a8027ff72d7d293c0a8731be576cce8d49b4901e1"
+    },
+    {
+      "round": "C",
+      "applicantId": "748015b4-c603-40a3-bcf3-8f5374a7a58a",
+      "deckId": "019ff7a8-0746-7589-864f-0587c67c6733",
+      "position": 11,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "f6ff734e0d872455162eb76a8027ff72d7d293c0a8731be576cce8d49b4901e1",
+      "entryHash": "5b1fca31d4a6d8e4f34c61b1ec1ec9ade77f6c462313b113ca3e7b012059c199"
+    },
+    {
+      "round": "C",
+      "applicantId": "e0054539-56db-4553-9e77-9acec308d860",
+      "deckId": "019ff7a8-0746-7589-864f-0587c67c6733",
+      "position": 12,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "5b1fca31d4a6d8e4f34c61b1ec1ec9ade77f6c462313b113ca3e7b012059c199",
+      "entryHash": "50241f12a7eb3ada183ed8b652950178538b1b1c5b99d6247f8ecbed08b210db"
+    },
+    {
+      "round": "C",
+      "applicantId": "5a56e9d8-c36e-4318-b021-fbe197763aca",
+      "deckId": "019ff7a8-0746-7589-864f-0587c67c6733",
+      "position": 13,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "50241f12a7eb3ada183ed8b652950178538b1b1c5b99d6247f8ecbed08b210db",
+      "entryHash": "d0ea65c59c45a7d40aaf5c18851e101ee26d4b3cb03a4ede519a4a3d4771a491"
+    },
+    {
+      "round": "C",
+      "applicantId": "e695dcce-f767-4865-9034-145483299ab2",
+      "deckId": "019ff7a8-0746-7589-864f-0587c67c6733",
+      "position": 14,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "d0ea65c59c45a7d40aaf5c18851e101ee26d4b3cb03a4ede519a4a3d4771a491",
+      "entryHash": "81744f64952048a85cbc65334b5f9e58933e832051321444bb0664ebeabebfed"
+    },
+    {
+      "round": "C",
+      "applicantId": "4522ee68-f11f-42bc-af15-3ec7ced5132a",
+      "deckId": "019ff7a8-0746-7589-864f-0587c67c6733",
+      "position": 15,
+      "payload": "DU_KHUYET:4",
+      "autoDrawn": false,
+      "prevHash": "81744f64952048a85cbc65334b5f9e58933e832051321444bb0664ebeabebfed",
+      "entryHash": "a2b2d4a6b0c785a161932eba37ee9be1bc5f2d3b0fc114d9508ead621b98d0db"
+    },
+    {
+      "round": "C",
+      "applicantId": "3a8d18be-dc43-4152-ad21-d9e687b126fa",
+      "deckId": "019ff7a8-0746-7589-864f-0587c67c6733",
+      "position": 16,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "a2b2d4a6b0c785a161932eba37ee9be1bc5f2d3b0fc114d9508ead621b98d0db",
+      "entryHash": "7e79782426b54816b80d1f10821235fb58201383485d5be034bbd01ba239a6b6"
+    },
+    {
+      "round": "C",
+      "applicantId": "1cc3d8d5-12c1-4561-9791-ad56230f7325",
+      "deckId": "019ff7a8-0746-7589-864f-0587c67c6733",
+      "position": 17,
+      "payload": "DU_KHUYET:5",
+      "autoDrawn": false,
+      "prevHash": "7e79782426b54816b80d1f10821235fb58201383485d5be034bbd01ba239a6b6",
+      "entryHash": "225527e2ac5395fc7fe848ea56c72799018d354d639de9fd1629abab0356b9bc"
+    },
+    {
+      "round": "C",
+      "applicantId": "3c06df68-0377-4632-830b-1e31f3d7774d",
+      "deckId": "019ff7a8-0746-7589-864f-0587c67c6733",
+      "position": 18,
+      "payload": "KHONG_TRUNG",
+      "autoDrawn": false,
+      "prevHash": "225527e2ac5395fc7fe848ea56c72799018d354d639de9fd1629abab0356b9bc",
+      "entryHash": "3c53bb4b4b9d8b714dd8928a5a303c087838b24fbc6c96dad51a918325557388"
+    }
+  ],
+  "ketQua": {
+    "resultsHash": "b66fe4b50d552bc6750008d80d8a4ebcbaf62c9e269dff3aa56f1662fc5aab05",
+    "rows": [
+      {
+        "applicantId": "0003191c-e015-4c99-91ef-7001527f6e0a",
+        "won": true,
+        "tier": "Regular",
+        "typeCode": "2PN",
+        "unitCode": "2PN-002",
+        "waitlistRank": null,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "091d00be-df13-477e-b5c8-a7442e8149ef",
+        "won": true,
+        "tier": "UuTienTrucTiep",
+        "typeCode": "1PN",
+        "unitCode": "1PN-004",
+        "waitlistRank": null,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "093fdb8e-eb1c-4365-8fe7-2b242b6cfc8a",
+        "won": true,
+        "tier": "Regular",
+        "typeCode": "1PN",
+        "unitCode": "1PN-007",
+        "waitlistRank": null,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "1cc3d8d5-12c1-4561-9791-ad56230f7325",
+        "won": false,
+        "tier": "LeftoverWaitlist",
+        "typeCode": null,
+        "unitCode": null,
+        "waitlistRank": 5,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "378efd52-359e-4a6b-bf36-7e8a2270af58",
+        "won": true,
+        "tier": "Regular",
+        "typeCode": "2PN",
+        "unitCode": "2PN-003",
+        "waitlistRank": null,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "3fabf1ef-fec5-41b5-80ee-da94d4fff64b",
+        "won": true,
+        "tier": "Regular",
+        "typeCode": "1PN",
+        "unitCode": "1PN-003",
+        "waitlistRank": null,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "4522ee68-f11f-42bc-af15-3ec7ced5132a",
+        "won": false,
+        "tier": "LeftoverWaitlist",
+        "typeCode": null,
+        "unitCode": null,
+        "waitlistRank": 4,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "4654d3d7-d256-4c0b-8d17-086a833f24ed",
+        "won": true,
+        "tier": "UuTienBocXam",
+        "typeCode": "2PN",
+        "unitCode": "2PN-012",
+        "waitlistRank": null,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "53e0f98c-c417-4ba4-bd0c-3c8c4710a509",
+        "won": true,
+        "tier": "Leftover",
+        "typeCode": "1PN",
+        "unitCode": "1PN-002",
+        "waitlistRank": null,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "560bfad1-2e74-4c40-a382-111d35d86ab8",
+        "won": false,
+        "tier": "LeftoverWaitlist",
+        "typeCode": null,
+        "unitCode": null,
+        "waitlistRank": 1,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "5e0a8117-43c5-467b-8406-1365d1ca0a9d",
+        "won": true,
+        "tier": "UuTienBocXam",
+        "typeCode": "2PN",
+        "unitCode": "2PN-008",
+        "waitlistRank": null,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "624cc369-434e-4492-aa5f-75bd60495314",
+        "won": true,
+        "tier": "UuTienBocXam",
+        "typeCode": "1PN",
+        "unitCode": "1PN-005",
+        "waitlistRank": null,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "723f2537-7bd6-4efa-b402-65ddb1128870",
+        "won": false,
+        "tier": "LeftoverWaitlist",
+        "typeCode": null,
+        "unitCode": null,
+        "waitlistRank": 3,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "83983a09-772a-40fb-870e-20955bb5ae42",
+        "won": true,
+        "tier": "Regular",
+        "typeCode": "2PN",
+        "unitCode": "2PN-005",
+        "waitlistRank": null,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "85c59484-0be5-461a-be9e-025d6ca838a3",
+        "won": false,
+        "tier": "LeftoverWaitlist",
+        "typeCode": null,
+        "unitCode": null,
+        "waitlistRank": 2,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "98c8bfe1-990b-44a3-8240-4845f6d871f3",
+        "won": true,
+        "tier": "UuTienTrucTiep",
+        "typeCode": "2PN",
+        "unitCode": "2PN-001",
+        "waitlistRank": null,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "9f890235-af16-4312-a1f3-79926796e7d7",
+        "won": true,
+        "tier": "Regular",
+        "typeCode": "2PN",
+        "unitCode": "2PN-010",
+        "waitlistRank": null,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "9fa3bc49-54fa-4a2d-a42f-193b03f957c2",
+        "won": true,
+        "tier": "UuTienBocXam",
+        "typeCode": "2PN",
+        "unitCode": "2PN-007",
+        "waitlistRank": null,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "a2ceffea-8cf5-488d-906c-cd64ca2fc02b",
+        "won": true,
+        "tier": "Regular",
+        "typeCode": "2PN",
+        "unitCode": "2PN-006",
+        "waitlistRank": null,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "c9f31e6f-7c5c-409c-9ff9-216a3052488f",
+        "won": true,
+        "tier": "Regular",
+        "typeCode": "2PN",
+        "unitCode": "2PN-004",
+        "waitlistRank": null,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "f5061be6-9efa-44b4-b1fd-d500b6c71e41",
+        "won": true,
+        "tier": "Leftover",
+        "typeCode": "2PN",
+        "unitCode": "2PN-011",
+        "waitlistRank": null,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "fb1dcacf-bbce-4527-ae35-eedddfdf07ad",
+        "won": true,
+        "tier": "Regular",
+        "typeCode": "1PN",
+        "unitCode": "1PN-008",
+        "waitlistRank": null,
+        "cancelledAt": null
+      },
+      {
+        "applicantId": "fd80068d-a605-445e-b142-c9bd4b222764",
+        "won": true,
+        "tier": "Regular",
+        "typeCode": "1PN",
+        "unitCode": "1PN-001",
+        "waitlistRank": null,
+        "cancelledAt": null
+      }
+    ]
+  },
+  "thuatToan": "backend/docs/domain/lottery-protocol.md"
+}

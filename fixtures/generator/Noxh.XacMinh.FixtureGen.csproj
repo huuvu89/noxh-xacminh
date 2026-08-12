@@ -1,0 +1,34 @@
+<!--
+  Dự án CHỈ để sinh lại fixture chuẩn vàng — KHÔNG nằm trong solution, KHÔNG chạy trong CI.
+  Nó tham chiếu thẳng bộ integration test của backend (repo anh em trong monorepo), nên chỉ build
+  được trên máy có cả hai repo cạnh nhau. Cách chạy: fixtures/README.md.
+
+  Trỏ sang repo backend ở chỗ khác: dotnet test -p:BackendRepo=/đường/dẫn/backend-noxh-lottery
+-->
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <BackendRepo Condition="'$(BackendRepo)' == ''">$(MSBuildThisFileDirectory)..\..\..\backend-noxh-lottery</BackendRepo>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="6.12.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.8" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
+    <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(BackendRepo)\tests\Lottery.IntegrationTests\Lottery.IntegrationTests.csproj" />
+  </ItemGroup>
+
+</Project>

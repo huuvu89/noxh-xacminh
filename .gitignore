@@ -10,3 +10,6 @@ obj/
 TestResults/
 publish/
 dist/
+
+# Bộ đồ nghề agent — nguồn thật nằm ở monorepo gốc, không commit vào repo con
+.claude/

@@ -46,6 +46,17 @@ chồng phiếu mọc ra từ hạt giống đã cam kết trước, không ph�
 - **Ba trạng thái, không phải hai**: ĐẠT · KHÔNG ĐẠT · **KHÔNG KIỂM ĐƯỢC (thiếu dữ liệu)**. Thiếu
   dữ liệu mà báo xanh là nói dối.
 
+## Cấu trúc repo
+
+| Thư mục | Nội dung |
+|---|---|
+| `fixtures/` | Fixture chuẩn vàng: JSON minh bạch **thật** của một dự án đã chạy trọn 4 vòng, kèm mã nguồn sinh lại nó từ backend. Đọc [`fixtures/README.md`](fixtures/README.md) trước khi dùng — nó nói rõ fixture chứng minh được gì và **không** chứng minh được gì. |
+| `tests/` | Test. `Noxh.XacMinh.Fixtures.Tests` là hàng rào của fixture: fixture thiếu khối dữ liệu hay mất dấu vết nguồn gốc là đỏ ngay. |
+
+```bash
+dotnet test          # toàn bộ test trong solution
+```
+
 ## Vì sao C# WebAssembly chứ không phải JavaScript
 
 Tái lập kết quả đòi hỏi trùng khít ngữ nghĩa .NET ở ba chỗ mà port sang JS gần như chắc chắn sai:
