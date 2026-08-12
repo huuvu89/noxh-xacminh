@@ -46,4 +46,6 @@ public static class CheckIds
     public const string RServerCommit = "r-server-commit";
 
     public const string MasterSeed = "master-seed";
+
+    public const string DrawLogChain = "draw-log-chain";
 }

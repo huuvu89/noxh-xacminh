@@ -19,6 +19,32 @@ public sealed class TransparencyReport
     [JsonPropertyName("nguonNgauNhien")] public IReadOnlyList<EntropySource>? EntropySources { get; init; }
 
     [JsonPropertyName("decks")] public IReadOnlyList<Deck>? Decks { get; init; }
+
+    [JsonPropertyName("nhatKyBoc")] public IReadOnlyList<DrawLogEntry>? DrawLog { get; init; }
+}
+
+/// <summary>
+/// Một lượt bốc trong nhật ký. Hai định danh (<see cref="ApplicantId"/>, <see cref="DeckId"/>) là
+/// thành phần bắt buộc của chuỗi đem băm: thiếu chúng thì chỉ so được bước sau có trỏ đúng bước
+/// trước hay không, tức là chuỗi băm chỉ còn là trang trí.
+/// </summary>
+public sealed class DrawLogEntry
+{
+    [JsonPropertyName("round")] public string? Round { get; init; }
+
+    [JsonPropertyName("applicantId")] public string? ApplicantId { get; init; }
+
+    [JsonPropertyName("deckId")] public string? DeckId { get; init; }
+
+    [JsonPropertyName("position")] public int? Position { get; init; }
+
+    [JsonPropertyName("payload")] public string? Payload { get; init; }
+
+    [JsonPropertyName("autoDrawn")] public bool? AutoDrawn { get; init; }
+
+    [JsonPropertyName("prevHash")] public string? PrevHash { get; init; }
+
+    [JsonPropertyName("entryHash")] public string? EntryHash { get; init; }
 }
 
 /// <summary>

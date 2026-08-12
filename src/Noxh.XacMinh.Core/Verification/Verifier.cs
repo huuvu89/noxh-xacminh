@@ -13,6 +13,7 @@ public static class Verifier
         DeckHashCheck.Run,
         RServerCommitCheck.Run,
         MasterSeedCheck.Run,
+        DrawLogChainCheck.Run,
     ];
 
     public static VerificationReport Verify(VerificationInput input) =>
