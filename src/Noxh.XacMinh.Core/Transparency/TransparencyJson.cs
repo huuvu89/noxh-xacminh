@@ -8,13 +8,6 @@ namespace Noxh.XacMinh.Core.Transparency;
 /// </summary>
 public static class TransparencyJson
 {
-    private static readonly JsonSerializerOptions Options = new()
-    {
-        PropertyNameCaseInsensitive = true,
-        ReadCommentHandling = JsonCommentHandling.Skip,
-        AllowTrailingCommas = true,
-    };
-
     public static ParseResult Parse(string? json)
     {
         if (string.IsNullOrWhiteSpace(json))
@@ -27,7 +20,7 @@ public static class TransparencyJson
         TransparencyReport? report;
         try
         {
-            report = JsonSerializer.Deserialize<TransparencyReport>(text, Options);
+            report = JsonSerializer.Deserialize(text, TransparencyJsonContext.Default.TransparencyReport);
         }
         catch (JsonException ex)
         {
