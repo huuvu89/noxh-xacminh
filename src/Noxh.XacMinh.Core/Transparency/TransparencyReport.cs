@@ -21,6 +21,37 @@ public sealed class TransparencyReport
     [JsonPropertyName("decks")] public IReadOnlyList<Deck>? Decks { get; init; }
 
     [JsonPropertyName("nhatKyBoc")] public IReadOnlyList<DrawLogEntry>? DrawLog { get; init; }
+
+    [JsonPropertyName("ketQua")] public ResultTable? Results { get; init; }
+}
+
+/// <summary>Bảng kết quả chung cuộc kèm mã băm đã ghim (<c>resultsHash</c>) của chính bảng đó.</summary>
+public sealed class ResultTable
+{
+    [JsonPropertyName("resultsHash")] public string? ResultsHash { get; init; }
+
+    [JsonPropertyName("rows")] public IReadOnlyList<ResultRow?>? Rows { get; init; }
+}
+
+/// <summary>
+/// Một dòng kết quả chung cuộc. <see cref="CancelledAt"/> công bố cho trung thực nhưng KHÔNG nằm
+/// trong mã băm: huỷ kết quả là thay đổi hợp lệ sau lễ, không được phá cam kết đã ghim.
+/// </summary>
+public sealed class ResultRow
+{
+    [JsonPropertyName("applicantId")] public string? ApplicantId { get; init; }
+
+    [JsonPropertyName("won")] public bool? Won { get; init; }
+
+    [JsonPropertyName("tier")] public string? Tier { get; init; }
+
+    [JsonPropertyName("typeCode")] public string? TypeCode { get; init; }
+
+    [JsonPropertyName("unitCode")] public string? UnitCode { get; init; }
+
+    [JsonPropertyName("waitlistRank")] public int? WaitlistRank { get; init; }
+
+    [JsonPropertyName("cancelledAt")] public string? CancelledAt { get; init; }
 }
 
 /// <summary>
