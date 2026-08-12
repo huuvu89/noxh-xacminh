@@ -21,7 +21,8 @@ public class GoldenFixtureTests
     {
         var path = RepoPaths.Fixture(fileName);
         Assert.True(File.Exists(path), $"Thiếu fixture: {path}");
-        return JsonDocument.Parse(File.ReadAllText(path)).RootElement.Clone();
+        using var doc = JsonDocument.Parse(File.ReadAllText(path));
+        return doc.RootElement.Clone();
     }
 
     private static IEnumerable<JsonElement> Decks() => Fixture().GetProperty("decks").EnumerateArray();
