@@ -268,7 +268,19 @@ internal static class DrawTicketMatchCheck
         };
     }
 
-    /// <summary>Vé trong câu giải thích phải đọc được; file bị sửa có thể nhồi payload dài bất kỳ.</summary>
-    private static string Gon(string giaTri) =>
-        giaTri.Length <= 60 ? giaTri : string.Concat(giaTri.AsSpan(0, 60), "…");
+    /// <summary>
+    /// Vé trong câu giải thích phải đọc được; file bị sửa có thể nhồi payload dài bất kỳ. Cắt lùi một
+    /// ký tự khi chỗ cắt rơi vào giữa cặp surrogate — nửa cặp sẽ thành ký tự rác trên màn hình và
+    /// trong bản xuất kết quả.
+    /// </summary>
+    private static string Gon(string giaTri)
+    {
+        const int Tran = 60;
+
+        if (giaTri.Length <= Tran) return giaTri;
+
+        var cat = char.IsHighSurrogate(giaTri[Tran - 1]) ? Tran - 1 : Tran;
+
+        return string.Concat(giaTri.AsSpan(0, cat), "…");
+    }
 }
