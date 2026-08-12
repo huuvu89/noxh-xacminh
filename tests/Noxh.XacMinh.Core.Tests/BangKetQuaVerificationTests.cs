@@ -273,6 +273,15 @@ public class BangKetQuaVerificationTests
     }
 
     [Fact]
+    public void DongKetQuaRong_KhongKiemDuoc_ChuKhongNemNgoaiLe()
+    {
+        // File thả vào có thể chứa phần tử rỗng; một ngoại lệ lọt lên giao diện là một trang trắng.
+        var rong = Parse(EditGolden(root => Dong(root)[0] = null));
+
+        Assert.Equal(CheckStatus.KhongKiemDuoc, HangMuc(rong).Status);
+    }
+
+    [Fact]
     public void DinhDanhHoSoKhongPhaiUuid_KhongKiemDuoc_ViCanonicalSapXepTheoDinhDanh()
     {
         var la = Parse(EditGolden(root => DongCoCan(root)["applicantId"] = "khong-phai-uuid"));

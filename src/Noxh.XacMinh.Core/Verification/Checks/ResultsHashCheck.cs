@@ -107,8 +107,12 @@ internal static class ResultsHashCheck
     /// <summary>Một dòng đã đọc: hoặc đủ trường bất biến để băm lại, hoặc kèm câu giải thích vì sao không.</summary>
     private sealed record DaDoc(ResultsCommitment.Row? Row, string? Loi);
 
-    private static DaDoc Doc(ResultRow r, int index)
+    private static DaDoc Doc(ResultRow? r, int index)
     {
+        if (r is null)
+            return new DaDoc(null, $"Bảng kết quả có dòng rỗng ở vị trí thứ {index + 1}, nên bảng đang công bố "
+                                   + "không đủ dữ liệu để tính lại mã băm.");
+
         var moTa = string.IsNullOrWhiteSpace(r.ApplicantId)
             ? $"thứ {index + 1} trong bảng"
             : $"của hồ sơ {r.ApplicantId.Trim()}";
@@ -135,12 +139,12 @@ internal static class ResultsHashCheck
     }
 
     /// <summary>Số liệu thô để đối chiếu với bảng kết quả đã công bố, không phải kết luận.</summary>
-    private static List<CheckMetric> SoLieu(IReadOnlyList<ResultRow> dong) =>
+    private static List<CheckMetric> SoLieu(IReadOnlyList<ResultRow?> dong) =>
     [
         new("Số dòng kết quả", dong.Count.ToString()),
-        new("Số dòng trúng", dong.Count(r => r.Won == true).ToString()),
-        new("Số dòng có mã căn", dong.Count(r => !string.IsNullOrWhiteSpace(r.UnitCode)).ToString()),
-        new("Số dòng dự khuyết", dong.Count(r => r.WaitlistRank is not null).ToString()),
-        new("Số dòng đã huỷ kết quả", dong.Count(r => !string.IsNullOrWhiteSpace(r.CancelledAt)).ToString()),
+        new("Số dòng trúng", dong.Count(r => r?.Won == true).ToString()),
+        new("Số dòng có mã căn", dong.Count(r => !string.IsNullOrWhiteSpace(r?.UnitCode)).ToString()),
+        new("Số dòng dự khuyết", dong.Count(r => r?.WaitlistRank is not null).ToString()),
+        new("Số dòng đã huỷ kết quả", dong.Count(r => !string.IsNullOrWhiteSpace(r?.CancelledAt)).ToString()),
     ];
 }

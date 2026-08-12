@@ -30,7 +30,7 @@ public sealed class ResultTable
 {
     [JsonPropertyName("resultsHash")] public string? ResultsHash { get; init; }
 
-    [JsonPropertyName("rows")] public IReadOnlyList<ResultRow>? Rows { get; init; }
+    [JsonPropertyName("rows")] public IReadOnlyList<ResultRow?>? Rows { get; init; }
 }
 
 /// <summary>
