@@ -160,8 +160,9 @@ h1 { font-size: 1.5rem; }
 .o-phieu.loai-khong-trung { background: var(--ve-khong-trung); color: #1b1b1b; }
 .o-phieu.loai-khong-ro { background: var(--ve-khong-ro); }
 
-/* Ô chưa ai bốc: viền đứt + nhạt hẳn — khác biệt về hình, không chỉ về màu. */
-.o-phieu.chua-boc { border: 2px dashed #555; opacity: .45; }
+/* Ô chưa ai bốc: viền đứt + xám hoá — khác biệt về hình, không chỉ về màu. Xám hoá chứ không giảm
+   opacity: hoà vào nền trắng thì con số trong ô mất tương phản. */
+.o-phieu.chua-boc { border: 2px dashed #333; filter: grayscale(75%); }
 
 .o-phieu.dang-chon { outline: 3px solid #1b1b1b; outline-offset: 1px; }
 

@@ -1,5 +1,3 @@
-using Noxh.XacMinh.Core.Verification.Checks;
-
 namespace Noxh.XacMinh.Core.Decks;
 
 /// <summary>

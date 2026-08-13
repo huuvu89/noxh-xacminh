@@ -67,7 +67,7 @@ else
         <dd>@LopLoaiVe.Nhan(chon.Kind) — @chon.Label</dd>
 
         <dt>Nội dung vé</dt>
-        <dd><code>@(chon.Payload ?? "(chưa công bố)")</code></dd>
+        <dd><code>@(chon.Payload is null ? "(chưa công bố)" : MoTaGiaTri.Gon(chon.Payload))</code></dd>
 
         <dt>Lượt bốc</dt>
         <dd>
@@ -122,7 +122,8 @@ else
     {
         var phan = new List<string> { $"Vị trí {o.Position}", o.Label };
 
-        if (o.Payload is not null) phan.Add($"vé {o.Payload}");
+        // Cắt như mọi chỗ khác: file bị sửa có thể nhồi chuỗi dài bất kỳ, mà đây là 900 thuộc tính title.
+        if (o.Payload is not null) phan.Add($"vé {MoTaGiaTri.Gon(o.Payload)}");
 
         phan.Add(o.Draws.Count == 0
             ? "chưa ai bốc ô này"

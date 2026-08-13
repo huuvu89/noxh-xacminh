@@ -63,7 +63,8 @@
     private string maHoSo = string.Empty;
     private int? viTriChon;
 
-    [Parameter, EditorRequired] public TransparencyReport? BaoCao { get; set; }
+    /// <summary>Rỗng là trạng thái hợp lệ (chưa nạp file), không phải thiếu tham số.</summary>
+    [Parameter] public TransparencyReport? BaoCao { get; set; }
 
     private DeckGrid Hien => luoi[Math.Clamp(chiSo, 0, luoi.Count - 1)];
 
