@@ -78,6 +78,12 @@ public sealed class TaiKhoBangChung(HttpClient http)
                 return ([], false, $"kho trả HTTP {(int)traLoi.StatusCode}");
 
             key.AddRange(trang.Key);
+
+            // Kho trả về cùng một dấu tiếp tục (hoặc trang rỗng mà vẫn báo còn nữa) thì vòng lặp này
+            // treo tab người kiểm — dừng lại và khai là đọc chưa hết, đừng quay mãi.
+            if (trang.DauTiepTuc is not null && trang.DauTiepTuc == dauTiepTuc)
+                return (key, false, null);
+
             dauTiepTuc = trang.DauTiepTuc;
 
             if (key.Count >= GioiHanLo)

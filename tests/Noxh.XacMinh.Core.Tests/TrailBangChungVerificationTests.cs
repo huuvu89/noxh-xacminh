@@ -168,6 +168,23 @@ public class TrailBangChungVerificationTests
         Assert.Equal(CheckStatus.KhongKiemDuoc, KhoangTrong(kho).Status);
     }
 
+    /// <summary>
+    /// Nội dung trên kho là thứ công cụ không kiểm soát được: số thứ tự lô âm hay lớn vô lý phải cho
+    /// KHÔNG KIỂM ĐƯỢC, chứ không được làm nổ phép kiểm và kéo cả trang xuống theo.
+    /// </summary>
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(0)]
+    [InlineData(9_000_000_000L)]
+    public void SoThuTuLoBatThuong_KhongKiemDuoc_ChuKhongNemNgoaiLe(long soLo)
+    {
+        var luc = BatDau.AddSeconds(30);
+        var noiDung = DungLoTrail.NoiDung(soLo, MaTienTrinh, luc, [], null, null);
+        var day = new List<DoiTuongKho> { new(DungLoTrail.Key(soLo, MaTienTrinh, luc), noiDung) };
+
+        Assert.Equal(CheckStatus.KhongKiemDuoc, KhoangTrong(DaDoc(CheDoDocKho.AnDanh, day)).Status);
+    }
+
     // ── AC6: kho không truy cập được ⇒ KHÔNG KIỂM ĐƯỢC, không ảnh hưởng hạng mục khác ───────
 
     [Fact]

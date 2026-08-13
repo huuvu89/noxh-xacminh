@@ -31,6 +31,9 @@ internal static class TrailBangChungCheck
         + "lô cuối lên kho thì chẳng có gì lộ ra, vì không ai chứng minh được lô cuối cùng là lô cuối cùng. "
         + "Trail chỉ chứng minh những gì ĐÃ lên kho thì không bị sửa, không chứng minh được thứ chưa bao giờ lên kho.";
 
+    /// <summary>Trần số thứ tự lô coi là đọc được — trên nữa thì dữ liệu hỏng, không phải kho lớn.</summary>
+    private const long SoLoToiDa = 1_000_000;
+
     private const string ChuaDoc =
         "Chưa đọc kho bằng chứng, nên chưa có lô nào để kiểm. Trong lễ, kho chưa mở công khai nên cần khoá chỉ-đọc "
         + "do ban tổ chức cấp; sau lễ kho mở, đọc ẩn danh là được.";
@@ -172,10 +175,12 @@ internal static class TrailBangChungCheck
                 "Danh sách lô đọc được còn dở (kho còn trang chưa đọc hết), nên số thứ tự thiếu ở đây chưa nói lên "
                 + $"điều gì — phải đọc hết danh sách rồi mới kết luận được. {GioiHanCatCut}");
 
-        if (kho.Lo.Any(l => l.SoLo is null))
+        // Nội dung trên kho là thứ công cụ không kiểm soát được: số thứ tự âm, bằng 0 hay lớn vô lý
+        // phải dừng ở "chưa kiểm được", không được làm nổ phép kiểm giữa hội trường.
+        if (kho.Lo.Any(l => l.SoLo is null or < 1 or > SoLoToiDa))
             return ChuaKiemDuoc(
-                "Có lô không đọc được số thứ tự của chính nó, nên không dò được khoảng trống. "
-                + $"{GioiHanCatCut}");
+                "Có lô mang số thứ tự không đọc được hoặc không hợp lệ (âm, bằng 0, hoặc lớn bất thường), nên không "
+                + $"dò được khoảng trống. {GioiHanCatCut}");
 
         var thieu = new List<string>();
 
