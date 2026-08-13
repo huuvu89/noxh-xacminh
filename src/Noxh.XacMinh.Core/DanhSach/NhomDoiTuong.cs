@@ -1,6 +1,3 @@
-using System.Globalization;
-using System.Text;
-
 namespace Noxh.XacMinh.Core.DanhSach;
 
 /// <summary>
@@ -58,20 +55,5 @@ public static class NhomDoiTuong
         return null;
     }
 
-    /// <summary>COPY NGUYÊN VĂN từ backend: bỏ dấu tiếng Việt + chữ thường + gộp khoảng trắng.</summary>
-    private static string ChuanHoa(string? s)
-    {
-        if (string.IsNullOrWhiteSpace(s)) return string.Empty;
-
-        s = s.Trim().ToLowerInvariant().Replace('đ', 'd').Replace('Đ', 'd');
-        var tach = s.Normalize(NormalizationForm.FormD);
-        var sb = new StringBuilder(tach.Length);
-        foreach (var ch in tach)
-            if (CharUnicodeInfo.GetUnicodeCategory(ch) != UnicodeCategory.NonSpacingMark)
-                sb.Append(ch);
-
-        var chuan = sb.ToString().Normalize(NormalizationForm.FormC);
-
-        return string.Join(' ', chuan.Split(' ', StringSplitOptions.RemoveEmptyEntries));
-    }
+    private static string ChuanHoa(string? s) => ChuanHoaTen.Doc(s);
 }

@@ -31,6 +31,16 @@ internal static class DanhSachHoSoCheck
         "Nghĩa là buổi bốc thăm chạy trên đúng tập hồ sơ này, chốt từ trước và có dấu thời gian của bên thứ ba — "
         + "không phải một danh sách được thêm bớt sau khi đã biết ai bốc được căn nào.";
 
+    /// <summary>
+    /// Lệch mã băm khi thả file gốc còn một nguyên nhân mà đường dán tay không có, và người kiểm
+    /// cần biết trước khi kết luận: hệ thống loại bớt dòng ngay lúc nhập.
+    /// </summary>
+    private const string LuuYFileGoc =
+        "Riêng với file Excel gốc còn một khả năng nữa: lúc nhập, hệ thống bỏ những dòng không hợp lệ (số định danh "
+        + "hay số điện thoại sai định dạng, trùng mã hồ sơ, trùng số định danh, loại căn hộ không có trong dự án). "
+        + "File gốc còn giữ các dòng đó thì danh sách đã khoá không có chúng, và mã băm lệch dù không ai sửa gì — "
+        + "hãy đối chiếu số hồ sơ đọc được ở trên với số hồ sơ trong biên bản khoá danh sách.";
+
     public static IEnumerable<CheckResult> Run(VerificationInput input)
     {
         yield return Kiem(input);
@@ -55,10 +65,13 @@ internal static class DanhSachHoSoCheck
 
         if (input.DanhSach is null)
             return ChuaKiemDuoc(
-                "Chưa dán bảng danh sách hồ sơ và khoá chỉ mục mù, nên chưa dựng lại được mã băm danh sách để đối "
-                + "chiếu. Đây là hạng mục dành cho tổ giám sát — người có bảng danh sách đã khoá và khoá chỉ mục mù "
-                + "trong tay.",
+                "Chưa nạp danh sách hồ sơ và khoá chỉ mục mù, nên chưa dựng lại được mã băm danh sách để đối chiếu. "
+                + "Thả thẳng file Excel gốc đã dùng để nhập danh sách, hoặc dán bảng danh sách đã khoá. Đây là hạng "
+                + "mục dành cho tổ giám sát — người có danh sách đã khoá và khoá chỉ mục mù trong tay.",
                 daCongBo);
+
+        var nguon = input.DanhSach.Nguon;
+        soLieu.Add(new CheckMetric("Nguồn bảng danh sách", nguon.MoTa));
 
         var khoa = KhoaChiMuc.Doc(input.DanhSach.Khoa);
 
@@ -69,13 +82,11 @@ internal static class DanhSachHoSoCheck
                 + "người có tên trong danh sách hay không.",
                 daCongBo);
 
-        var bang = BangDanhSach.Doc(input.DanhSach.Bang);
+        var bang = BangDanhSach.Doc(nguon);
 
         if (bang.HoSo.Count == 0)
             return ChuaKiemDuoc(
-                "Không đọc được hồ sơ nào từ bảng đã dán. Bảng cần bốn cột theo đúng thứ tự biên bản: mã hồ sơ · họ "
-                + "tên · số định danh · nhóm đối tượng, mỗi hồ sơ một dòng, các cột ngăn nhau bằng ký tự tab (dán "
-                + "thẳng từ bảng tính) hoặc bằng dấu «|»."
+                $"Không đọc được hồ sơ nào từ {nguon.MoTa}. {HuongDanDocBang(nguon)}"
                 + (bang.Loi.Count > 0 ? $" Chỗ hỏng đầu tiên: {bang.Loi[0]}." : string.Empty),
                 daCongBo);
 
@@ -92,7 +103,7 @@ internal static class DanhSachHoSoCheck
         // Số hồ sơ + cơ cấu nhóm phải đọc được ở CẢ chế độ thường: đây là bộ số người kiểm đối chiếu
         // ngay với biên bản bàn giao danh sách, trước cả khi bàn tới mã băm.
         var moTaSoLieu =
-            $"Bảng đã dán: {bang.HoSo.Count} hồ sơ — "
+            $"Đọc từ {nguon.MoTa}: {bang.HoSo.Count} hồ sơ — "
             + string.Join(", ", Enumerable.Range(0, NhomDoiTuong.SoNhom)
                 .Select(n => $"{NhomDoiTuong.Ma(n)}: {bang.HoSo.Count(h => h.Nhom == n)}"))
             + ". Hãy đối chiếu ngay bộ số này với biên bản bàn giao danh sách. ";
@@ -149,11 +160,24 @@ internal static class DanhSachHoSoCheck
             + "gặp nào (khoảng trắng, cách ghi dấu tiếng Việt, cách ghi số định danh, thứ tự sắp xếp) giải thích "
             + "được khoảng lệch đó. Nghĩa là bảng bạn đang cầm khác bản đã khoá ở chính dữ liệu — hoặc khoá chỉ mục "
             + "mù bạn dán không phải khoá đã dùng lúc khoá danh sách. Hãy xác nhận lại khoá trước khi kết luận về "
-            + "danh sách.",
+            + "danh sách."
+            + (nguon is NguonBang.Excel ? " " + LuuYFileGoc : string.Empty),
             Expected: daCongBo,
             Actual: tinhDuoc)
         {
             Metrics = soLieu,
         };
     }
+
+    /// <summary>Cách công cụ đọc bảng — nói theo đúng đường người kiểm vừa dùng, không nói chung chung.</summary>
+    private static string HuongDanDocBang(NguonBang nguon) => nguon switch
+    {
+        NguonBang.Excel =>
+            "Công cụ đọc trang tính đầu tiên, lấy dòng có dữ liệu đầu tiên làm dòng tiêu đề rồi nhận cột theo TÊN "
+            + "tiêu đề — mã hồ sơ · họ tên · số định danh · nhóm đối tượng — đúng như hệ thống đã đọc lúc nhập danh "
+            + "sách, nên thứ tự cột và các cột thừa không quan trọng. File lạ quá thì vẫn còn đường dán bảng.",
+        _ =>
+            "Bảng cần bốn cột theo đúng thứ tự biên bản: mã hồ sơ · họ tên · số định danh · nhóm đối tượng, mỗi hồ "
+            + "sơ một dòng, các cột ngăn nhau bằng ký tự tab (dán thẳng từ bảng tính) hoặc bằng dấu «|».",
+    };
 }

@@ -278,6 +278,11 @@ h1 { font-size: 1.5rem; }
 .hieu-canh-bao, .kiem-danh-sach, .xoa-khoa { margin-top: .75rem; padding: .5rem 1rem; font-size: 1rem; }
 .xoa-khoa { margin-left: .5rem; }
 
+/* Ô thả file danh sách mang cả đoạn giải thích, canh giữa thì đọc mệt. */
+.o-tha-file-danh-sach { margin-top: .75rem; text-align: left; font-size: .9rem; }
+.file-dang-dung { margin: .5rem 0; font-size: .9rem; }
+.bo-file { margin-left: .5rem; padding: .25rem .75rem; font-size: .85rem; }
+
 footer {
     max-width: 46rem;
     margin: 2rem auto 0;

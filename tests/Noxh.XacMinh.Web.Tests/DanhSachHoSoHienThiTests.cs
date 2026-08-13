@@ -71,6 +71,68 @@ public class DanhSachHoSoHienThiTests
         Assert.Contains("Khoá chỉ mục mù là dữ liệu tối mật", html, StringComparison.Ordinal);
     }
 
+    // ── Vé #17: thả thẳng file Excel gốc, đường dán giữ nguyên làm lối thoát ─────────────
+
+    [Fact]
+    public async Task AC1_KhungCoChoThaFileExcelGoc_NgayCanhOKhoa()
+    {
+        var trangThai = new TrangThaiDanhSach();
+        trangThai.HieuCanhBao();
+
+        await using var trinh = new TrinhVe(danhSach: trangThai);
+
+        var html = await VeKhung(trinh);
+
+        Assert.Contains("Thả thẳng file Excel gốc", html, StringComparison.Ordinal);
+        Assert.Contains("accept=\".xlsx\"", html, StringComparison.Ordinal);
+        Assert.Contains("tên tiêu đề", html, StringComparison.Ordinal);
+    }
+
+    /// <summary>AC5 — đường dán bảng vẫn còn nguyên trên màn hình, không bị file thay chỗ.</summary>
+    [Fact]
+    public async Task AC5_KhungVanConODanBang_LamLoiThoatKhiGapFileLa()
+    {
+        var trangThai = new TrangThaiDanhSach();
+        trangThai.HieuCanhBao();
+
+        await using var trinh = new TrinhVe(danhSach: trangThai);
+
+        var html = await VeKhung(trinh);
+
+        Assert.Contains("<textarea", html, StringComparison.Ordinal);
+        Assert.Contains("dán bảng", html, StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>
+    /// Vỏ đọc byte rồi đưa vào lõi, không tự diễn giải: file hỏng phải đi hết đường tới màn hình
+    /// kết quả thành KHÔNG KIỂM ĐƯỢC có nói tên file, chứ không thành ngoại lệ hay im lặng.
+    /// </summary>
+    [Fact]
+    public async Task AC1_ThaFileExcelHong_ManHinhNoiKhongKiemDuocVaNoiTenFile()
+    {
+        await using var trinh = new TrinhVe();
+
+        var html = await VeKetQua(trinh, new DanhSachDauVao(
+            new NguonBang.Excel("danh-sach-goc.xlsx", "không phải file Excel"u8.ToArray()),
+            GoldenFixture.DanhSachKhoaHex()));
+
+        Assert.Contains("KHÔNG KIỂM ĐƯỢC", html, StringComparison.Ordinal);
+        Assert.Contains("danh-sach-goc.xlsx", html, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void AC2_ByteCuaFileExcelCungChiNamTrongBoNho_VaXoaLaMatHan()
+    {
+        var trangThai = new TrangThaiDanhSach();
+        trangThai.Dat(new NguonBang.Excel("danh-sach-goc.xlsx", [1, 2, 3]), GoldenFixture.DanhSachKhoaHex());
+
+        Assert.IsType<NguonBang.Excel>(trangThai.DaDan!.Nguon);
+
+        trangThai.Xoa();
+
+        Assert.Null(trangThai.DaDan);
+    }
+
     // ── AC2: khoá không rời khỏi bộ nhớ tab ─────────────────────────────────────────────
 
     [Fact]
