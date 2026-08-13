@@ -67,6 +67,8 @@ internal static class TrailCamKetCheck
                 tap.CuaDuAn.Count);
 
         var sauCung = moiLanChot[^1];
+        var moTaTrail = string.Join("; ", TheoVong.Select(v =>
+            $"{v.Vong}={Hex.ChuanHoa(sauCung.CamKet(v.Truong)) ?? NguonNgauNhienChung.KhongCo}"));
 
         var soLieu = TrailDoiChieuChung.SoLieu(kho, MoTaLoai, tap.CuaDuAn.Count);
         soLieu.Add(new CheckMetric("Số lần chốt entropy thấy trên trail",
@@ -122,7 +124,7 @@ internal static class TrailCamKetCheck
                 + "không sửa lại được — cặp (phần ngẫu nhiên, cam kết) đang công bố có tự khớp với nhau cũng "
                 + "không cứu được điều đó, vì cả hai đều lấy từ cùng một cơ sở dữ liệu. "
                 + TrailDoiChieuChung.GioiHan,
-                Expected: sauCung.CamKet(TheoVong[0].Truong),
+                Expected: moTaTrail,
                 Actual: string.Join("; ", lech))
             {
                 Metrics = soLieu,
@@ -145,9 +147,8 @@ internal static class TrailCamKetCheck
                 ? $"(Trail ghi nhận {moiLanChot.Count} lần chốt entropy; giá trị đem so là lần chốt sau cùng.) "
                 : string.Empty)
             + TrailDoiChieuChung.GioiHan,
-            Expected: sauCung.CamKet(TheoVong[0].Truong),
-            Actual: Hex.ChuanHoa(nguon.FirstOrDefault(n =>
-                string.Equals(n?.Round?.Trim(), TheoVong[0].Vong, StringComparison.OrdinalIgnoreCase))?.RServerCommit))
+            Expected: moTaTrail,
+            Actual: moTaTrail)
         {
             Metrics = soLieu,
         };

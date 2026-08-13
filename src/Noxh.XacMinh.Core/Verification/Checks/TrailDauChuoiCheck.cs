@@ -69,6 +69,22 @@ internal static class TrailDauChuoiCheck
                 + TrailDoiChieuChung.GioiHan,
                 tap.CuaDuAn.Count);
 
+        // Đầu chuỗi là giá trị cộng dồn "tới hết vòng X", nên phải xếp được MỌI bước vào trước hay
+        // sau mốc đó. Nhật ký mang một vòng công cụ không biết thì ranh giới ấy không vạch được, và
+        // đoán bừa sẽ ra một con số khác con số đã ghim — tức là vu oan bằng chính chỗ mình không hiểu.
+        var vongLa = buoc.Where(b => b.ThuTuVong == int.MaxValue)
+            .Select(b => b.Round)
+            .Distinct(StringComparer.Ordinal)
+            .ToList();
+
+        if (vongLa.Count > 0)
+            return ChuaKiemDuoc(
+                $"Nhật ký công bố có lượt bốc thuộc vòng công cụ không biết ({string.Join(", ",
+                    vongLa.Select(v => $"«{MoTaGiaTri.Gon(v)}»"))}), nên không vạch được ranh giới «tới hết vòng "
+                + "nào» để cộng dồn chuỗi băm. Kết luận lệch ở đây sẽ chỉ phản ánh việc công cụ không hiểu nhãn "
+                + $"vòng, không phản ánh dữ liệu. {TrailDoiChieuChung.GioiHan}",
+                tap.CuaDuAn.Count);
+
         return DoiChieu(kho!, tap, buoc);
     }
 

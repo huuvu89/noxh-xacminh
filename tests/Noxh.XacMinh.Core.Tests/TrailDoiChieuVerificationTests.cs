@@ -241,6 +241,22 @@ public class TrailDoiChieuVerificationTests
         Assert.Contains("khai", ketQua.Explanation, StringComparison.Ordinal);
     }
 
+    /// <summary>
+    /// Đầu chuỗi là giá trị cộng dồn "tới hết vòng X". Nhật ký mang một nhãn vòng công cụ không biết
+    /// thì ranh giới ấy không vạch được — kết luận lệch lúc đó chỉ phản ánh việc công cụ không hiểu
+    /// nhãn vòng, nên phải dừng ở KHÔNG KIỂM ĐƯỢC.
+    /// </summary>
+    [Fact]
+    public void AC4_NhatKyMangVongCongCuKhongBiet_KhongKiemDuoc_ChuKhongVuOanKhongDat()
+    {
+        var bao = BaoCaoSua(root => NhatKyJson(root)[0]!["round"] = "Z9");
+
+        var ketQua = DauChuoi(KhoDay(), bao);
+
+        Assert.Equal(CheckStatus.KhongKiemDuoc, ketQua.Status);
+        Assert.Contains("Z9", ketQua.Explanation, StringComparison.Ordinal);
+    }
+
     [Fact]
     public void AC4_TrailKhongCoBanGhiDauChuoiNao_KhongKiemDuoc()
     {
