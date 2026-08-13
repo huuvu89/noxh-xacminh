@@ -8,23 +8,38 @@ namespace Noxh.XacMinh.Core.DanhSach;
 public sealed record KetQuaDocBang(IReadOnlyList<HoSoDanhSach> HoSo, IReadOnlyList<string> Loi, bool CoDongTieuDe);
 
 /// <summary>
-/// Đọc bảng danh sách người kiểm dán vào. Bốn cột theo đúng thứ tự biên bản in ra: mã hồ sơ · họ
-/// tên · số định danh · nhóm đối tượng.
+/// Đọc bảng danh sách hồ sơ vào công cụ, bằng đường nào cũng ra cùng một thứ: danh sách
+/// <see cref="HoSoDanhSach"/> cho phép tái lập mã băm.
 ///
-/// Ranh giới quan trọng nhất ở đây: cái gì thuộc <b>định dạng bảng</b> thì bỏ, cái gì thuộc <b>nội
-/// dung ô</b> thì giữ nguyên văn.
-///  · Ký tự xuống dòng kiểu Windows và dòng trống: định dạng — bỏ.
-///  · Bảng kiểu <c>| a | b |</c> (dán từ tài liệu Markdown): thanh dọc và khoảng đệm quanh nó là kẻ
-///    bảng — bỏ; dòng kẻ ngang <c>|---|---|</c> cũng vậy.
-///  · Bảng ngăn bằng ký tự tab (dán từ bảng tính): nội dung ô lấy NGUYÊN VĂN, kể cả khoảng trắng
-///    thừa. Tự cắt khoảng trắng ở đây là công cụ tự sửa dữ liệu cho khớp — mà verifier tự chỉnh dữ
-///    liệu thì hết là verifier. Lệch vì khoảng trắng là việc của phần chẩn đoán, nó nói "khớp nếu…"
-///    chứ không lặng lẽ sửa.
+/// Hai đường vào có <b>hai luật khác nhau về khoảng trắng</b>, và khác nhau là có chủ ý:
+///  · <b>File Excel gốc</b> đi theo luật của hệ thống lúc nhập danh sách: nhận cột theo tên tiêu đề
+///    rồi <c>Trim()</c> từng ô. Cắt khoảng trắng ở đây không phải tự sửa dữ liệu — đó chính là dữ
+///    liệu đã đi vào mã băm, vì backend cắt trước khi ghi.
+///  · <b>Bảng dán tay</b> lấy nội dung ô NGUYÊN VĂN. Người kiểm dán từ bản in/PDF thì không biết
+///    chuỗi gốc là gì; công cụ tự cắt cho khớp thì hết là công cụ kiểm chứng. Lệch vì khoảng trắng
+///    là việc của phần chẩn đoán, nó nói "khớp nếu…" chứ không lặng lẽ sửa.
 /// </summary>
 public static class BangDanhSach
 {
     private const int SoCot = 4;
 
+    public static KetQuaDocBang Doc(NguonBang nguon) => nguon switch
+    {
+        NguonBang.Dan dan => Doc(dan.NoiDung),
+        NguonBang.Excel excel => DocExcel(excel.NoiDung),
+        _ => new KetQuaDocBang([], [$"nguồn bảng không hiểu được ({nguon.GetType().Name})"], false),
+    };
+
+    /// <summary>
+    /// Đọc bảng dán tay. Bốn cột theo đúng thứ tự biên bản in ra: mã hồ sơ · họ tên · số định danh ·
+    /// nhóm đối tượng.
+    ///
+    /// Cái gì thuộc <b>định dạng bảng</b> thì bỏ, cái gì thuộc <b>nội dung ô</b> thì giữ nguyên văn:
+    ///  · Ký tự xuống dòng kiểu Windows và dòng trống: định dạng — bỏ.
+    ///  · Bảng kiểu <c>| a | b |</c> (dán từ tài liệu Markdown): thanh dọc và khoảng đệm quanh nó là
+    ///    kẻ bảng — bỏ; dòng kẻ ngang <c>|---|---|</c> cũng vậy.
+    ///  · Bảng ngăn bằng ký tự tab (dán thẳng từ bảng tính): nội dung ô lấy NGUYÊN VĂN.
+    /// </summary>
     public static KetQuaDocBang Doc(string? bang)
     {
         var hoSo = new List<HoSoDanhSach>();
@@ -72,6 +87,62 @@ public static class BangDanhSach
         }
 
         return new KetQuaDocBang(hoSo, loi, coTieuDe);
+    }
+
+    /// <summary>
+    /// Đọc file Excel gốc theo đúng trình tự <c>ImportExcelEndpoint</c> đã đi lúc nhập danh sách:
+    /// trang tính đầu tiên → dòng có dữ liệu đầu tiên là tiêu đề → nhận cột theo tên → mỗi ô
+    /// <c>Trim()</c> → bỏ dòng trống hoàn toàn.
+    /// </summary>
+    private static KetQuaDocBang DocExcel(byte[] noiDung)
+    {
+        var file = FileExcel.Doc(noiDung);
+
+        if (file.Loi is not null) return new KetQuaDocBang([], [file.Loi], false);
+
+        if (file.Dong.Count == 0)
+            return new KetQuaDocBang([], ["trang tính đầu tiên không có dòng nào có dữ liệu"], false);
+
+        var tieuDe = file.Dong[0];
+        var (cot, thieu) = CotDanhSach.DocTieuDe(tieuDe.O);
+
+        if (thieu.Count > 0)
+            return new KetQuaDocBang(
+                [],
+                [$"dòng tiêu đề (dòng {tieuDe.SoDong}) thiếu cột bắt buộc: "
+                 + string.Join(", ", thieu.Select(t => $"«{t}»"))],
+                CoDongTieuDe: true);
+
+        var hoSo = new List<HoSoDanhSach>();
+        var loi = new List<string>();
+
+        foreach (var dong in file.Dong.Skip(1))
+        {
+            string O(CotDanhSach.Cot c) => cot.TryGetValue(c, out var i) ? dong.LayO(i).Trim() : string.Empty;
+
+            var maHoSo = O(CotDanhSach.Cot.MaHoSo);
+            var hoTen = O(CotDanhSach.Cot.HoTen);
+            var soDinhDanh = O(CotDanhSach.Cot.SoDinhDanh);
+
+            // Đúng luật bỏ dòng trống của backend — kể cả cột số điện thoại, thứ mã băm không dùng
+            // nhưng lại quyết định một dòng có bị bỏ hay không.
+            if (maHoSo.Length == 0 && hoTen.Length == 0 && soDinhDanh.Length == 0
+                && O(CotDanhSach.Cot.SoDienThoai).Length == 0)
+                continue;
+
+            var oNhom = O(CotDanhSach.Cot.Nhom);
+            var nhom = NhomDoiTuong.Doc(oNhom);
+
+            if (nhom is null)
+            {
+                loi.Add($"dòng {dong.SoDong}: không đọc được nhóm đối tượng «{MoTaGiaTri.Gon(oNhom)}»");
+                continue;
+            }
+
+            hoSo.Add(new HoSoDanhSach(maHoSo, hoTen, soDinhDanh, nhom.Value));
+        }
+
+        return new KetQuaDocBang(hoSo, loi, CoDongTieuDe: true);
     }
 
     /// <summary>Tách một dòng thành các ô; <c>null</c> nếu dòng đó chỉ là kẻ bảng.</summary>

@@ -3,8 +3,9 @@ using Noxh.XacMinh.Core.DanhSach;
 namespace Noxh.XacMinh.Web.HienThi;
 
 /// <summary>
-/// Bảng danh sách hồ sơ và khoá chỉ mục mù tổ giám sát dán vào — dữ liệu nhạy cảm nhất đi qua công
-/// cụ này.
+/// Bảng danh sách hồ sơ (dán tay hoặc file Excel gốc thả vào) và khoá chỉ mục mù tổ giám sát đưa
+/// vào — dữ liệu nhạy cảm nhất đi qua công cụ này. Byte của file Excel cũng chỉ nằm ở đây, không
+/// được tải lên đâu cả.
 ///
 /// Bốn điều lớp này cam kết, và test là hàng rào:
 ///  · Chỉ nằm trong <b>bộ nhớ tab</b>: một trường trong một đối tượng theo phiên. Không
@@ -29,11 +30,13 @@ public sealed class TrangThaiDanhSach
 
     public void HieuCanhBao() => DaHieuCanhBao = true;
 
-    public void Dat(string bang, string khoa)
+    public void Dat(NguonBang nguon, string khoa)
     {
-        DaDan = new DanhSachDauVao(bang, khoa);
+        DaDan = new DanhSachDauVao(nguon, khoa);
         KhoaDangHex = KhoaChiMuc.LaKhoaHex(khoa);
     }
+
+    public void Dat(string bang, string khoa) => Dat(new NguonBang.Dan(bang), khoa);
 
     /// <summary>Xoá khoá và bảng khỏi bộ nhớ. Nạp báo cáo khác cũng gọi vào đây.</summary>
     public void Xoa()

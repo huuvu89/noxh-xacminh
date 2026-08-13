@@ -1,5 +1,6 @@
-@* Hạng mục dành cho tổ giám sát: dán bảng danh sách đã khoá + khoá chỉ mục mù để dựng lại mã băm
-   danh sách. Ở chế độ này công cụ KHÔNG phát bất kỳ request nào — không gọi mạng, không ghi đĩa. *@
+@* Hạng mục dành cho tổ giám sát: file Excel gốc (hoặc bảng dán tay) + khoá chỉ mục mù để dựng lại
+   mã băm danh sách. Ở chế độ này công cụ KHÔNG phát bất kỳ request nào — không gọi mạng, không ghi
+   đĩa; file thả vào chỉ được đọc trong bộ nhớ tab. *@
 @inject TrangThaiDanhSach trangThai
 
 <section class="danh-sach-ho-so">
@@ -7,8 +8,9 @@
 
     <p class="dan-nhap">
         Hạng mục này trả lời câu còn thiếu của mọi lập luận công bằng: <strong>danh sách đầu vào của
-        buổi bốc thăm đúng là danh sách nào</strong>. Dán bảng danh sách đã khoá và khoá chỉ mục mù,
-        công cụ dựng lại mã băm danh sách rồi so với giá trị đã ghim và đã được đóng dấu thời gian.
+        buổi bốc thăm đúng là danh sách nào</strong>. Thả file Excel gốc (hoặc dán bảng) cùng khoá
+        chỉ mục mù, công cụ dựng lại mã băm danh sách rồi so với giá trị đã ghim và đã được đóng dấu
+        thời gian.
     </p>
 
     <p class="canh-bao-khoa" role="alert">
@@ -16,23 +18,49 @@
         ai có nó thì tự tính được chỉ mục mù của bất kỳ số định danh nào, tức là dò được một người
         có tên trong danh sách hay không. Chỉ dán khi bạn là người được giao giữ khoá, và chỉ trên
         máy bạn tin.
-        Ở màn hình này công cụ <strong>không gửi đi bất kỳ request nào</strong>: bảng và khoá chỉ
-        nằm trong bộ nhớ của tab, không ghi ra đĩa, không lưu cookie, đóng tab là mất.
+        Ở màn hình này công cụ <strong>không gửi đi bất kỳ request nào</strong>: file, bảng và khoá
+        chỉ nằm trong bộ nhớ của tab, không tải lên đâu cả, không ghi ra đĩa, không lưu cookie, đóng
+        tab là mất.
     </p>
 
     @if (!trangThai.DaHieuCanhBao)
     {
         <button type="button" class="hieu-canh-bao" @onclick="() => trangThai.HieuCanhBao()">
-            Tôi đã đọc cảnh báo, mở ô dán danh sách và khoá
+            Tôi đã đọc cảnh báo, mở ô nạp danh sách và khoá
         </button>
     }
     else
     {
+        <label class="o-tha-file o-tha-file-danh-sach">
+            <InputFile OnChange="NhanFile" accept=".xlsx" />
+            <span>
+                <strong>Thả thẳng file Excel gốc</strong> — đúng file đã nhập danh sách vào hệ thống.
+                Công cụ đọc trang tính đầu tiên và nhận cột theo <strong>tên tiêu đề</strong>
+                (mã hồ sơ · họ tên · số định danh · nhóm đối tượng), đúng như hệ thống đã đọc lúc
+                nhập, nên thứ tự cột không quan trọng. File không rời khỏi máy bạn.
+            </span>
+        </label>
+
+        @if (fileExcel is not null)
+        {
+            <p class="file-dang-dung">
+                Đang dùng file <strong>@fileExcel.TenFile</strong> — ô dán bên dưới tạm thời không
+                dùng đến.
+                <button type="button" class="bo-file" @onclick="BoFile">Bỏ file, quay lại dán bảng</button>
+            </p>
+        }
+
+        @if (loiFile is not null)
+        {
+            <div class="thong-bao-loi" role="alert">@loiFile</div>
+        }
+
         <label class="o-dan-danh-sach">
             <span>
-                Bảng danh sách đã khoá — bốn cột theo đúng thứ tự biên bản: mã hồ sơ · họ tên ·
-                số định danh · nhóm đối tượng. Dán thẳng từ bảng tính (cột ngăn nhau bằng tab) hoặc
-                dán bảng kiểu <code>| … | … |</code>. Dòng tiêu đề để nguyên cũng được.
+                Hoặc <strong>dán bảng</strong> — lối thoát khi file lạ quá. Bốn cột theo đúng thứ tự
+                biên bản: mã hồ sơ · họ tên · số định danh · nhóm đối tượng. Dán thẳng từ bảng tính
+                (cột ngăn nhau bằng tab) hoặc dán bảng kiểu <code>| … | … |</code>. Dòng tiêu đề để
+                nguyên cũng được.
             </span>
             <textarea @bind="bang" @bind:event="oninput" rows="8" spellcheck="false"
                       placeholder="HS001&#9;Trần Thị Bình&#9;079010000001&#9;U1"></textarea>
@@ -69,18 +97,54 @@
 </section>
 
 @code {
+    // 16 MB: danh sách vài nghìn hồ sơ chỉ vài trăm KB; giới hạn để file nhầm không treo tab.
+    private const long GioiHanByte = 16L * 1024 * 1024;
+
     /// <summary>Dán xong là dữ liệu vào lõi đã đổi — kết luận đang hiện phải được tính lại.</summary>
     [Parameter] public EventCallback DaDoi { get; set; }
 
     // Chỉ sống trong component, không đi vào bất kỳ nơi lưu trữ nào.
     private string bang = string.Empty;
     private string khoa = string.Empty;
+    private NguonBang.Excel? fileExcel;
+    private string? loiFile;
 
-    private bool ChuaDuDeKiem => string.IsNullOrWhiteSpace(bang) || string.IsNullOrWhiteSpace(khoa);
+    /// <summary>Có file thì file thắng; đường dán là lối thoát, không phải thứ chạy song song.</summary>
+    private NguonBang? Nguon => fileExcel is not null
+        ? fileExcel
+        : string.IsNullOrWhiteSpace(bang) ? null : new NguonBang.Dan(bang);
+
+    private bool ChuaDuDeKiem => Nguon is null || string.IsNullOrWhiteSpace(khoa);
+
+    private async Task NhanFile(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            var file = e.File;
+            await using var stream = file.OpenReadStream(GioiHanByte);
+            using var buffer = new MemoryStream();
+            await stream.CopyToAsync(buffer);
+
+            fileExcel = new NguonBang.Excel(file.Name, buffer.ToArray());
+            loiFile = null;
+        }
+        catch (Exception ex)
+        {
+            // Không đọc nổi byte của file là lỗi nạp, chưa phải kết luận về danh sách.
+            fileExcel = null;
+            loiFile = $"Không đọc được file: {ex.Message}.";
+        }
+    }
+
+    private void BoFile()
+    {
+        fileExcel = null;
+        loiFile = null;
+    }
 
     private async Task Kiem()
     {
-        trangThai.Dat(bang, khoa);
+        trangThai.Dat(Nguon!, khoa);
         await DaDoi.InvokeAsync();
     }
 
@@ -89,6 +153,7 @@
         trangThai.Xoa();
         bang = string.Empty;
         khoa = string.Empty;
+        BoFile();
         await DaDoi.InvokeAsync();
     }
 }
