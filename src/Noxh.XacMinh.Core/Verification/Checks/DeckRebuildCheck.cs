@@ -109,10 +109,20 @@ internal static class DeckRebuildCheck
         // Bản dựng lại đứng trên một giả định mà lệch mã băm ⇒ có thể chỉ là giả định sai. Kết luận
         // KHÔNG ĐẠT khi đó là vu oan một buổi lễ sạch bằng chỗ thiếu của chính báo cáo.
         if (!khop && taiLap.Assumption is { } giaDinh)
-            return ChuaKiemDuoc(
+            return new CheckResult(
+                id,
+                title,
+                CheckStatus.KhongKiemDuoc,
                 $"Bản dựng lại KHÔNG ra đúng mã băm đã niêm phong, nhưng {giaDinh}. Giả định sai thì cũng ra mã "
                 + "băm khác, nên công cụ không kết luận chồng phiếu này đạt hay không đạt — cần ban tổ chức "
-                + "công bố con số đó rồi kiểm lại.");
+                + "công bố con số đó rồi kiểm lại.",
+                Expected: Hex.ChuanHoa(deck.DeckHash),
+                // Vẫn đưa ra mã băm dựng theo giả định: người kiểm dò được giả định nào mới ra khớp.
+                Actual: taiLap.DeckHash,
+                Preimage: CanonicalDeckSerializer.CanonicalText(taiLap.Tickets!))
+            {
+                Metrics = soLieu,
+            };
 
         return new CheckResult(
             id,

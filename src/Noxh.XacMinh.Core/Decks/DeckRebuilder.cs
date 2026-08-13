@@ -370,7 +370,13 @@ public static class DeckRebuilder
         // nên nó luôn bằng min(quy mô, số căn dư). Lệch ⇒ suy diễn quỹ căn dư sai (hoặc bảng kết quả
         // đã bị sửa), mà công cụ không phân biệt được hai ca đó — nói chưa kiểm được, không kết luận.
         var veTrung = Math.Min(quyMo.Value, canDu.Count);
-        ketQua = ketQua with { Size = quyMo, WonCount = veTrung, CompositionSource = nguon };
+        ketQua = ketQua with
+        {
+            Size = quyMo,
+            WonCount = veTrung,
+            CompositionSource = nguon + " — riêng số vé trúng vòng cuối suy từ quỹ căn dư "
+                + "(= min(quy mô, số căn dư)) rồi đối chiếu với con số chồng phiếu khai",
+        };
 
         if (veTrung != veTrungKhai)
             return ketQua with
