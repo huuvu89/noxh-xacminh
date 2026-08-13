@@ -21,6 +21,9 @@ public static class Verifier
         MocNeoCheck.Run,
         DanhSachHoSoCheck.Run,
         TrailBangChungCheck.Run,
+        TrailLuotBocCheck.Run,
+        TrailCamKetCheck.Run,
+        TrailDauChuoiCheck.Run,
     ];
 
     public static VerificationReport Verify(VerificationInput input) =>

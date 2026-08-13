@@ -9,7 +9,7 @@ tin lời ban tổ chức.
 
 ## Công cụ này chứng minh điều gì
 
-Nạp vào báo cáo minh bạch (`GET /projects/{id}/transparency`) đã công bố, công cụ chạy **10 hạng mục
+Nạp vào báo cáo minh bạch (`GET /projects/{id}/transparency`) đã công bố, công cụ chạy **13 hạng mục
 kiểm** và **tái lập lại cả 4 vòng bốc thăm** từ hạt giống ngẫu nhiên đã cam kết:
 
 1. Máy chủ đã niêm phong entropy trước khi biết mốc neo — `SHA-256(rServer) == rServerCommit`.
@@ -23,6 +23,15 @@ kiểm** và **tái lập lại cả 4 vòng bốc thăm** từ hạt giống ng
 9. Danh sách hồ sơ đầu vào khớp `ListHash` đã ghim (dành cho ban giám sát, cần khoá `K_idx`).
 10. Trail bằng chứng trên kho lưu trữ **chỉ-ghi** móc xích liền nhau — không lô nào ở giữa bị lấy
     bớt hay bị sửa sau khi đã lên kho (trong lễ: dán khoá chỉ-đọc; sau lễ: đọc ẩn danh).
+11. Từng lượt bốc trên trail khớp nhật ký bốc đã công bố — có ở một bên mà thiếu ở bên kia, hay có
+    ở cả hai nơi mà khai khác nhau, đều được nêu đích danh.
+12. Cam kết ngẫu nhiên máy chủ trên trail khớp cam kết đã công bố (lần chốt sau cùng).
+13. Đầu chuỗi băm từng vòng trên trail khớp giá trị **tính lại được** từ nhật ký công bố.
+
+Ba hạng mục cuối là mỏ neo độc lập với cơ sở dữ liệu: chúng bắt được đúng thứ mà chuỗi băm không bắt
+được — dữ liệu bị sửa **trước khi** chuỗi băm được vật chất hoá. Giới hạn phải nói kèm ở mọi kết
+luận: trail chỉ chứng minh được thứ **đã** lên kho, bản ghi chưa bao giờ được đẩy lên thì nó không
+thấy.
 
 Và quan trọng nhất: **dựng lại chính chồng phiếu** từ `MASTER_SEED` rồi so `deckHash` — chứng minh
 chồng phiếu mọc ra từ hạt giống đã cam kết trước, không phải do ai sắp đặt.
@@ -94,7 +103,9 @@ python3 -m http.server 8080 --directory publish/wwwroot
 | ★ | **Tái lập vòng bốc thẳng theo loại căn (B)** — **suy ra quỹ căn còn dư của từng loại** (danh mục trừ đi những căn bảng kết quả nói đã phân ở vòng ưu tiên), xáo bằng `B:units:{loại}` rồi dựng chồng phiếu (`B:deck:{loại}`) và so `deckHash`. Quỹ căn còn dư là **dữ liệu suy diễn**, màn hình nói rõ điều đó; suy diễn mâu thuẫn (căn phân hai lần, căn không có trong danh mục, vé trúng nằm ngoài quỹ suy ra) ra KHÔNG KIỂM ĐƯỢC kèm chính mâu thuẫn, không ra KHÔNG ĐẠT | ✅ |
 | 8 | Mốc neo chuỗi khối — đọc block ở **độ cao đã cam kết** của chính chuỗi từng vòng dùng, so mã băm với bản công bố, rồi so thời điểm cấp dấu thời gian với thời điểm block được đào (cam kết phải có **trước** khi block tồn tại). Chưa tra cứu / nguồn ngoài hỏng ⇒ KHÔNG KIỂM ĐƯỢC kèm link tra cứu thủ công | ✅ |
 | 9 | Danh sách hồ sơ đầu vào — thả **file Excel gốc** (hoặc dán bảng) + khoá chỉ mục mù, dựng lại `ListHash` rồi so với giá trị đã ghim (lấy từ chuỗi đã được đóng dấu thời gian, hoặc từ trường riêng nếu báo cáo có). Lệch thì **chẩn đoán** biến thể chuẩn hoá và nói "khớp nếu…" chứ không tự sửa dữ liệu; chưa dán ⇒ KHÔNG KIỂM ĐƯỢC | ✅ |
-| tái lập C | | chưa (vé tiếp theo) |
+| ★ | **Tái lập vòng căn dư + dự khuyết (C)** — dựng lại quỹ căn dư **chung** (suy ra từ bảng kết quả) cộng **hoán vị số dự khuyết** từ nhãn hạt giống riêng, rồi so `deckHash`; quy mô danh sách dự khuyết lấy từ `waitlistSize`, báo cáo không công bố thì bản dựng lại mang theo giả định và lệch chỉ cho KHÔNG KIỂM ĐƯỢC | ✅ |
+| 10 | Trail bằng chứng — chuỗi móc xích giữa các lô trên kho chỉ-ghi, và khoảng trống số thứ tự lô (chỉ cảnh báo: lô upload hỏng bị bỏ cũng để lại khoảng trống y hệt lô bị giấu) | ✅ |
+| 11 | Trail bằng chứng — **đối chiếu với báo cáo minh bạch**: từng lượt bốc, cam kết ngẫu nhiên máy chủ, và đầu chuỗi băm từng vòng. Trail có mà báo cáo thiếu (hoặc hai bên khai khác nhau) ⇒ KHÔNG ĐẠT; báo cáo có mà trail thiếu ⇒ KHÔNG KIỂM ĐƯỢC, vì đường đẩy bằng chứng là best-effort và vé máy bốc thay không đi qua đó | ✅ |
 
 ## Vì sao C# WebAssembly chứ không phải JavaScript
 

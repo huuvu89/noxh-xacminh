@@ -182,5 +182,22 @@ internal static class DungLoTrailWeb
         return doiTuong;
     }
 
+    /// <summary>
+    /// Một lô mang đúng một lượt bốc <b>không</b> có trong nhật ký công bố — ô phiếu bịa hẳn ra để
+    /// không đụng ô thật nào của fixture.
+    /// </summary>
+    public static IReadOnlyList<DoiTuongKho> LoLuotBocLa(string maDuAn)
+    {
+        var ve = """
+            {"kind":"TICKET_DRAWN","projectId":"DU-AN","occurredAt":"2026-08-15T07:30:05Z","payload":{"applicantId":"9fa3bc49-54fa-4a2d-a42f-193b03f957c2","deckId":"00000000-0000-0000-0000-0000000090a1","round":"C","position":9001,"ticketPayload":"KHONG_TRUNG"}}
+            """.Replace("DU-AN", maDuAn, StringComparison.Ordinal);
+        var dong = """
+            {"kind":"BATCH_HEADER","version":"NOXH-TRAIL-v1","batchNo":1,"instanceId":"a1b2c3d4","createdAt":"2026-08-15T07:30:01Z","recordCount":1,"prevKey":null,"prevSha256":null}
+            """ + "\n" + ve + "\n";
+
+        return [new DoiTuongKho("trail/2026/08/15/073001000Z-b000001-a1b2c3d4.jsonl",
+            System.Text.Encoding.UTF8.GetBytes(dong))];
+    }
+
     private static string Json(string? giaTri) => giaTri is null ? "null" : $"\"{giaTri}\"";
 }
