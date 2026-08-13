@@ -156,15 +156,16 @@ internal static class FreezeTimestampCheck
                 la.Preimage);
 
         var daSoSanh = lanChot.Select(l => (LanChot: l, KetQua: SoSanh(bc, l.Truong!))).ToList();
-        var maBamDanhSach = daSoSanh[0].KetQua.MaBamDanhSachTrongDau;
+        var khop = daSoSanh.FirstOrDefault(x => x.KetQua.Khop);
 
-        if (bc.ListHash is null or "")
+        // Báo cáo công khai không công bố mã băm danh sách hồ sơ để đối chiếu (nó nằm ở bản dành cho
+        // tổ giám sát) — vẫn phải hiện giá trị nằm trong dấu, để người có bản kia tự đối chiếu tay.
+        if (string.IsNullOrWhiteSpace(bc.ListHash))
             soLieu.Add(new CheckMetric(
                 "Mã băm danh sách hồ sơ trong dấu (báo cáo công khai không công bố để đối chiếu)",
-                maBamDanhSach.Length == 0 ? NguonNgauNhienChung.KhongCo : maBamDanhSach));
+                NguonNgauNhienChung.Co((khop.KetQua ?? daSoSanh[0].KetQua).MaBamDanhSachTrongDau)));
 
-        if (daSoSanh.FirstOrDefault(x => x.KetQua.Khop) is { LanChot: not null } khop)
-            return Dat(khop.LanChot, lanChot, soLieu);
+        if (khop.LanChot is not null) return Dat(khop.LanChot, lanChot, soLieu);
 
         // Không dấu nào khớp: điểm lệch (bằng chứng dữ liệu đã đổi) nặng hơn chỗ thiếu dữ liệu.
         var xau = daSoSanh.FirstOrDefault(x => x.KetQua.Lech.Count > 0);
@@ -317,7 +318,7 @@ internal static class FreezeTimestampCheck
 
         // Mã băm danh sách chỉ có trong bản dành cho tổ giám sát; báo cáo công khai không công bố nên
         // không đối chiếu được ở đây (hạng mục danh sách hồ sơ mới là chỗ kiểm nó). Có thì đối chiếu.
-        if (bc.ListHash is not null and not "")
+        if (!string.IsNullOrWhiteSpace(bc.ListHash))
             So("listHash", "mã băm danh sách hồ sơ", bc.ListHash, "báo cáo không công bố mã băm danh sách hồ sơ");
 
         SoPhanGiamSat(bc, truong, lech, thieu);
