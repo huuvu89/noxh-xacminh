@@ -73,7 +73,9 @@ internal static class MocNeoCheck
                 + "nào để đối chiếu. Thiếu chính con số được chốt trước thì lập luận \"cam kết có trước block\" "
                 + "không có chỗ bám.");
 
-        soLieu.Add(new CheckMetric("Link tra cứu thủ công", ChuoiKhoiNeo.Link(chuoiKhoi, daCamKet.Value)));
+        var link = ChuoiKhoiNeo.Link(chuoiKhoi, daCamKet.Value);
+
+        soLieu.Add(new CheckMetric("Link tra cứu thủ công", link));
 
         if (nguon.BlockHeight is null)
             return ChuaKiemDuoc(
@@ -104,7 +106,6 @@ internal static class MocNeoCheck
                 : "Mã băm khối neo vòng này công bố không phải chuỗi mã băm hợp lệ, nên không đối chiếu được với "
                   + "block đọc từ nguồn công khai.");
 
-        var link = ChuoiKhoiNeo.Link(chuoiKhoi, daCamKet.Value);
         var quanSat = (input.Blocks ?? [])
             .FirstOrDefault(q => q is not null
                                  && string.Equals(ChuoiKhoiNeo.Chuan(q.ChuoiKhoi), chuoiKhoi, StringComparison.Ordinal)
