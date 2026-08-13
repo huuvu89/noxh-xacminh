@@ -8,4 +8,11 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <!-- Danh mục căn nhúng thẳng vào assembly: mở là chạy được, và bản offline không thiếu file.
+         LogicalName ghi rõ để đổi tên thư mục không âm thầm làm mất tài nguyên. -->
+    <EmbeddedResource Include="Units\apartment-units.json"
+                      LogicalName="Noxh.XacMinh.Core.Units.apartment-units.json" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,84 @@
+@* Danh mục căn công cụ đang dùng: nói rõ bản nào, bao nhiêu căn, mã băm bao nhiêu — và cho nạp đè. *@
+@inject TrangThaiDanhMuc trangThai
+
+<section class="danh-muc-can">
+    <h2>Danh mục căn hộ công cụ đang dùng</h2>
+
+    <p class="dan-nhap">
+        Danh mục căn là <strong>dữ liệu đầu vào do ban tổ chức công bố</strong>, không phải thứ công cụ
+        tự chứng minh. Công cụ mang sẵn một bản để mở là chạy được ngay; mã băm bên dưới để bạn đối
+        chiếu với bản công bố, và bạn nạp được file danh mục khác đè lên.
+    </p>
+
+    <p class="nguon-danh-muc">
+        Đang dùng: <strong>@MoTaNguon</strong> — <strong>@trangThai.DanhMuc.Total</strong> căn,
+        @trangThai.DanhMuc.Types.Count loại.
+    </p>
+
+    <table class="bang-loai-can">
+        <thead>
+            <tr><th scope="col">Loại căn</th><th scope="col">Số căn</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var loai in trangThai.DanhMuc.Types)
+            {
+                <tr>
+                    <td>@loai.TypeCode</td>
+                    <td>@loai.UnitCodes.Count</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr><th scope="row">Tổng</th><td>@trangThai.DanhMuc.Total</td></tr>
+        </tfoot>
+    </table>
+
+    <p class="ma-bam-danh-muc">
+        Mã băm SHA-256: <code>@trangThai.DanhMuc.Sha256</code>
+        <span class="dan-nhap">— băm trên đúng byte của file, đối chiếu được bằng <code>sha256sum</code>.</span>
+    </p>
+
+    <label class="o-tha-file">
+        <InputFile OnChange="NhanFile" accept=".json,application/json" />
+        <span>Nạp file danh mục khác đè lên</span>
+    </label>
+
+    @if (trangThai.Nguon == NguonDanhMuc.NguoiDungNap)
+    {
+        <button type="button" class="dung-ban-nhung" @onclick="trangThai.DungBanNhung">
+            Dùng lại bản nhúng sẵn
+        </button>
+    }
+
+    @if (trangThai.Loi is not null)
+    {
+        <div class="thong-bao-loi" role="alert">@trangThai.Loi Vẫn đang dùng @MoTaNguon.</div>
+    }
+</section>
+
+@code {
+    // 8 MB: danh mục 509 căn chỉ vài chục KB; giới hạn để file nhầm không treo tab.
+    private const long GioiHanByte = 8L * 1024 * 1024;
+
+    private string MoTaNguon => trangThai.Nguon == NguonDanhMuc.Nhung
+        ? "bản nhúng sẵn trong công cụ"
+        : $"bản do bạn nạp — {trangThai.TenFile}";
+
+    private async Task NhanFile(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            var file = e.File;
+            await using var stream = file.OpenReadStream(GioiHanByte);
+            using var buffer = new MemoryStream();
+            await stream.CopyToAsync(buffer);
+
+            trangThai.Nap(buffer.ToArray(), file.Name);
+        }
+        catch (Exception ex)
+        {
+            // Đọc file hỏng/quá lớn chỉ là lỗi nạp — danh mục đang dùng giữ nguyên.
+            trangThai.BaoLoi($"Không đọc được file danh mục: {ex.Message}.");
+        }
+    }
+}

@@ -1,0 +1,2557 @@
+{
+  "TANG1-2": [
+    {
+      "unitCode": "TANG 1-D101",
+      "block": "D",
+      "floor": 1
+    },
+    {
+      "unitCode": "TANG 1-D102",
+      "block": "D",
+      "floor": 1
+    },
+    {
+      "unitCode": "TANG 1-D103",
+      "block": "D",
+      "floor": 1
+    },
+    {
+      "unitCode": "TANG 1-D104",
+      "block": "D",
+      "floor": 1
+    },
+    {
+      "unitCode": "TANG 1-D105",
+      "block": "D",
+      "floor": 1
+    },
+    {
+      "unitCode": "TANG 1-D106",
+      "block": "D",
+      "floor": 1
+    },
+    {
+      "unitCode": "TANG 1-E101",
+      "block": "E",
+      "floor": 1
+    },
+    {
+      "unitCode": "TANG 1-E102",
+      "block": "E",
+      "floor": 1
+    },
+    {
+      "unitCode": "TANG 1-E103",
+      "block": "E",
+      "floor": 1
+    },
+    {
+      "unitCode": "TANG 1-E104",
+      "block": "E",
+      "floor": 1
+    },
+    {
+      "unitCode": "TANG 1-E105",
+      "block": "E",
+      "floor": 1
+    },
+    {
+      "unitCode": "TANG 1-E106",
+      "block": "E",
+      "floor": 1
+    },
+    {
+      "unitCode": "TANG 1-E107",
+      "block": "E",
+      "floor": 1
+    },
+    {
+      "unitCode": "TANG 1-F101",
+      "block": "F",
+      "floor": 1
+    },
+    {
+      "unitCode": "TANG 1-F102",
+      "block": "F",
+      "floor": 1
+    },
+    {
+      "unitCode": "TANG 1-F103",
+      "block": "F",
+      "floor": 1
+    },
+    {
+      "unitCode": "TANG 1-F104",
+      "block": "F",
+      "floor": 1
+    },
+    {
+      "unitCode": "TANG 1-F105",
+      "block": "F",
+      "floor": 1
+    },
+    {
+      "unitCode": "TANG 1-F106",
+      "block": "F",
+      "floor": 1
+    }
+  ],
+  "3PN-2WC": [
+    {
+      "unitCode": "3PN-2WC-D315",
+      "block": "D",
+      "floor": 3
+    },
+    {
+      "unitCode": "3PN-2WC-D415",
+      "block": "D",
+      "floor": 4
+    },
+    {
+      "unitCode": "3PN-2WC-D515",
+      "block": "D",
+      "floor": 5
+    },
+    {
+      "unitCode": "3PN-2WC-D615",
+      "block": "D",
+      "floor": 6
+    },
+    {
+      "unitCode": "3PN-2WC-D715",
+      "block": "D",
+      "floor": 7
+    },
+    {
+      "unitCode": "3PN-2WC-D815",
+      "block": "D",
+      "floor": 8
+    },
+    {
+      "unitCode": "3PN-2WC-D915",
+      "block": "D",
+      "floor": 9
+    },
+    {
+      "unitCode": "3PN-2WC-D1015",
+      "block": "D",
+      "floor": 10
+    },
+    {
+      "unitCode": "3PN-2WC-D1115",
+      "block": "D",
+      "floor": 11
+    },
+    {
+      "unitCode": "3PN-2WC-D1215",
+      "block": "D",
+      "floor": 12
+    },
+    {
+      "unitCode": "3PN-2WC-E315",
+      "block": "E",
+      "floor": 3
+    },
+    {
+      "unitCode": "3PN-2WC-E415",
+      "block": "E",
+      "floor": 4
+    },
+    {
+      "unitCode": "3PN-2WC-E515",
+      "block": "E",
+      "floor": 5
+    },
+    {
+      "unitCode": "3PN-2WC-E615",
+      "block": "E",
+      "floor": 6
+    },
+    {
+      "unitCode": "3PN-2WC-E715",
+      "block": "E",
+      "floor": 7
+    },
+    {
+      "unitCode": "3PN-2WC-E815",
+      "block": "E",
+      "floor": 8
+    },
+    {
+      "unitCode": "3PN-2WC-E915",
+      "block": "E",
+      "floor": 9
+    },
+    {
+      "unitCode": "3PN-2WC-E1015",
+      "block": "E",
+      "floor": 10
+    },
+    {
+      "unitCode": "3PN-2WC-E1115",
+      "block": "E",
+      "floor": 11
+    },
+    {
+      "unitCode": "3PN-2WC-E1215",
+      "block": "E",
+      "floor": 12
+    },
+    {
+      "unitCode": "3PN-2WC-F301",
+      "block": "F",
+      "floor": 3
+    },
+    {
+      "unitCode": "3PN-2WC-F5A01",
+      "block": "F",
+      "floor": 4
+    },
+    {
+      "unitCode": "3PN-2WC-F501",
+      "block": "F",
+      "floor": 5
+    },
+    {
+      "unitCode": "3PN-2WC-F601",
+      "block": "F",
+      "floor": 6
+    },
+    {
+      "unitCode": "3PN-2WC-F701",
+      "block": "F",
+      "floor": 7
+    },
+    {
+      "unitCode": "3PN-2WC-F801",
+      "block": "F",
+      "floor": 8
+    },
+    {
+      "unitCode": "3PN-2WC-F901",
+      "block": "F",
+      "floor": 9
+    },
+    {
+      "unitCode": "3PN-2WC-F1001",
+      "block": "F",
+      "floor": 10
+    },
+    {
+      "unitCode": "3PN-2WC-F1101",
+      "block": "F",
+      "floor": 11
+    },
+    {
+      "unitCode": "3PN-2WC-F1201",
+      "block": "F",
+      "floor": 12
+    }
+  ],
+  "2PN-2WC": [
+    {
+      "unitCode": "2PN-2WC-D309",
+      "block": "D",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-2WC-D310",
+      "block": "D",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-2WC-D313",
+      "block": "D",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-2WC-D316",
+      "block": "D",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-2WC-D317",
+      "block": "D",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-2WC-D409",
+      "block": "D",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-2WC-D410",
+      "block": "D",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-2WC-D413",
+      "block": "D",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-2WC-D416",
+      "block": "D",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-2WC-D417",
+      "block": "D",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-2WC-D509",
+      "block": "D",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-2WC-D510",
+      "block": "D",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-2WC-D513",
+      "block": "D",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-2WC-D516",
+      "block": "D",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-2WC-D517",
+      "block": "D",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-2WC-D609",
+      "block": "D",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-2WC-D610",
+      "block": "D",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-2WC-D613",
+      "block": "D",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-2WC-D616",
+      "block": "D",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-2WC-D617",
+      "block": "D",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-2WC-D709",
+      "block": "D",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-2WC-D710",
+      "block": "D",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-2WC-D713",
+      "block": "D",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-2WC-D716",
+      "block": "D",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-2WC-D717",
+      "block": "D",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-2WC-D809",
+      "block": "D",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-2WC-D810",
+      "block": "D",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-2WC-D813",
+      "block": "D",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-2WC-D816",
+      "block": "D",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-2WC-D817",
+      "block": "D",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-2WC-D909",
+      "block": "D",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-2WC-D910",
+      "block": "D",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-2WC-D913",
+      "block": "D",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-2WC-D916",
+      "block": "D",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-2WC-D917",
+      "block": "D",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-2WC-D1009",
+      "block": "D",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-2WC-D1010",
+      "block": "D",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-2WC-D1013",
+      "block": "D",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-2WC-D1016",
+      "block": "D",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-2WC-D1017",
+      "block": "D",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-2WC-D1109",
+      "block": "D",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-2WC-D1110",
+      "block": "D",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-2WC-D1113",
+      "block": "D",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-2WC-D1116",
+      "block": "D",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-2WC-D1117",
+      "block": "D",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-2WC-D1209",
+      "block": "D",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-2WC-D1210",
+      "block": "D",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-2WC-D1213",
+      "block": "D",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-2WC-D1216",
+      "block": "D",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-2WC-D1217",
+      "block": "D",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-2WC-E309",
+      "block": "E",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-2WC-E310",
+      "block": "E",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-2WC-E313",
+      "block": "E",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-2WC-E316",
+      "block": "E",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-2WC-E317",
+      "block": "E",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-2WC-E409",
+      "block": "E",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-2WC-E410",
+      "block": "E",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-2WC-E413",
+      "block": "E",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-2WC-E416",
+      "block": "E",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-2WC-E417",
+      "block": "E",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-2WC-E509",
+      "block": "E",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-2WC-E510",
+      "block": "E",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-2WC-E513",
+      "block": "E",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-2WC-E516",
+      "block": "E",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-2WC-E517",
+      "block": "E",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-2WC-E609",
+      "block": "E",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-2WC-E610",
+      "block": "E",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-2WC-E613",
+      "block": "E",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-2WC-E616",
+      "block": "E",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-2WC-E617",
+      "block": "E",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-2WC-E709",
+      "block": "E",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-2WC-E710",
+      "block": "E",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-2WC-E713",
+      "block": "E",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-2WC-E716",
+      "block": "E",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-2WC-E717",
+      "block": "E",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-2WC-E809",
+      "block": "E",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-2WC-E810",
+      "block": "E",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-2WC-E813",
+      "block": "E",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-2WC-E816",
+      "block": "E",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-2WC-E817",
+      "block": "E",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-2WC-E909",
+      "block": "E",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-2WC-E910",
+      "block": "E",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-2WC-E913",
+      "block": "E",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-2WC-E916",
+      "block": "E",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-2WC-E917",
+      "block": "E",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-2WC-E1009",
+      "block": "E",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-2WC-E1010",
+      "block": "E",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-2WC-E1013",
+      "block": "E",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-2WC-E1016",
+      "block": "E",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-2WC-E1017",
+      "block": "E",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-2WC-E1109",
+      "block": "E",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-2WC-E1110",
+      "block": "E",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-2WC-E1113",
+      "block": "E",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-2WC-E1116",
+      "block": "E",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-2WC-E1117",
+      "block": "E",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-2WC-E1209",
+      "block": "E",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-2WC-E1210",
+      "block": "E",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-2WC-E1213",
+      "block": "E",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-2WC-E1216",
+      "block": "E",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-2WC-E1217",
+      "block": "E",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-2WC-F302",
+      "block": "F",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-2WC-F303",
+      "block": "F",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-2WC-F304",
+      "block": "F",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-2WC-F308",
+      "block": "F",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-2WC-F309",
+      "block": "F",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-2WC-F310",
+      "block": "F",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-2WC-F311",
+      "block": "F",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-2WC-F312",
+      "block": "F",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-2WC-F313",
+      "block": "F",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-2WC-F314",
+      "block": "F",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-2WC-F315",
+      "block": "F",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-2WC-F5A02",
+      "block": "F",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-2WC-F5A03",
+      "block": "F",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-2WC-F5A04",
+      "block": "F",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-2WC-F5A08",
+      "block": "F",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-2WC-F5A09",
+      "block": "F",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-2WC-F5A10",
+      "block": "F",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-2WC-F5A11",
+      "block": "F",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-2WC-F5A12",
+      "block": "F",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-2WC-F5A13",
+      "block": "F",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-2WC-F5A14",
+      "block": "F",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-2WC-F5A15",
+      "block": "F",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-2WC-F502",
+      "block": "F",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-2WC-F503",
+      "block": "F",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-2WC-F504",
+      "block": "F",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-2WC-F508",
+      "block": "F",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-2WC-F509",
+      "block": "F",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-2WC-F510",
+      "block": "F",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-2WC-F511",
+      "block": "F",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-2WC-F512",
+      "block": "F",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-2WC-F513",
+      "block": "F",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-2WC-F514",
+      "block": "F",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-2WC-F515",
+      "block": "F",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-2WC-F602",
+      "block": "F",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-2WC-F603",
+      "block": "F",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-2WC-F604",
+      "block": "F",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-2WC-F608",
+      "block": "F",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-2WC-F609",
+      "block": "F",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-2WC-F610",
+      "block": "F",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-2WC-F611",
+      "block": "F",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-2WC-F612",
+      "block": "F",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-2WC-F613",
+      "block": "F",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-2WC-F614",
+      "block": "F",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-2WC-F615",
+      "block": "F",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-2WC-F702",
+      "block": "F",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-2WC-F703",
+      "block": "F",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-2WC-F704",
+      "block": "F",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-2WC-F708",
+      "block": "F",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-2WC-F709",
+      "block": "F",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-2WC-F710",
+      "block": "F",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-2WC-F711",
+      "block": "F",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-2WC-F712",
+      "block": "F",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-2WC-F713",
+      "block": "F",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-2WC-F714",
+      "block": "F",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-2WC-F715",
+      "block": "F",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-2WC-F802",
+      "block": "F",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-2WC-F803",
+      "block": "F",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-2WC-F804",
+      "block": "F",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-2WC-F808",
+      "block": "F",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-2WC-F809",
+      "block": "F",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-2WC-F810",
+      "block": "F",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-2WC-F811",
+      "block": "F",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-2WC-F812",
+      "block": "F",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-2WC-F813",
+      "block": "F",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-2WC-F814",
+      "block": "F",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-2WC-F815",
+      "block": "F",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-2WC-F902",
+      "block": "F",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-2WC-F903",
+      "block": "F",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-2WC-F904",
+      "block": "F",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-2WC-F908",
+      "block": "F",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-2WC-F909",
+      "block": "F",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-2WC-F910",
+      "block": "F",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-2WC-F911",
+      "block": "F",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-2WC-F912",
+      "block": "F",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-2WC-F913",
+      "block": "F",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-2WC-F914",
+      "block": "F",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-2WC-F915",
+      "block": "F",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-2WC-F1002",
+      "block": "F",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-2WC-F1003",
+      "block": "F",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-2WC-F1004",
+      "block": "F",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-2WC-F1008",
+      "block": "F",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-2WC-F1009",
+      "block": "F",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-2WC-F1010",
+      "block": "F",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-2WC-F1011",
+      "block": "F",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-2WC-F1012",
+      "block": "F",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-2WC-F1013",
+      "block": "F",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-2WC-F1014",
+      "block": "F",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-2WC-F1015",
+      "block": "F",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-2WC-F1102",
+      "block": "F",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-2WC-F1103",
+      "block": "F",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-2WC-F1104",
+      "block": "F",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-2WC-F1108",
+      "block": "F",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-2WC-F1109",
+      "block": "F",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-2WC-F1110",
+      "block": "F",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-2WC-F1111",
+      "block": "F",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-2WC-F1112",
+      "block": "F",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-2WC-F1113",
+      "block": "F",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-2WC-F1114",
+      "block": "F",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-2WC-F1115",
+      "block": "F",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-2WC-F1202",
+      "block": "F",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-2WC-F1203",
+      "block": "F",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-2WC-F1204",
+      "block": "F",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-2WC-F1208",
+      "block": "F",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-2WC-F1209",
+      "block": "F",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-2WC-F1210",
+      "block": "F",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-2WC-F1211",
+      "block": "F",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-2WC-F1212",
+      "block": "F",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-2WC-F1213",
+      "block": "F",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-2WC-F1214",
+      "block": "F",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-2WC-F1215",
+      "block": "F",
+      "floor": 12
+    }
+  ],
+  "2PN-1WC": [
+    {
+      "unitCode": "2PN-1WC-D301",
+      "block": "D",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-D302",
+      "block": "D",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-D303",
+      "block": "D",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-D304",
+      "block": "D",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-D305",
+      "block": "D",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-D306",
+      "block": "D",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-D307",
+      "block": "D",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-D308",
+      "block": "D",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-D311",
+      "block": "D",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-D314",
+      "block": "D",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-D401",
+      "block": "D",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-D402",
+      "block": "D",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-D403",
+      "block": "D",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-D404",
+      "block": "D",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-D405",
+      "block": "D",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-D406",
+      "block": "D",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-D407",
+      "block": "D",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-D408",
+      "block": "D",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-D411",
+      "block": "D",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-D414",
+      "block": "D",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-D501",
+      "block": "D",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-D502",
+      "block": "D",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-D503",
+      "block": "D",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-D504",
+      "block": "D",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-D505",
+      "block": "D",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-D506",
+      "block": "D",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-D507",
+      "block": "D",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-D508",
+      "block": "D",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-D511",
+      "block": "D",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-D514",
+      "block": "D",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-D601",
+      "block": "D",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-D602",
+      "block": "D",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-D603",
+      "block": "D",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-D604",
+      "block": "D",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-D605",
+      "block": "D",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-D606",
+      "block": "D",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-D607",
+      "block": "D",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-D608",
+      "block": "D",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-D611",
+      "block": "D",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-D614",
+      "block": "D",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-D701",
+      "block": "D",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-D702",
+      "block": "D",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-D703",
+      "block": "D",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-D704",
+      "block": "D",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-D705",
+      "block": "D",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-D706",
+      "block": "D",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-D707",
+      "block": "D",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-D708",
+      "block": "D",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-D711",
+      "block": "D",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-D714",
+      "block": "D",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-D801",
+      "block": "D",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-D802",
+      "block": "D",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-D803",
+      "block": "D",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-D804",
+      "block": "D",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-D805",
+      "block": "D",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-D806",
+      "block": "D",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-D807",
+      "block": "D",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-D808",
+      "block": "D",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-D811",
+      "block": "D",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-D814",
+      "block": "D",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-D901",
+      "block": "D",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-D902",
+      "block": "D",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-D903",
+      "block": "D",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-D904",
+      "block": "D",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-D905",
+      "block": "D",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-D906",
+      "block": "D",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-D907",
+      "block": "D",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-D908",
+      "block": "D",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-D911",
+      "block": "D",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-D914",
+      "block": "D",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-D1001",
+      "block": "D",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-D1002",
+      "block": "D",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-D1003",
+      "block": "D",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-D1004",
+      "block": "D",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-D1005",
+      "block": "D",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-D1006",
+      "block": "D",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-D1007",
+      "block": "D",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-D1008",
+      "block": "D",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-D1011",
+      "block": "D",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-D1014",
+      "block": "D",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-D1101",
+      "block": "D",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-D1102",
+      "block": "D",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-D1103",
+      "block": "D",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-D1104",
+      "block": "D",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-D1105",
+      "block": "D",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-D1106",
+      "block": "D",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-D1107",
+      "block": "D",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-D1108",
+      "block": "D",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-D1111",
+      "block": "D",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-D1114",
+      "block": "D",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-D1201",
+      "block": "D",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-1WC-D1202",
+      "block": "D",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-1WC-D1203",
+      "block": "D",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-1WC-D1204",
+      "block": "D",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-1WC-D1205",
+      "block": "D",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-1WC-D1206",
+      "block": "D",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-1WC-D1207",
+      "block": "D",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-1WC-D1208",
+      "block": "D",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-1WC-D1211",
+      "block": "D",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-1WC-D1214",
+      "block": "D",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-1WC-E301",
+      "block": "E",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-E302",
+      "block": "E",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-E303",
+      "block": "E",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-E304",
+      "block": "E",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-E305",
+      "block": "E",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-E306",
+      "block": "E",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-E307",
+      "block": "E",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-E308",
+      "block": "E",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-E311",
+      "block": "E",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-E314",
+      "block": "E",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-E401",
+      "block": "E",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-E402",
+      "block": "E",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-E403",
+      "block": "E",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-E404",
+      "block": "E",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-E405",
+      "block": "E",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-E406",
+      "block": "E",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-E407",
+      "block": "E",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-E408",
+      "block": "E",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-E411",
+      "block": "E",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-E414",
+      "block": "E",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-E501",
+      "block": "E",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-E502",
+      "block": "E",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-E503",
+      "block": "E",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-E504",
+      "block": "E",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-E505",
+      "block": "E",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-E506",
+      "block": "E",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-E507",
+      "block": "E",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-E508",
+      "block": "E",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-E511",
+      "block": "E",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-E514",
+      "block": "E",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-E601",
+      "block": "E",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-E602",
+      "block": "E",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-E603",
+      "block": "E",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-E604",
+      "block": "E",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-E605",
+      "block": "E",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-E606",
+      "block": "E",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-E607",
+      "block": "E",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-E608",
+      "block": "E",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-E611",
+      "block": "E",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-E614",
+      "block": "E",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-E701",
+      "block": "E",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-E702",
+      "block": "E",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-E703",
+      "block": "E",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-E704",
+      "block": "E",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-E705",
+      "block": "E",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-E706",
+      "block": "E",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-E707",
+      "block": "E",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-E708",
+      "block": "E",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-E711",
+      "block": "E",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-E714",
+      "block": "E",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-E801",
+      "block": "E",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-E802",
+      "block": "E",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-E803",
+      "block": "E",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-E804",
+      "block": "E",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-E805",
+      "block": "E",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-E806",
+      "block": "E",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-E807",
+      "block": "E",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-E808",
+      "block": "E",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-E811",
+      "block": "E",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-E814",
+      "block": "E",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-E901",
+      "block": "E",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-E902",
+      "block": "E",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-E903",
+      "block": "E",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-E904",
+      "block": "E",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-E905",
+      "block": "E",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-E906",
+      "block": "E",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-E907",
+      "block": "E",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-E908",
+      "block": "E",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-E911",
+      "block": "E",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-E914",
+      "block": "E",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-E1001",
+      "block": "E",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-E1002",
+      "block": "E",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-E1003",
+      "block": "E",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-E1004",
+      "block": "E",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-E1005",
+      "block": "E",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-E1006",
+      "block": "E",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-E1007",
+      "block": "E",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-E1008",
+      "block": "E",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-E1011",
+      "block": "E",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-E1014",
+      "block": "E",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-E1101",
+      "block": "E",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-E1102",
+      "block": "E",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-E1103",
+      "block": "E",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-E1104",
+      "block": "E",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-E1105",
+      "block": "E",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-E1106",
+      "block": "E",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-E1107",
+      "block": "E",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-E1108",
+      "block": "E",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-E1111",
+      "block": "E",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-E1114",
+      "block": "E",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-E1201",
+      "block": "E",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-1WC-E1202",
+      "block": "E",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-1WC-E1203",
+      "block": "E",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-1WC-E1204",
+      "block": "E",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-1WC-E1205",
+      "block": "E",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-1WC-E1206",
+      "block": "E",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-1WC-E1207",
+      "block": "E",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-1WC-E1208",
+      "block": "E",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-1WC-E1211",
+      "block": "E",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-1WC-E1214",
+      "block": "E",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-1WC-F305",
+      "block": "F",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-F306",
+      "block": "F",
+      "floor": 3
+    },
+    {
+      "unitCode": "2PN-1WC-F5A05",
+      "block": "F",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-F5A06",
+      "block": "F",
+      "floor": 4
+    },
+    {
+      "unitCode": "2PN-1WC-F505",
+      "block": "F",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-F506",
+      "block": "F",
+      "floor": 5
+    },
+    {
+      "unitCode": "2PN-1WC-F605",
+      "block": "F",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-F606",
+      "block": "F",
+      "floor": 6
+    },
+    {
+      "unitCode": "2PN-1WC-F705",
+      "block": "F",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-F706",
+      "block": "F",
+      "floor": 7
+    },
+    {
+      "unitCode": "2PN-1WC-F805",
+      "block": "F",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-F806",
+      "block": "F",
+      "floor": 8
+    },
+    {
+      "unitCode": "2PN-1WC-F905",
+      "block": "F",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-F906",
+      "block": "F",
+      "floor": 9
+    },
+    {
+      "unitCode": "2PN-1WC-F1005",
+      "block": "F",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-F1006",
+      "block": "F",
+      "floor": 10
+    },
+    {
+      "unitCode": "2PN-1WC-F1105",
+      "block": "F",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-F1106",
+      "block": "F",
+      "floor": 11
+    },
+    {
+      "unitCode": "2PN-1WC-F1205",
+      "block": "F",
+      "floor": 12
+    },
+    {
+      "unitCode": "2PN-1WC-F1206",
+      "block": "F",
+      "floor": 12
+    }
+  ],
+  "1PN-1WC": [
+    {
+      "unitCode": "1PN-1WC-D312",
+      "block": "D",
+      "floor": 3
+    },
+    {
+      "unitCode": "1PN-1WC-D412",
+      "block": "D",
+      "floor": 4
+    },
+    {
+      "unitCode": "1PN-1WC-D512",
+      "block": "D",
+      "floor": 5
+    },
+    {
+      "unitCode": "1PN-1WC-D612",
+      "block": "D",
+      "floor": 6
+    },
+    {
+      "unitCode": "1PN-1WC-D712",
+      "block": "D",
+      "floor": 7
+    },
+    {
+      "unitCode": "1PN-1WC-D812",
+      "block": "D",
+      "floor": 8
+    },
+    {
+      "unitCode": "1PN-1WC-D912",
+      "block": "D",
+      "floor": 9
+    },
+    {
+      "unitCode": "1PN-1WC-D1012",
+      "block": "D",
+      "floor": 10
+    },
+    {
+      "unitCode": "1PN-1WC-D1112",
+      "block": "D",
+      "floor": 11
+    },
+    {
+      "unitCode": "1PN-1WC-D1212",
+      "block": "D",
+      "floor": 12
+    },
+    {
+      "unitCode": "1PN-1WC-E312",
+      "block": "E",
+      "floor": 3
+    },
+    {
+      "unitCode": "1PN-1WC-E412",
+      "block": "E",
+      "floor": 4
+    },
+    {
+      "unitCode": "1PN-1WC-E512",
+      "block": "E",
+      "floor": 5
+    },
+    {
+      "unitCode": "1PN-1WC-E612",
+      "block": "E",
+      "floor": 6
+    },
+    {
+      "unitCode": "1PN-1WC-E712",
+      "block": "E",
+      "floor": 7
+    },
+    {
+      "unitCode": "1PN-1WC-E812",
+      "block": "E",
+      "floor": 8
+    },
+    {
+      "unitCode": "1PN-1WC-E912",
+      "block": "E",
+      "floor": 9
+    },
+    {
+      "unitCode": "1PN-1WC-E1012",
+      "block": "E",
+      "floor": 10
+    },
+    {
+      "unitCode": "1PN-1WC-E1112",
+      "block": "E",
+      "floor": 11
+    },
+    {
+      "unitCode": "1PN-1WC-E1212",
+      "block": "E",
+      "floor": 12
+    },
+    {
+      "unitCode": "1PN-1WC-F307",
+      "block": "F",
+      "floor": 3
+    },
+    {
+      "unitCode": "1PN-1WC-F5A07",
+      "block": "F",
+      "floor": 4
+    },
+    {
+      "unitCode": "1PN-1WC-F507",
+      "block": "F",
+      "floor": 5
+    },
+    {
+      "unitCode": "1PN-1WC-F607",
+      "block": "F",
+      "floor": 6
+    },
+    {
+      "unitCode": "1PN-1WC-F707",
+      "block": "F",
+      "floor": 7
+    },
+    {
+      "unitCode": "1PN-1WC-F807",
+      "block": "F",
+      "floor": 8
+    },
+    {
+      "unitCode": "1PN-1WC-F907",
+      "block": "F",
+      "floor": 9
+    },
+    {
+      "unitCode": "1PN-1WC-F1007",
+      "block": "F",
+      "floor": 10
+    },
+    {
+      "unitCode": "1PN-1WC-F1107",
+      "block": "F",
+      "floor": 11
+    },
+    {
+      "unitCode": "1PN-1WC-F1207",
+      "block": "F",
+      "floor": 12
+    }
+  ]
+}
