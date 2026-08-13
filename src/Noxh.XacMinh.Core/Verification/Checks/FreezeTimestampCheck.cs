@@ -29,8 +29,6 @@ internal static class FreezeTimestampCheck
 {
     private const string Ten = "Dấu thời gian mốc cam kết";
 
-    private const string ScopeMocCamKet = "FREEZE";
-
     private const string PhienBan = "NOXH-FREEZE-v1";
 
     private const string NhanKhongRoNoiCap = "(không rõ nơi cấp)";
@@ -62,14 +60,8 @@ internal static class FreezeTimestampCheck
 
     private static CheckResult Kiem(TransparencyReport bc)
     {
-        var tatCa = (bc.Timestamps ?? []).Where(t => t is not null).Select(t => t!).ToList();
-
-        // Thứ tự cố định để cùng một file luôn ra cùng một báo cáo, bất kể thứ tự dòng trong file.
-        var moc = tatCa
-            .Where(t => string.Equals(t.Scope?.Trim(), ScopeMocCamKet, StringComparison.OrdinalIgnoreCase))
-            .OrderBy(t => t.GenTime ?? string.Empty, StringComparer.Ordinal)
-            .ThenBy(t => t.Authority ?? string.Empty, StringComparer.Ordinal)
-            .ToList();
+        var tatCa = DauThoiGianChung.TatCa(bc);
+        var moc = DauThoiGianChung.MocCamKet(tatCa);
 
         var soLieu = new List<CheckMetric>
         {
@@ -402,7 +394,7 @@ internal static class FreezeTimestampCheck
             return;
         }
 
-        var mocCongBo = DocMoc(congBo);
+        var mocCongBo = DauThoiGianChung.DocMoc(congBo);
 
         if (mocCongBo is null)
         {
@@ -410,7 +402,7 @@ internal static class FreezeTimestampCheck
             return;
         }
 
-        var mocTrongDau = DocMoc(trongDau);
+        var mocTrongDau = DauThoiGianChung.DocMoc(trongDau);
 
         if (mocTrongDau != mocCongBo)
             lech.Add(new Lech(
@@ -419,16 +411,6 @@ internal static class FreezeTimestampCheck
                 trongDau,
                 congBo.Trim()));
     }
-
-    /// <summary>Mốc thời gian cắt về millisecond — đúng độ chính xác mà chuỗi đóng dấu ghim.</summary>
-    private static DateTimeOffset? DocMoc(string? giaTri) =>
-        DateTimeOffset.TryParse(
-            giaTri,
-            CultureInfo.InvariantCulture,
-            DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal,
-            out var moc)
-            ? new DateTimeOffset(moc.Ticks - moc.Ticks % TimeSpan.TicksPerMillisecond, TimeSpan.Zero)
-            : null;
 
     private static bool BangDinhDanh(string trongDau, string congBo) =>
         Guid.TryParse(trongDau, out var a) && Guid.TryParse(congBo, out var b)

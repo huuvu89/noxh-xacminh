@@ -1,0 +1,65 @@
+@* Bước duy nhất của công cụ có gọi mạng — nên nó phải do người dùng bấm, và nói trước gửi đi cái gì. *@
+@using Noxh.XacMinh.Web.MocNeo
+@inject TrangThaiMocNeo trangThai
+
+<section class="moc-neo">
+    <h2>Mốc neo trên chuỗi khối công khai</h2>
+
+    <p class="dan-nhap">
+        Đây là hạng mục <strong>duy nhất</strong> cần hỏi một dịch vụ bên ngoài: đọc block ở độ cao đã
+        cam kết để xem mốc neo có phải block <strong>có thật</strong> hay không. Bấm nút bên dưới chỉ
+        gửi đi <strong>độ cao block</strong> — con số vốn đã nằm trong báo cáo công khai — tới sổ cái
+        công khai; <strong>không có dữ liệu nào của bạn rời khỏi máy này</strong>. Không bấm cũng
+        được: hạng mục sẽ dừng ở KHÔNG KIỂM ĐƯỢC và bạn tự đối chiếu bằng mắt qua link.
+    </p>
+
+    @if (trangThai.CanDoc.Count == 0)
+    {
+        <p class="chua-co-moc-neo">
+            Chưa có mốc neo nào để tra cứu — hãy nạp báo cáo minh bạch có công bố chuỗi khối neo và độ
+            cao block đích đã cam kết.
+        </p>
+    }
+    else
+    {
+        <ul class="danh-sach-moc-neo">
+            @foreach (var yeu in trangThai.CanDoc)
+            {
+                <li>
+                    <strong>@yeu.TenChuoi</strong> — block @yeu.DoCao
+                    <a href="@yeu.Link" target="_blank" rel="noopener noreferrer">tra cứu thủ công</a>
+                    <span class="ket-qua-doc">@MoTa(yeu)</span>
+                </li>
+            }
+        </ul>
+
+        <button type="button" class="tra-cuu-moc-neo" @onclick="TraCuu" disabled="@DangTraCuu">
+            @(DangTraCuu ? "Đang hỏi nguồn công khai…" : "Tra cứu block trên nguồn công khai")
+        </button>
+    }
+</section>
+
+@code {
+    /// <summary>Đọc xong block là dữ liệu vào lõi đã đổi — kết luận đang hiện phải được tính lại.</summary>
+    [Parameter] public EventCallback DaDoi { get; set; }
+
+    private bool DangTraCuu => trangThai.Buoc == BuocTraCuuNeo.DangTraCuu;
+
+    private async Task TraCuu()
+    {
+        await trangThai.TraCuu();
+        await DaDoi.InvokeAsync();
+    }
+
+    private string MoTa(YeuCauTraCuuKhoi yeu)
+    {
+        if (trangThai.Buoc == BuocTraCuuNeo.ChuaTraCuu) return "— chưa tra cứu";
+
+        var quanSat = trangThai.DaDoc.FirstOrDefault(q => q.ChuoiKhoi == yeu.ChuoiKhoi && q.DoCao == yeu.DoCao);
+
+        if (quanSat is null) return "— chưa tra cứu";
+        if (quanSat.Loi is not null) return $"— hỏi không được: {quanSat.Loi}";
+
+        return $"— đã đọc từ {quanSat.Nguon}";
+    }
+}

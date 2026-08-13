@@ -1,6 +1,7 @@
 @page "/"
 @using System.Text
 @inject TrangThaiDanhMuc danhMuc
+@inject TrangThaiMocNeo mocNeo
 
 <PageTitle>Kiểm chứng kết quả bốc thăm NƠXH</PageTitle>
 
@@ -36,6 +37,7 @@
 @if (baoCao is not null)
 {
     <KetQuaKiem BaoCao="baoCao" Nguon="@nguon" />
+    <MocNeoChuoiKhoi DaDoi="KiemLaiBaoCaoDaNap" />
     <KhungLuoiPhieu BaoCao="nguonBaoCao" DanhMuc="danhMuc.DanhMuc" />
 }
 
@@ -72,6 +74,7 @@
             // Đọc file hỏng/quá lớn không được làm trắng trang.
             baoCao = null;
             nguonBaoCao = null;
+            mocNeo.DatBaoCao(null);
             loi = $"Không đọc được file: {ex.Message}";
         }
     }
@@ -85,6 +88,7 @@
         {
             baoCao = null;
             nguonBaoCao = null;
+            mocNeo.DatBaoCao(null);
             loi = nap.ErrorMessage;
             return;
         }
@@ -92,14 +96,16 @@
         loi = null;
         nguon = TenNguon(nap.Report!, tenNguon);
         nguonBaoCao = nap.Report!;
-        baoCao = Verifier.Verify(new VerificationInput(nap.Report!, danhMuc.DanhMuc));
+        // Báo cáo mới ⇒ block đã tra cứu của báo cáo trước không được dùng lại.
+        mocNeo.DatBaoCao(nap.Report!);
+        baoCao = Verifier.Verify(new VerificationInput(nap.Report!, danhMuc.DanhMuc, mocNeo.DaDoc));
     }
 
     private void KiemLaiBaoCaoDaNap()
     {
         if (nguonBaoCao is null) return;
 
-        baoCao = Verifier.Verify(new VerificationInput(nguonBaoCao, danhMuc.DanhMuc));
+        baoCao = Verifier.Verify(new VerificationInput(nguonBaoCao, danhMuc.DanhMuc, mocNeo.DaDoc));
     }
 
     private static string TenNguon(TransparencyReport report, string tenNguon) =>

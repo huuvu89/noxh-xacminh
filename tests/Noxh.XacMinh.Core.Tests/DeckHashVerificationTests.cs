@@ -25,7 +25,9 @@ public class DeckHashVerificationTests
     // Kèm danh mục căn của dự án trong fixture: thiếu nó thì vòng phân căn ưu tiên ra KHÔNG KIỂM
     // ĐƯỢC và kéo cả kết luận chung theo, che mất thứ file này đang kiểm.
     private static VerificationReport Verify(TransparencyReport report) =>
-        Verifier.Verify(new VerificationInput(report, DanhMucGolden.Doc()));
+        // Mốc neo cần block đọc từ nguồn công khai — thiếu nó thì kết luận chung không bao giờ ĐẠT,
+        // nên đưa vào đúng thứ vỏ UI đưa vào, kẻo test ở đây khẳng định nhầm sang hạng mục khác.
+        Verifier.Verify(new VerificationInput(report, DanhMucGolden.Doc(), QuanSatKhoiGolden.DocDuoc()));
 
     private static IReadOnlyList<CheckResult> DeckHashItems(VerificationReport report) =>
         report.Items.Where(i => i.Id.StartsWith(CheckIds.DeckHash, StringComparison.Ordinal)).ToList();
