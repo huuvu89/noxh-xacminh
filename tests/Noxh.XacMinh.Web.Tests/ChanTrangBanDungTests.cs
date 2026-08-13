@@ -53,7 +53,7 @@ public class ChanTrangBanDungTests
         var html = await Ve(ThongTinBanDung.KhongRo);
 
         Assert.DoesNotContain("build-info", html);
-        Assert.Contains("chưa có dấu vết", html);
+        Assert.Contains("Chưa có dấu vết dựng công khai", html);
 
         // Không dấu vết mà vẫn hiện một link "lần chạy dựng" rỗng là mời người ta tin vào chỗ trống.
         Assert.DoesNotContain("href=\"\"", html);
