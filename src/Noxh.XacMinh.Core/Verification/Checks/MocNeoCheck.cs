@@ -10,7 +10,8 @@ namespace Noxh.XacMinh.Core.Verification.Checks;
 /// thử lại hạt giống: mã băm của một block chưa được đào thì không ai đoán được, nên cam kết chốt
 /// trước là bằng chứng ban tổ chức không chọn được kết quả vừa ý.
 ///
-/// Hạng mục duy nhất cần dữ liệu ngoài — nhưng lõi vẫn thuần: block do vỏ UI đọc từ nguồn công khai
+/// Một trong hai hạng mục cần dữ liệu ngoài (hạng mục kia là trail bằng chứng) — nhưng lõi vẫn
+/// thuần: block do vỏ UI đọc từ nguồn công khai
 /// rồi đưa vào <see cref="VerificationInput.Blocks"/> dưới dạng dữ liệu. Chưa đọc được (chưa bấm tra
 /// cứu, mạng hỏng, bị chặn) là KHÔNG KIỂM ĐƯỢC kèm link tra cứu thủ công — không bao giờ là ĐẠT.
 /// </summary>
@@ -124,7 +125,7 @@ internal static class MocNeoCheck
         if (quanSat.Loi is not null)
             return ChuaKiemDuoc(
                 $"Hỏi nguồn công khai về block {daCamKet.Value} trên {tenChuoi} không được: {quanSat.Loi}. Đây là "
-                + "hạng mục duy nhất cần dịch vụ ngoài, nên hỏng nguồn không phải bằng chứng gian lận, cũng không "
+                + "hạng mục phải hỏi một sổ cái công khai bên ngoài, nên hỏng nguồn không phải bằng chứng gian lận, cũng không "
                 + $"phải cớ để bỏ qua — hãy tự đối chiếu bằng mắt tại {link}.",
                 maBamCongBo);
 

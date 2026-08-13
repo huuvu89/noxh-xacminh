@@ -27,10 +27,11 @@ public class NguonNgauNhienVerificationTests
     // ĐƯỢC và kéo cả kết luận chung theo, che mất thứ file này đang kiểm.
     private static VerificationReport Verify(TransparencyReport report) =>
         // Mốc neo cần block đọc từ nguồn công khai, danh sách hồ sơ cần bảng + khoá tổ giám sát dán
-        // vào — thiếu cái nào thì kết luận chung không bao giờ ĐẠT, nên đưa vào đúng thứ vỏ UI đưa
-        // vào, kẻo test ở đây khẳng định nhầm sang hạng mục khác.
+        // vào, trail cần các lô đọc từ kho bằng chứng — thiếu cái nào thì kết luận chung không bao
+        // giờ ĐẠT, nên đưa vào đúng thứ vỏ UI đưa vào, kẻo test ở đây khẳng định nhầm sang hạng mục
+        // khác.
         Verifier.Verify(new VerificationInput(
-            report, DanhMucGolden.Doc(), QuanSatKhoiGolden.DocDuoc(), DanhSachGolden.Doc()));
+            report, DanhMucGolden.Doc(), QuanSatKhoiGolden.DocDuoc(), DanhSachGolden.Doc(), TrailGolden.Doc()));
 
     private static IReadOnlyList<CheckResult> HangMuc(VerificationReport report, string id) =>
         report.Items.Where(i => i.Id.StartsWith(id + ":", StringComparison.Ordinal)).ToList();

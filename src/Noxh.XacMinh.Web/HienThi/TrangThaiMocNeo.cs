@@ -13,8 +13,8 @@ public enum BuocTraCuuNeo
 
 /// <summary>
 /// Việc tra cứu mốc neo sống theo phiên và <b>chỉ chạy khi người dùng bấm</b>: cả trang cam kết
-/// không gửi gì đi đâu, nên bước duy nhất phá lệ đó phải do người dùng chủ động, chứ không lặng lẽ
-/// bắn request ngay khi nạp file.
+/// không gửi dữ liệu của người dùng đi đâu, nên bước có gọi mạng phải do người dùng chủ động, chứ
+/// không lặng lẽ bắn request ngay khi nạp file.
 /// </summary>
 public sealed class TrangThaiMocNeo(DocKhoiCongKhai doc)
 {

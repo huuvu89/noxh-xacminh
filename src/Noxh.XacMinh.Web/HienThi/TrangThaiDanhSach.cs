@@ -12,8 +12,8 @@ namespace Noxh.XacMinh.Web.HienThi;
 ///    <c>localStorage</c>, không <c>sessionStorage</c>, không cookie, không file — nên đóng tab là
 ///    mất, và đó là đúng ý.
 ///  · Không đi đâu cả: hạng mục danh sách hồ sơ chạy hoàn toàn trong lõi thuần, không phát request
-///    nào. Đường ra mạng duy nhất của công cụ (tra cứu block) nằm ở chỗ khác và không nhìn thấy
-///    dữ liệu này.
+///    nào. Hai đường ra mạng của công cụ (tra cứu block, đọc kho bằng chứng) nằm ở chỗ khác và
+///    không nhìn thấy dữ liệu này.
 ///  · Người dùng phải <b>xác nhận đã đọc cảnh báo</b> trước khi ô dán khoá xuất hiện: khoá chỉ mục
 ///    mù mở được cả cơ chế chỉ mục mù của hệ thống thật, dán nhầm chỗ là chuyện lớn.
 ///  · Xoá được ngay, và nạp báo cáo khác thì tự xoá — không giữ khoá của việc đã xong.

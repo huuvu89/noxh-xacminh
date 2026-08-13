@@ -1,0 +1,143 @@
+@* Lớp bằng chứng nằm ngoài cơ sở dữ liệu: các lô bản ghi được đẩy thẳng lên kho chỉ-ghi trong lúc
+   lễ chạy. Đây là bước có gọi mạng, nên nó phải do người kiểm bấm và phải nói trước gửi đi cái gì. *@
+@using Noxh.XacMinh.Core.Kho
+@inject TrangThaiKho trangThai
+
+<section class="trail-bang-chung">
+    <h2>Trail bằng chứng trên kho lưu trữ chỉ-ghi</h2>
+
+    <p class="dan-nhap">
+        Trong lúc lễ chạy, từng lô bản ghi (vé đã bốc, cam kết ngẫu nhiên, đầu chuỗi băm) được đẩy
+        thẳng lên một kho lưu trữ mà máy chủ bốc thăm <strong>chỉ có quyền ghi thêm</strong> —
+        chiếm được máy chủ hay cơ sở dữ liệu cũng không xoá được thứ đã lên kho. Đọc trail để xem
+        các lô có móc xích liền nhau hay không, tức là có lô nào ở giữa bị lấy bớt hay không.
+        Bước này <strong>gọi mạng tới kho</strong>: chỉ gửi đi địa chỉ kho bạn nhập (và chữ ký của
+        khoá chỉ-đọc, nếu có) — <strong>không có dữ liệu nào của bạn rời khỏi máy này</strong>, và
+        vẫn không hỏi máy chủ bốc thăm câu nào.
+    </p>
+
+    <div class="dia-chi-kho">
+        <label>
+            <span>Điểm cuối kho (theo thông báo của ban tổ chức)</span>
+            <input type="url" spellcheck="false" placeholder="https://s3.vd-cloud.vn" @bind="diemCuoi"
+                   @bind:event="oninput" />
+        </label>
+        <label>
+            <span>Tên kho (bucket)</span>
+            <input type="text" spellcheck="false" @bind="bucket" @bind:event="oninput" />
+        </label>
+        <label>
+            <span>Tiền tố khoá object</span>
+            <input type="text" spellcheck="false" @bind="tienTo" @bind:event="oninput" />
+        </label>
+        <label>
+            <span>Vùng ký (region)</span>
+            <input type="text" spellcheck="false" @bind="vung" @bind:event="oninput" />
+        </label>
+    </div>
+
+    @* Không có công tắc chọn chế độ: dán khoá thì đọc bằng khoá, để trống thì đọc ẩn danh. Sau lễ
+       kho mở công khai nên người dân cứ bấm đọc là xong, không phải hiểu thêm khái niệm nào. *@
+    <p class="canh-bao-khoa" role="alert">
+        <strong>Sau lễ kho mở công khai:</strong> không cần khoá, cứ bấm đọc.
+        <strong>Trong lễ kho chưa mở</strong> nên cần khoá <strong>chỉ-đọc</strong> ban tổ chức cấp
+        cho người kiểm — và chỉ khoá chỉ-đọc. Công cụ không ký nổi một request ghi (hàm ký chỉ ký
+        GET) nên khoá có quyền ghi dán vào đây vừa vô dụng vừa mang khoá quan trọng đi lung tung.
+        Khoá bạn dán <strong>chỉ nằm trong bộ nhớ của tab</strong>: không ghi đĩa, không cookie,
+        không gửi đi đâu ngoài chính kho để ký request, đóng tab là mất.
+    </p>
+
+    @if (!trangThai.DaHieuCanhBao)
+    {
+        <button type="button" class="hieu-canh-bao" @onclick="() => trangThai.HieuCanhBao()">
+            Tôi đã đọc cảnh báo, mở ô dán khoá chỉ-đọc
+        </button>
+    }
+    else
+    {
+        <div class="o-dan-khoa-kho">
+            <label>
+                <span>Mã khoá truy cập</span>
+                <input type="text" autocomplete="off" spellcheck="false" @bind="maKhoa"
+                       @bind:event="oninput" />
+            </label>
+            <label>
+                <span>Khoá bí mật</span>
+                @* type=password + autocomplete=off: không để trình quản lý mật khẩu lưu lại khoá. *@
+                <input type="password" autocomplete="off" spellcheck="false" @bind="biMat"
+                       @bind:event="oninput" />
+            </label>
+            <label>
+                <span>Thẻ phiên (nếu ban tổ chức cấp khoá tạm thời)</span>
+                <input type="password" autocomplete="off" spellcheck="false" @bind="thePhien"
+                       @bind:event="oninput" />
+            </label>
+        </div>
+    }
+
+    <button type="button" class="doc-trail" @onclick="Doc" disabled="@ChuaDuDeDoc">
+        @(DangDoc ? "Đang đọc kho bằng chứng…" : "Đọc trail bằng chứng trên kho")
+    </button>
+
+    @if (trangThai.DaDoc is not null)
+    {
+        <button type="button" class="xoa-khoa" @onclick="Xoa">Xoá khoá và trail khỏi bộ nhớ</button>
+    }
+
+    <p class="ket-qua-doc-kho">@MoTa()</p>
+</section>
+
+@code {
+    /// <summary>Đọc xong là dữ liệu vào lõi đã đổi — kết luận đang hiện phải được tính lại.</summary>
+    [Parameter] public EventCallback DaDoi { get; set; }
+
+    // Chỉ sống trong component, không đi vào bất kỳ nơi lưu trữ nào.
+    private string diemCuoi = string.Empty;
+    private string bucket = string.Empty;
+    private string tienTo = "trail/";
+    private string vung = "us-east-1";
+    private string maKhoa = string.Empty;
+    private string biMat = string.Empty;
+    private string thePhien = string.Empty;
+
+    private bool DangDoc => trangThai.Buoc == BuocDocKho.DangDoc;
+
+    private bool ChuaDuDeDoc =>
+        DangDoc || string.IsNullOrWhiteSpace(diemCuoi) || string.IsNullOrWhiteSpace(bucket);
+
+    private ThongSoKho ThongSo => new(diemCuoi.Trim(), bucket.Trim(), vung.Trim(), tienTo.Trim());
+
+    private KhoaKho? Khoa => !string.IsNullOrWhiteSpace(maKhoa) && !string.IsNullOrWhiteSpace(biMat)
+        ? new KhoaKho(maKhoa.Trim(), biMat.Trim(), string.IsNullOrWhiteSpace(thePhien) ? null : thePhien.Trim())
+        : null;
+
+    private async Task Doc()
+    {
+        await trangThai.Doc(ThongSo, Khoa);
+        await DaDoi.InvokeAsync();
+    }
+
+    private async Task Xoa()
+    {
+        trangThai.Xoa();
+        maKhoa = string.Empty;
+        biMat = string.Empty;
+        thePhien = string.Empty;
+        await DaDoi.InvokeAsync();
+    }
+
+    private string MoTa()
+    {
+        if (trangThai.DaDoc is null)
+            return trangThai.Buoc == BuocDocKho.DangDoc
+                ? "— đang đọc kho"
+                : "— chưa đọc kho bằng chứng lần nào trong phiên này";
+
+        var kho = trangThai.DaDoc;
+
+        if (kho.Loi is not null) return $"— đọc kho không được: {kho.Loi}";
+
+        return $"— đã đọc {kho.Lo.Count} lô ({kho.Lo.Sum(l => l.BanGhi.Count)} bản ghi) từ {kho.MoTaNguon}, "
+               + $"{kho.MoTaCheDo}. Kết luận nằm ở hai hạng mục trail phía trên.";
+    }
+}

@@ -1,4 +1,5 @@
 using Noxh.XacMinh.Core.DanhSach;
+using Noxh.XacMinh.Core.Kho;
 using Noxh.XacMinh.Core.Transparency;
 using Noxh.XacMinh.Core.Units;
 
@@ -14,9 +15,13 @@ namespace Noxh.XacMinh.Core.Verification;
 /// cứu thủ công, không bao giờ ra ĐẠT.
 /// <see cref="DanhSach"/> là bảng danh sách hồ sơ và khoá chỉ mục mù tổ giám sát dán vào — dữ liệu
 /// nhạy cảm nhất đi qua công cụ, chỉ sống trong bộ nhớ tab và không rời khỏi lõi này.
+/// <see cref="Kho"/> là các lô bằng chứng vỏ UI đọc được từ kho lưu trữ chỉ-ghi (trong lễ: bằng khoá
+/// chỉ-đọc; sau lễ: ẩn danh); trống thì hai hạng mục trail ra KHÔNG KIỂM ĐƯỢC và <b>không</b> làm
+/// đổi kết luận của hạng mục nào khác.
 /// </summary>
 public sealed record VerificationInput(
     TransparencyReport Report,
     UnitCatalog? Catalog = null,
     IReadOnlyList<QuanSatKhoi>? Blocks = null,
-    DanhSachDauVao? DanhSach = null);
+    DanhSachDauVao? DanhSach = null,
+    KhoBangChung? Kho = null);
