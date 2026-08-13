@@ -92,6 +92,19 @@ public class DanhSachHoSoVerificationTests
         Assert.Equal(CheckStatus.Dat, ketQua.Status);
     }
 
+    /// <summary>Giá trị cụt/rác không phải mã băm đã ghim — thứ hỏng là báo cáo, không phải danh sách.</summary>
+    [Fact]
+    public void AC1_MaBamDanhSachCongBoKhongPhaiMaBamHopLe_KhongKiemDuoc()
+    {
+        var root = JsonNode.Parse(GoldenFixture.Json())!.AsObject();
+        root["dauThoiGian"] = new JsonArray();
+        root["listHash"] = "94a11787";
+
+        var ketQua = HangMuc(Parse(root.ToJsonString()), new DanhSachDauVao(BangChuanVang(), KhoaDung));
+
+        Assert.Equal(CheckStatus.KhongKiemDuoc, ketQua.Status);
+    }
+
     [Fact]
     public void AC1_KhongDauNaoCongBoMaBamDanhSach_KhongKiemDuoc()
     {

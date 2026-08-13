@@ -44,7 +44,9 @@ internal static class DauThoiGianChung
     /// </summary>
     public static (string? MaBam, string? Nguon) MaBamDanhSachDaCongBo(TransparencyReport bc)
     {
-        if (Hex.Doc(bc.ListHash) is not null)
+        // Đòi đúng 32 byte: một giá trị cụt hay rác không phải "mã băm đã ghim" — đem so với nó rồi
+        // kết luận KHÔNG ĐẠT là vu cho danh sách, trong khi thứ hỏng là báo cáo.
+        if (LaMaBam(bc.ListHash))
             return (Hex.ChuanHoa(bc.ListHash), "trường mã băm danh sách của báo cáo");
 
         var moiNhat = MocCamKet(TatCa(bc)).LastOrDefault();
@@ -56,12 +58,14 @@ internal static class DauThoiGianChung
 
         var giaTri = dong[KhoaMaBamDanhSach.Length..];
 
-        return Hex.Doc(giaTri) is null
-            ? (null, null)
-            : (Hex.ChuanHoa(giaTri), "chuỗi đã được đóng dấu thời gian của mốc cam kết");
+        return LaMaBam(giaTri)
+            ? (Hex.ChuanHoa(giaTri), "chuỗi đã được đóng dấu thời gian của mốc cam kết")
+            : (null, null);
     }
 
     private const string KhoaMaBamDanhSach = "listHash=";
+
+    private static bool LaMaBam(string? giaTri) => Hex.Doc(giaTri)?.Length == 32;
 
     /// <summary>Mốc thời gian hiện cho người đọc: luôn quy về UTC, không phụ thuộc máy đang xem.</summary>
     public static string HienThi(DateTimeOffset moc) =>
