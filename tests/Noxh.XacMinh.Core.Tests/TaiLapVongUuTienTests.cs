@@ -92,10 +92,10 @@ public class TaiLapVongUuTienTests
         var taiLap = DeckRebuilder.Rebuild(golden, deck, DanhMuc());
 
         Assert.NotNull(taiLap);
-        Assert.Equal(["2PN-008", "2PN-007", "2PN-012", "2PN-001"], taiLap!.PriorityUnits);
+        Assert.Equal(["2PN-008", "2PN-007", "2PN-012", "2PN-001"], taiLap!.PoolUnits);
         Assert.Equal(
             CanDaTrung(golden, VongUuTien2PN).Order(StringComparer.Ordinal),
-            taiLap.PriorityUnits!.Order(StringComparer.Ordinal));
+            taiLap.PoolUnits!.Order(StringComparer.Ordinal));
     }
 
     [Fact]
@@ -122,7 +122,7 @@ public class TaiLapVongUuTienTests
 
         Assert.NotEqual(
             CanDaTrung(lech, VongUuTien2PN).Order(StringComparer.Ordinal),
-            taiLap!.PriorityUnits!.Order(StringComparer.Ordinal));
+            taiLap!.PoolUnits!.Order(StringComparer.Ordinal));
         Assert.Equal(CheckStatus.KhongDat, TaiLap(lech, DanhMuc(), VongUuTien2PN).Status);
     }
 
@@ -142,7 +142,7 @@ public class TaiLapVongUuTienTests
         var thuan = DeckRebuilder.Rebuild(golden, deck, DanhMuc());
         var dao = DeckRebuilder.Rebuild(golden, deck, daoNguoc);
 
-        Assert.Equal(thuan!.PriorityUnits, dao!.PriorityUnits);
+        Assert.Equal(thuan!.PoolUnits, dao!.PoolUnits);
         Assert.Equal(thuan.DeckHash, dao.DeckHash);
     }
 
@@ -184,12 +184,12 @@ public class TaiLapVongUuTienTests
     }
 
     [Fact]
-    public void AC2_VongCanDuVaBocThangTheoLoai_VanChuaDungLai_KhongDeRaKetLuanBia()
+    public void AC2_VongCanDuVaSoDuKhuyet_VanChuaDungLai_KhongDeRaKetLuanBia()
     {
         var golden = Golden();
 
         Assert.All(
-            golden.Decks!.Where(d => d.Round!.StartsWith("B:", StringComparison.Ordinal) || d.Round == "C"),
+            golden.Decks!.Where(d => d.Round == "C"),
             d => Assert.Null(DeckRebuilder.Rebuild(golden, d, DanhMuc())));
     }
 
@@ -206,9 +206,11 @@ public class TaiLapVongUuTienTests
         var ids = TaiLapItems(Golden(), themLoaiRong).Select(i => i.Id).ToList();
 
         Assert.DoesNotContain($"{CheckIds.DeckRebuild}:A2:3PN", ids);
+        Assert.DoesNotContain($"{CheckIds.DeckRebuild}:B:3PN", ids);
         Assert.Equal(
             [$"{CheckIds.DeckRebuild}:{VongQuyenMua}", $"{CheckIds.DeckRebuild}:{VongUuTien1PN}",
-                $"{CheckIds.DeckRebuild}:{VongUuTien2PN}"],
+                $"{CheckIds.DeckRebuild}:{VongUuTien2PN}", $"{CheckIds.DeckRebuild}:B:1PN",
+                $"{CheckIds.DeckRebuild}:B:2PN"],
             ids.Order(StringComparer.Ordinal));
     }
 

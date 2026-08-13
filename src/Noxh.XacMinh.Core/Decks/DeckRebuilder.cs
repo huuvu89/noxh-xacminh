@@ -4,12 +4,20 @@ using Noxh.XacMinh.Core.Units;
 
 namespace Noxh.XacMinh.Core.Decks;
 
+/// <summary>Vòng nào đang được dựng lại — mỗi vòng có một cách dựng quỹ căn khác nhau.</summary>
+public enum LoaiTaiLap
+{
+    QuyenMua,
+    PhanCanUuTien,
+    BocThangTheoLoai,
+}
+
 /// <summary>
 /// Kết quả dựng lại một chồng phiếu từ hạt giống đã công bố. <see cref="Tickets"/> có giá trị là
 /// dựng được; <see cref="Blocker"/> có giá trị là <b>chưa dựng được vì thiếu/hỏng dữ liệu</b> —
 /// không phải "không khớp". Hai ca đó phải ra hai kết luận khác nhau.
 /// </summary>
-public sealed record DeckRebuild(string Round, string SeedLabel, string EntropyRound)
+public sealed record DeckRebuild(string Round, string SeedLabel, string EntropyRound, LoaiTaiLap Kind)
 {
     /// <summary>Hạt giống gốc của vòng đã dùng (hex), lấy từ khối nguồn ngẫu nhiên đã công bố.</summary>
     public string? MasterSeed { get; init; }
@@ -30,24 +38,38 @@ public sealed record DeckRebuild(string Round, string SeedLabel, string EntropyR
 
     public string? Blocker { get; init; }
 
-    // ── Riêng vòng phân căn ưu tiên ─────────────────────────────────────────
+    // ── Riêng các vòng đi theo loại căn (phân căn ưu tiên, bốc thẳng) ───────
 
-    /// <summary>Mã loại căn của chồng phiếu (vòng phân căn ưu tiên đi theo từng loại).</summary>
+    /// <summary>Mã loại căn của chồng phiếu (hai vòng này đều đi theo từng loại).</summary>
     public string? TypeCode { get; init; }
 
     public string? PoolSeedLabel { get; init; }
 
     public string? PoolSeed { get; init; }
 
-    /// <summary>Số căn loại này trong danh mục đã dùng để dựng lại quỹ căn ưu tiên.</summary>
+    /// <summary>Số căn loại này trong danh mục đã dùng để dựng lại quỹ căn.</summary>
     public int? CatalogUnitCount { get; init; }
 
     /// <summary>
-    /// Quỹ căn ưu tiên dựng lại từ hạt giống, theo <b>đúng thứ tự</b> hạt giống sinh ra — đây là
-    /// phần quỹ đã chảy vào chồng phiếu này. Báo cáo minh bạch không công bố số suất ưu tiên của
-    /// từng loại, nên công cụ chỉ khẳng định tới đúng số căn đã thành vé trúng.
+    /// Quỹ căn dựng lại từ hạt giống, theo <b>đúng thứ tự</b> hạt giống sinh ra — đây là phần quỹ đã
+    /// chảy vào chồng phiếu này. Báo cáo minh bạch không công bố số suất của từng loại, nên công cụ
+    /// chỉ khẳng định tới đúng số căn đã thành vé trúng.
     /// </summary>
-    public IReadOnlyList<string>? PriorityUnits { get; init; }
+    public IReadOnlyList<string>? PoolUnits { get; init; }
+
+    // ── Riêng vòng bốc thẳng theo loại căn ──────────────────────────────────
+
+    /// <summary>
+    /// Căn loại này đã được phân ở vòng trước — <b>suy ra</b> từ bảng kết quả, không phải dữ liệu ban
+    /// tổ chức công bố. Sắp theo mã căn.
+    /// </summary>
+    public IReadOnlyList<string>? AllocatedBefore { get; init; }
+
+    /// <summary>
+    /// Quỹ căn còn dư của loại này = danh mục trừ đi <see cref="AllocatedBefore"/>, sắp theo mã căn.
+    /// Cũng là <b>suy diễn</b>: đây là danh sách đem xáo để dựng lại chồng phiếu vòng bốc thẳng.
+    /// </summary>
+    public IReadOnlyList<string>? LeftoverUnits { get; init; }
 }
 
 /// <summary>
@@ -58,14 +80,18 @@ public sealed record DeckRebuild(string Round, string SeedLabel, string EntropyR
 /// <b>sau khi</b> niêm phong; dựng lại chứng minh chính chồng phiếu đó mọc ra từ hạt giống đã cam
 /// kết <b>trước</b> lễ, nên không ai sắp đặt được vị trí vé trúng.
 ///
-/// Đã dựng lại được vòng quyền mua (A1) và vòng phân căn ưu tiên (A2 từng loại căn — dựng lại cả
-/// quỹ căn ưu tiên của loại đó rồi mới tới chồng phiếu). B/C còn cần quỹ căn còn dư suy từ kết quả
-/// vòng trước; công cụ không dựng lại được thì <b>không kết luận</b> chứ không đoán.
+/// Đã dựng lại được vòng quyền mua (A1), vòng phân căn ưu tiên (A2 từng loại căn — dựng lại cả quỹ
+/// căn ưu tiên của loại đó rồi mới tới chồng phiếu) và vòng bốc thẳng theo loại căn (B từng loại —
+/// quỹ căn còn dư phải <b>suy ra</b> từ căn đã phân ở vòng trước). Vòng C còn cần quỹ căn dư và số
+/// dự khuyết; công cụ không dựng lại được thì <b>không kết luận</b> chứ không đoán.
 /// </summary>
 public static class DeckRebuilder
 {
     /// <summary>Hạt giống gốc của A1 và A2 đều là hạt giống vòng A (gate A đóng sinh ra nó).</summary>
     private const string VongHatGiongA = "A";
+
+    /// <summary>Vòng bốc thẳng có hạt giống riêng, sinh ra khi gate B đóng.</summary>
+    private const string VongHatGiongB = "B";
 
     /// <summary>
     /// Trần quy mô chồng phiếu dựng lại. Dự án lớn nhất ~900 vé; con số trong file người dùng thả
@@ -75,7 +101,7 @@ public static class DeckRebuilder
 
     /// <summary>
     /// Dựng lại một chồng phiếu; <c>null</c> nếu công cụ chưa biết dựng lại vòng của nó. Danh mục căn
-    /// là dữ liệu đầu vào do ban tổ chức công bố (vỏ giao diện đưa vào), chỉ vòng phân căn ưu tiên
+    /// là dữ liệu đầu vào do ban tổ chức công bố (vỏ giao diện đưa vào), chỉ hai vòng đi theo loại căn
     /// mới cần tới.
     /// </summary>
     public static DeckRebuild? Rebuild(TransparencyReport report, Deck deck, UnitCatalog? catalog = null)
@@ -84,24 +110,28 @@ public static class DeckRebuilder
 
         if (round == LotteryLabels.RoundA1) return VongQuyenMua(report, deck, round!);
 
-        return LoaiCanUuTien(round) is { } loai ? VongUuTien(report, deck, round!, loai, catalog) : null;
+        if (LoaiCan(round, LotteryLabels.RoundA2Prefix) is { } loaiUuTien)
+            return VongUuTien(report, deck, round!, loaiUuTien, catalog);
+
+        return LoaiCan(round, LotteryLabels.RoundBPrefix) is { } loaiBocThang
+            ? VongBocThang(report, deck, round!, loaiBocThang, catalog)
+            : null;
     }
 
-    /// <summary>Mã loại căn của chồng phiếu vòng phân căn ưu tiên (<c>A2:{loại}</c>), <c>null</c> nếu không phải vòng đó.</summary>
-    private static string? LoaiCanUuTien(string? round)
+    /// <summary>Mã loại căn của chồng phiếu đi theo loại (<c>{tiền tố}{loại}</c>), <c>null</c> nếu không phải vòng đó.</summary>
+    private static string? LoaiCan(string? round, string tienTo)
     {
-        if (round is null || !round.StartsWith(LotteryLabels.RoundA2Prefix, StringComparison.Ordinal))
-            return null;
+        if (round is null || !round.StartsWith(tienTo, StringComparison.Ordinal)) return null;
 
-        // "A2:" trống mã loại thì không biết lấy quỹ căn nào ra dựng — coi như chưa dựng lại được.
-        return Chuan(round[LotteryLabels.RoundA2Prefix.Length..]);
+        // Tiền tố trống mã loại thì không biết lấy quỹ căn nào ra dựng — coi như chưa dựng lại được.
+        return Chuan(round[tienTo.Length..]);
     }
 
     private static DeckRebuild VongQuyenMua(TransparencyReport report, Deck deck, string round)
     {
-        var ketQua = new DeckRebuild(round, LotteryLabels.A1Deck, VongHatGiongA);
+        var ketQua = new DeckRebuild(round, LotteryLabels.A1Deck, VongHatGiongA, LoaiTaiLap.QuyenMua);
 
-        if (HatGiongGoc(report, out var masterSeedHex, out var masterSeed) is { } thieuHatGiong)
+        if (HatGiongGoc(report, VongHatGiongA, out var masterSeedHex, out var masterSeed) is { } thieuHatGiong)
             return ketQua with { MasterSeed = masterSeedHex, Blocker = thieuHatGiong };
 
         var roundSeed = MasterSeed.RoundSeed(masterSeed!, LotteryLabels.A1Deck);
@@ -130,13 +160,13 @@ public static class DeckRebuilder
     private static DeckRebuild VongUuTien(
         TransparencyReport report, Deck deck, string round, string loai, UnitCatalog? danhMuc)
     {
-        var ketQua = new DeckRebuild(round, LotteryLabels.A2Deck(loai), VongHatGiongA)
+        var ketQua = new DeckRebuild(round, LotteryLabels.A2Deck(loai), VongHatGiongA, LoaiTaiLap.PhanCanUuTien)
         {
             TypeCode = loai,
             PoolSeedLabel = LotteryLabels.PriorityPool(loai),
         };
 
-        if (HatGiongGoc(report, out var masterSeedHex, out var masterSeed) is { } thieuHatGiong)
+        if (HatGiongGoc(report, VongHatGiongA, out var masterSeedHex, out var masterSeed) is { } thieuHatGiong)
             return ketQua with { MasterSeed = masterSeedHex, Blocker = thieuHatGiong };
 
         var poolSeed = MasterSeed.RoundSeed(masterSeed!, LotteryLabels.PriorityPool(loai));
@@ -148,24 +178,10 @@ public static class DeckRebuilder
             PoolSeed = Hex.ChuanHoa(Convert.ToHexString(poolSeed)),
         };
 
-        if (danhMuc is null)
-            return ketQua with
-            {
-                Blocker = "Công cụ chưa có danh mục căn hộ của dự án này, mà quỹ căn ưu tiên loại "
-                    + $"'{MoTaGiaTri.Gon(loai)}' phải dựng lại từ chính danh mục đó — nạp file danh mục căn "
-                    + "do ban tổ chức công bố rồi kiểm lại.",
-            };
+        if (LayQuyCan(danhMuc, loai, "quỹ căn ưu tiên", out var quyCan) is { } thieuDanhMuc)
+            return ketQua with { Blocker = thieuDanhMuc };
 
-        var quyCan = danhMuc.Types.FirstOrDefault(t => string.Equals(t.TypeCode, loai, StringComparison.Ordinal));
-        if (quyCan is null)
-            return ketQua with
-            {
-                Blocker = $"Danh mục căn đang dùng không có loại căn '{MoTaGiaTri.Gon(loai)}', nên không dựng "
-                    + "lại được quỹ căn ưu tiên của loại này. Nhiều khả năng đây là danh mục của dự án khác — "
-                    + "nạp đúng file danh mục căn của dự án đang kiểm rồi kiểm lại.",
-            };
-
-        ketQua = ketQua with { CatalogUnitCount = quyCan.UnitCodes.Count };
+        ketQua = ketQua with { CatalogUnitCount = quyCan!.UnitCodes.Count };
 
         var (quyMo, veTrung, nguon) = ThanhPhan(deck, VeVong.PhanCanUuTien);
         if (quyMo is null) return ketQua with { Blocker = nguon };
@@ -187,7 +203,116 @@ public static class DeckRebuilder
         truocKhiXao.AddRange(quyUuTien.Select(LotteryLabels.Win));
         truocKhiXao.AddRange(Enumerable.Repeat(LotteryLabels.A2Pending, quyMo.Value - veTrung.Value));
 
-        return Xao(ketQua with { PriorityUnits = quyUuTien }, truocKhiXao, deckSeed);
+        return Xao(ketQua with { PoolUnits = quyUuTien }, truocKhiXao, deckSeed);
+    }
+
+    /// <summary>
+    /// Vòng bốc thẳng theo loại căn: quỹ căn còn dư của loại L = danh mục loại L trừ những căn đã phân
+    /// ở vòng trước (<see cref="QuyCanConDu"/> suy ra từ bảng kết quả), xáo bằng <c>"B:units:{L}"</c>;
+    /// vé trúng lấy lần lượt từ đầu quỹ đó, rồi cả chồng phiếu xáo bằng <c>"B:deck:{L}"</c>.
+    ///
+    /// Khác vòng phân căn ưu tiên ở một điểm quyết định: quỹ căn ở đây đứng trên một <b>suy diễn</b>
+    /// của công cụ. Suy diễn không nhất quán thì trả về <c>Blocker</c> — kết luận KHÔNG ĐẠT dựa trên
+    /// suy diễn của chính mình là vu oan một buổi lễ sạch.
+    /// </summary>
+    private static DeckRebuild VongBocThang(
+        TransparencyReport report, Deck deck, string round, string loai, UnitCatalog? danhMuc)
+    {
+        var ketQua = new DeckRebuild(round, LotteryLabels.BDeck(loai), VongHatGiongB, LoaiTaiLap.BocThangTheoLoai)
+        {
+            TypeCode = loai,
+            PoolSeedLabel = LotteryLabels.LeftoverUnits(loai),
+        };
+
+        if (HatGiongGoc(report, VongHatGiongB, out var masterSeedHex, out var masterSeed) is { } thieuHatGiong)
+            return ketQua with { MasterSeed = masterSeedHex, Blocker = thieuHatGiong };
+
+        var poolSeed = MasterSeed.RoundSeed(masterSeed!, LotteryLabels.LeftoverUnits(loai));
+        var deckSeed = MasterSeed.RoundSeed(masterSeed!, LotteryLabels.BDeck(loai));
+        ketQua = ketQua with
+        {
+            MasterSeed = masterSeedHex,
+            RoundSeed = Hex.ChuanHoa(Convert.ToHexString(deckSeed)),
+            PoolSeed = Hex.ChuanHoa(Convert.ToHexString(poolSeed)),
+        };
+
+        if (LayQuyCan(danhMuc, loai, "quỹ căn còn dư", out var quyCan) is { } thieuDanhMuc)
+            return ketQua with { Blocker = thieuDanhMuc };
+
+        ketQua = ketQua with { CatalogUnitCount = quyCan!.UnitCodes.Count };
+
+        var (daPhan, mauThuan) = QuyCanConDu.DaPhanTruocVongBocThang(report, danhMuc!);
+        if (mauThuan is not null) return ketQua with { Blocker = mauThuan };
+
+        var daPhanRoi = daPhan!.ToHashSet(StringComparer.Ordinal);
+        // Sắp ordinal trước khi xáo, đúng như backend: thứ tự dòng trong file danh mục người kiểm nạp
+        // vào không được đổi kết quả dựng lại.
+        var conDu = quyCan.UnitCodes.Order(StringComparer.Ordinal).Where(c => !daPhanRoi.Contains(c)).ToList();
+        ketQua = ketQua with
+        {
+            AllocatedBefore = quyCan.UnitCodes.Where(daPhanRoi.Contains).Order(StringComparer.Ordinal).ToList(),
+            LeftoverUnits = conDu,
+        };
+
+        var (quyMo, veTrung, nguon) = ThanhPhan(deck, VeVong.BocThangTheoLoai);
+        if (quyMo is null) return ketQua with { Blocker = nguon };
+
+        ketQua = ketQua with { Size = quyMo, WonCount = veTrung, CompositionSource = nguon };
+
+        if (KhopQuyConDu(deck, conDu, veTrung!.Value, loai) is { } lechQuy)
+            return ketQua with { Blocker = lechQuy };
+
+        var quyDaXao = SeededShuffle.Shuffle(conDu, poolSeed).Take(veTrung.Value).ToList();
+
+        // Trước khi xáo: [TRÚNG:{căn} theo thứ tự quỹ căn còn dư, KHÔNG TRÚNG × (n − w)].
+        var truocKhiXao = new List<string>(quyMo.Value);
+        truocKhiXao.AddRange(quyDaXao.Select(LotteryLabels.Win));
+        truocKhiXao.AddRange(Enumerable.Repeat(LotteryLabels.BLose, quyMo.Value - veTrung.Value));
+
+        return Xao(ketQua with { PoolUnits = quyDaXao }, truocKhiXao, deckSeed);
+    }
+
+    /// <summary>Trả về lý do KHÔNG lấy được quỹ căn của loại này trong danh mục, <c>null</c> nếu lấy được.</summary>
+    private static string? LayQuyCan(UnitCatalog? danhMuc, string loai, string tenQuy, out UnitCatalogType? quyCan)
+    {
+        quyCan = null;
+
+        if (danhMuc is null)
+            return $"Công cụ chưa có danh mục căn hộ của dự án này, mà {tenQuy} loại '{MoTaGiaTri.Gon(loai)}' "
+                + "phải dựng lại từ chính danh mục đó — nạp file danh mục căn do ban tổ chức công bố rồi kiểm lại.";
+
+        quyCan = danhMuc.Types.FirstOrDefault(t => string.Equals(t.TypeCode, loai, StringComparison.Ordinal));
+
+        return quyCan is not null
+            ? null
+            : $"Danh mục căn đang dùng không có loại căn '{MoTaGiaTri.Gon(loai)}', nên không dựng lại được "
+                + $"{tenQuy} của loại này. Nhiều khả năng đây là danh mục của dự án khác — nạp đúng file danh "
+                + "mục căn của dự án đang kiểm rồi kiểm lại.";
+    }
+
+    /// <summary>
+    /// Quỹ căn còn dư suy ra có nuôi nổi chồng phiếu đang công bố không. Vé trúng công bố một căn nằm
+    /// ngoài quỹ suy ra nghĩa là hoặc suy diễn sai, hoặc buổi lễ phân căn đó hai lần — công cụ không
+    /// phân biệt được hai ca đó, nên trả về lý do chưa kiểm được thay vì kết luận KHÔNG ĐẠT.
+    /// </summary>
+    private static string? KhopQuyConDu(Deck deck, List<string> conDu, int veTrung, string loai)
+    {
+        if (veTrung > conDu.Count)
+            return $"Chồng phiếu khai {veTrung} vé trúng, nhiều hơn số căn loại '{MoTaGiaTri.Gon(loai)}' còn dư "
+                + $"suy ra được từ vòng trước ({conDu.Count} căn), nên quỹ căn còn dư dựng lại không đủ căn để "
+                + "đối chiếu — suy diễn quỹ căn còn dư và chồng phiếu công bố mâu thuẫn nhau.";
+
+        var trongQuy = conDu.ToHashSet(StringComparer.Ordinal);
+        var lac = (deck.Tickets ?? [])
+            .Where(v => v is not null && v.StartsWith(LotteryLabels.WinPrefix, StringComparison.Ordinal))
+            .Select(v => v![LotteryLabels.WinPrefix.Length..])
+            .FirstOrDefault(can => !trongQuy.Contains(can));
+
+        return lac is null
+            ? null
+            : $"Chồng phiếu công bố vé trúng căn '{MoTaGiaTri.Gon(lac)}', mà căn đó không nằm trong quỹ căn còn "
+                + $"dư loại '{MoTaGiaTri.Gon(loai)}' công cụ suy ra được — hoặc suy diễn sai, hoặc căn này đã "
+                + "được phân hai lần. Công cụ không phân biệt được nên không kết luận đạt hay không đạt.";
     }
 
     private static DeckRebuild Xao(DeckRebuild ketQua, List<string> truocKhiXao, byte[] seed)
@@ -222,34 +347,32 @@ public static class DeckRebuilder
                 + "kiểm. Nạp đúng file danh mục căn rồi kiểm lại.";
     }
 
-    /// <summary>Trả về lý do KHÔNG lấy được hạt giống gốc, <c>null</c> nếu lấy được.</summary>
-    private static string? HatGiongGoc(TransparencyReport report, out string? hex, out byte[]? bytes)
+    /// <summary>Trả về lý do KHÔNG lấy được hạt giống gốc của vòng entropy này, <c>null</c> nếu lấy được.</summary>
+    private static string? HatGiongGoc(TransparencyReport report, string vong, out string? hex, out byte[]? bytes)
     {
         hex = null;
         bytes = null;
 
         // Lọc ô rỗng: mảng JSON có phần tử `null` là file hỏng, không được thành ngoại lệ trắng trang.
         var nguon = (report.EntropySources ?? [])
-            .Where(n => n is not null && Chuan(n.Round) == VongHatGiongA)
+            .Where(n => n is not null && Chuan(n.Round) == vong)
             .ToList();
 
         if (nguon.Count == 0)
-            return $"Báo cáo không công bố nguồn ngẫu nhiên vòng {VongHatGiongA}, nên không có hạt giống "
-                + "nào để dựng lại chồng phiếu.";
+            return $"Báo cáo không công bố nguồn ngẫu nhiên vòng {vong}, nên không có hạt giống nào để dựng "
+                + "lại chồng phiếu.";
 
         if (nguon.Count > 1)
-            return $"Báo cáo công bố nhiều khối nguồn ngẫu nhiên cùng mang tên vòng {VongHatGiongA}, nên "
-                + "không biết lấy hạt giống nào để dựng lại — chọn bừa một khối là dựng chuyện.";
+            return $"Báo cáo công bố nhiều khối nguồn ngẫu nhiên cùng mang tên vòng {vong}, nên không biết "
+                + "lấy hạt giống nào để dựng lại — chọn bừa một khối là dựng chuyện.";
 
         hex = Hex.ChuanHoa(nguon[0].MasterSeed);
         bytes = Hex.Doc(nguon[0].MasterSeed);
 
         if (bytes is null)
             return string.IsNullOrWhiteSpace(nguon[0].MasterSeed)
-                ? $"Vòng {VongHatGiongA} chưa công bố hạt giống gốc (cổng chưa đóng), nên chưa dựng lại "
-                    + "được chồng phiếu."
-                : $"Hạt giống gốc vòng {VongHatGiongA} không phải chuỗi hợp lệ, nên không dựng lại được "
-                    + "chồng phiếu.";
+                ? $"Vòng {vong} chưa công bố hạt giống gốc (cổng chưa đóng), nên chưa dựng lại được chồng phiếu."
+                : $"Hạt giống gốc vòng {vong} không phải chuỗi hợp lệ, nên không dựng lại được chồng phiếu.";
 
         return null;
     }
@@ -266,6 +389,11 @@ public static class DeckRebuilder
             v => v == LotteryLabels.A2Pending || v.StartsWith(LotteryLabels.WinPrefix, StringComparison.Ordinal),
             v => v.StartsWith(LotteryLabels.WinPrefix, StringComparison.Ordinal),
             "vòng phân căn ưu tiên");
+
+        public static readonly VeVong BocThangTheoLoai = new(
+            v => v == LotteryLabels.BLose || v.StartsWith(LotteryLabels.WinPrefix, StringComparison.Ordinal),
+            v => v.StartsWith(LotteryLabels.WinPrefix, StringComparison.Ordinal),
+            "vòng bốc thẳng theo loại căn");
     }
 
     /// <summary>

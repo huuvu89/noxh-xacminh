@@ -31,23 +31,52 @@
     </p>
 }
 
-@* Quỹ căn ưu tiên KHÔNG có trong báo cáo minh bạch: công cụ dựng lại nó từ hạt giống, nên nó phải
-   hiện ra cho người dân xem chứ không chỉ nằm ở chế độ chuyên sâu. *@
-@if (Luoi.Rebuild is { PriorityUnits: { Count: > 0 } quyCan } taiLap)
+@* Quỹ căn KHÔNG có trong báo cáo minh bạch: công cụ dựng lại nó từ hạt giống, nên nó phải hiện ra
+   cho người dân xem chứ không chỉ nằm ở chế độ chuyên sâu. *@
+@if (Luoi.Rebuild is { Kind: LoaiTaiLap.PhanCanUuTien, PoolUnits: { Count: > 0 } quyUuTien } vongUuTien)
 {
     <div class="quy-can-uu-tien">
-        <h3>Quỹ căn ưu tiên loại @taiLap.TypeCode — dựng lại từ hạt giống</h3>
+        <h3>Quỹ căn ưu tiên loại @vongUuTien.TypeCode — dựng lại từ hạt giống</h3>
         <p class="dan-nhap">
-            Những căn này không do ai chọn: công cụ xáo lại danh mục căn loại @taiLap.TypeCode bằng chính
+            Những căn này không do ai chọn: công cụ xáo lại danh mục căn loại @vongUuTien.TypeCode bằng chính
             hạt giống đã cam kết trước lễ và ra đúng thứ tự dưới đây, rồi chúng thành vé trúng trong chồng
             phiếu này.
         </p>
         <ol class="danh-sach-can">
-            @foreach (var can in quyCan)
+            @foreach (var can in quyUuTien)
             {
                 <li><code>@MoTaGiaTri.Gon(can)</code></li>
             }
         </ol>
+    </div>
+}
+
+@* Vòng bốc thẳng: quỹ căn còn dư là SUY DIỄN của công cụ. Nói thẳng ra ngay cạnh danh sách — người
+   đọc phải biết chỗ nào là dữ liệu công bố, chỗ nào là thứ công cụ tự trừ ra. *@
+@if (Luoi.Rebuild is { Kind: LoaiTaiLap.BocThangTheoLoai, LeftoverUnits: { Count: > 0 } conDu } vongBocThang)
+{
+    <div class="quy-can-con-du">
+        <h3>Quỹ căn còn dư loại @vongBocThang.TypeCode — suy ra từ vòng trước</h3>
+        <p class="dan-nhap suy-dien">
+            <strong>Đây là dữ liệu suy diễn</strong>, không phải dữ liệu ban tổ chức công bố: báo cáo minh bạch
+            không công bố quỹ căn còn dư, nên công cụ lấy danh mục căn loại @vongBocThang.TypeCode trừ đi
+            @(vongBocThang.AllocatedBefore?.Count ?? 0) căn đã phân ở vòng ưu tiên theo bảng kết quả. Quỹ suy ra
+            này đem xáo bằng hạt giống vòng B rồi dựng lại đúng từng lá vé của chồng phiếu — khớp được tới đó
+            chính là bằng chứng phép trừ trên đúng.
+        </p>
+        <ol class="danh-sach-can">
+            @foreach (var can in conDu)
+            {
+                <li><code>@MoTaGiaTri.Gon(can)</code></li>
+            }
+        </ol>
+        @if (vongBocThang.AllocatedBefore is { Count: > 0 } daPhan)
+        {
+            <p class="da-phan">
+                Căn đã phân ở vòng ưu tiên (trừ ra khỏi quỹ):
+                @string.Join(" · ", daPhan.Select(MoTaGiaTri.Gon))
+            </p>
+        }
     </div>
 }
 

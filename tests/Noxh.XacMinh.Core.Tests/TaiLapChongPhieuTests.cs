@@ -91,11 +91,11 @@ public class TaiLapChongPhieuTests
     [Fact]
     public void AC1_CacVongChuaBietDungLai_KhongDeRaKetLuanBia()
     {
-        // B/C cần quỹ căn còn dư suy từ vòng trước, chưa dựng lại được: im lặng còn hơn báo ĐẠT bừa.
+        // Vòng C cần quỹ căn dư và số dự khuyết, chưa dựng lại được: im lặng còn hơn báo ĐẠT bừa.
         var golden = Golden();
 
         Assert.All(
-            golden.Decks!.Where(d => d.Round!.StartsWith("B:", StringComparison.Ordinal) || d.Round == "C"),
+            golden.Decks!.Where(d => d.Round == "C"),
             d => Assert.Null(DeckRebuilder.Rebuild(golden, d, DanhMucGolden.Doc())));
     }
 
@@ -119,7 +119,9 @@ public class TaiLapChongPhieuTests
     {
         var vong = deck["round"]!.GetValue<string>();
 
-        return vong != VongQuyenMua && !vong.StartsWith("A2:", StringComparison.Ordinal);
+        return vong != VongQuyenMua
+            && !vong.StartsWith("A2:", StringComparison.Ordinal)
+            && !vong.StartsWith("B:", StringComparison.Ordinal);
     }
 
     [Fact]
