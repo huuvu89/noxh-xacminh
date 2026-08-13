@@ -1,3 +1,4 @@
+using Noxh.XacMinh.Core.DanhSach;
 using Noxh.XacMinh.Core.Transparency;
 using Noxh.XacMinh.Core.Units;
 
@@ -11,8 +12,11 @@ namespace Noxh.XacMinh.Core.Verification;
 /// <see cref="Blocks"/> là block đọc được từ nguồn công khai (vỏ UI đi hỏi theo
 /// <see cref="MocNeoTraCuu.CanDoc"/>); trống thì hạng mục mốc neo ra KHÔNG KIỂM ĐƯỢC kèm link tra
 /// cứu thủ công, không bao giờ ra ĐẠT.
+/// <see cref="DanhSach"/> là bảng danh sách hồ sơ và khoá chỉ mục mù tổ giám sát dán vào — dữ liệu
+/// nhạy cảm nhất đi qua công cụ, chỉ sống trong bộ nhớ tab và không rời khỏi lõi này.
 /// </summary>
 public sealed record VerificationInput(
     TransparencyReport Report,
     UnitCatalog? Catalog = null,
-    IReadOnlyList<QuanSatKhoi>? Blocks = null);
+    IReadOnlyList<QuanSatKhoi>? Blocks = null,
+    DanhSachDauVao? DanhSach = null);

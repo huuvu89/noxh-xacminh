@@ -262,6 +262,79 @@ public class GoldenFixtureTests
         Assert.All(loaiCuaVongUuTien, loai => Assert.Contains(loai, maLoai));
     }
 
+    // ── Vé #16: bảng danh sách hồ sơ đã khoá của chính dự án trong fixture ───────────────
+
+    private const string DanhSachFile = "danh-sach-golden.tsv";
+    private const string DanhSachMetaFile = "danh-sach-golden.meta.json";
+
+    private static JsonElement DanhSachMeta() => Load(DanhSachMetaFile);
+
+    private static List<string[]> DongDanhSach() =>
+        File.ReadAllLines(RepoPaths.Fixture(DanhSachFile))
+            .Where(d => !string.IsNullOrWhiteSpace(d))
+            .Skip(1) // dòng tiêu đề
+            .Select(d => d.Split('\t'))
+            .ToList();
+
+    /// <summary>
+    /// Bảng danh sách chỉ có giá trị khi <c>listHash</c> đi kèm nó đúng là con số backend đã ghim —
+    /// và con số đó nằm trong chuỗi ĐÃ ĐƯỢC ĐÓNG DẤU của fixture minh bạch. Hai file lệch nhau thì
+    /// test tái lập mã băm danh sách chỉ còn là kiểm chính nó.
+    /// </summary>
+    [Fact]
+    public void Ve16_MaBamDanhSachGhiTrongManifest_DungLaGiaTriTrongChuoiDaDongDau()
+    {
+        var trongDau = Fixture().GetProperty("dauThoiGian").EnumerateArray()
+            .First(t => t.GetProperty("scope").GetString() == "FREEZE")
+            .GetProperty("preimage").GetString()!
+            .Split('\n')
+            .Single(d => d.StartsWith("listHash=", StringComparison.Ordinal))["listHash=".Length..];
+
+        Assert.Equal(trongDau, DanhSachMeta().GetProperty("listHash").GetString());
+    }
+
+    [Fact]
+    public void Ve16_BangDanhSach_DuBonCot_VaDungSoHoSoGhiTrongManifest()
+    {
+        var dong = DongDanhSach();
+
+        Assert.Equal(DanhSachMeta().GetProperty("soHoSo").GetInt32(), dong.Count);
+        Assert.All(dong, o => Assert.Equal(4, o.Length));
+        // Cùng số hồ sơ với dự án đã sinh ra fixture minh bạch — hai file phải là một dự án.
+        Assert.Equal(Meta().GetProperty("soLieu").GetProperty("soHoSo").GetInt32(), dong.Count);
+    }
+
+    [Fact]
+    public void Ve16_CoCauNhomGhiTrongManifest_KhopBangDangNamTrongRepo()
+    {
+        var demTheoNhom = DongDanhSach()
+            .GroupBy(o => o[3], StringComparer.Ordinal)
+            .ToDictionary(g => g.Key, g => g.Count(), StringComparer.Ordinal);
+
+        foreach (var nhom in DanhSachMeta().GetProperty("coCauNhom").EnumerateObject())
+            Assert.Equal(nhom.Value.GetInt32(), demTheoNhom.GetValueOrDefault(nhom.Name));
+
+        Assert.Equal(demTheoNhom.Values.Sum(), DanhSachMeta().GetProperty("soHoSo").GetInt32());
+    }
+
+    /// <summary>Tên tiếng Việt có dấu là cái bẫy chính của mã băm danh sách — mất nó là mất phép thử.</summary>
+    [Fact]
+    public void Ve16_BangDanhSach_CoHoTenTiengVietCoDau()
+    {
+        Assert.Contains(DongDanhSach(), o => o[1].Any(c => c > 127));
+    }
+
+    [Fact]
+    public void Ve16_MaBamGhiTrongManifest_KhopBangDangNamTrongRepo()
+    {
+        var declared = DanhSachMeta().GetProperty("bangSha256").GetString();
+        var actual = Convert.ToHexString(
+                SHA256.HashData(File.ReadAllBytes(RepoPaths.Fixture(DanhSachFile))))
+            .ToLowerInvariant();
+
+        Assert.Equal(declared, actual);
+    }
+
     [Fact]
     public void AC4_MaBamGhiTrongManifest_KhopVoiFixtureDangNamTrongRepo()
     {

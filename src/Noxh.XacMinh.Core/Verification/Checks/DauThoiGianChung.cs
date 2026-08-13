@@ -1,4 +1,5 @@
 using System.Globalization;
+using Noxh.XacMinh.Core.Crypto;
 using Noxh.XacMinh.Core.Transparency;
 
 namespace Noxh.XacMinh.Core.Verification.Checks;
@@ -34,6 +35,33 @@ internal static class DauThoiGianChung
             out var moc)
             ? new DateTimeOffset(moc.Ticks - moc.Ticks % TimeSpan.TicksPerMillisecond, TimeSpan.Zero)
             : null;
+
+    /// <summary>
+    /// Mã băm danh sách hồ sơ đã công bố, kèm chỗ lấy nó ra. Endpoint minh bạch công khai không có
+    /// trường <c>listHash</c> riêng, nhưng mã băm ấy là một dòng của chuỗi được đóng dấu thời gian —
+    /// nên nguồn thường dùng là chính chuỗi đó, và lần chốt SAU CÙNG mới là lần ràng buộc dữ liệu
+    /// đang công bố (chốt lại là thao tác hợp lệ).
+    /// </summary>
+    public static (string? MaBam, string? Nguon) MaBamDanhSachDaCongBo(TransparencyReport bc)
+    {
+        if (Hex.Doc(bc.ListHash) is not null)
+            return (Hex.ChuanHoa(bc.ListHash), "trường mã băm danh sách của báo cáo");
+
+        var moiNhat = MocCamKet(TatCa(bc)).LastOrDefault();
+        var dong = (moiNhat?.Preimage ?? string.Empty)
+            .Split('\n')
+            .FirstOrDefault(d => d.StartsWith(KhoaMaBamDanhSach, StringComparison.Ordinal));
+
+        if (dong is null) return (null, null);
+
+        var giaTri = dong[KhoaMaBamDanhSach.Length..];
+
+        return Hex.Doc(giaTri) is null
+            ? (null, null)
+            : (Hex.ChuanHoa(giaTri), "chuỗi đã được đóng dấu thời gian của mốc cam kết");
+    }
+
+    private const string KhoaMaBamDanhSach = "listHash=";
 
     /// <summary>Mốc thời gian hiện cho người đọc: luôn quy về UTC, không phụ thuộc máy đang xem.</summary>
     public static string HienThi(DateTimeOffset moc) =>

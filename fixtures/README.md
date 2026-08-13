@@ -7,6 +7,13 @@ chính backend (`backend-noxh-lottery`) chạy trọn một buổi lễ bốc th
 `transparency-golden.meta.json` ghi nguồn gốc: commit backend đã sinh ra fixture, mốc thời gian
 sinh, và SHA-256 của chính file fixture (`sha256sum transparency-golden.json` phải khớp).
 
+`danh-sach-golden.tsv` là **bảng danh sách hồ sơ đã khoá của chính dự án trong fixture** (40 hồ sơ),
+ở đúng dạng tổ giám sát dán vào công cụ: bốn cột ngăn bằng tab — mã hồ sơ · họ tên · số định danh ·
+nhóm đối tượng. `danh-sach-golden.meta.json` đi kèm ghi `listHash` mà backend đã ghim cho chính bảng
+này và **khoá chỉ mục mù** đã dùng để tính chỉ mục mù của số định danh. Đây là test vector ghim của
+hạng mục "danh sách hồ sơ đầu vào": không có cả bảng lẫn khoá thì `listHash` nằm trong preimage
+`FREEZE` không tái lập được.
+
 `apartment-units-golden.json` là **danh mục căn của chính dự án trong fixture** (20 căn, 2 loại), ở
 đúng định dạng file danh mục người kiểm nạp vào công cụ. Tái lập vòng phân căn ưu tiên phải dựng lại
 quỹ căn ưu tiên từ danh mục, mà bản danh mục **nhúng sẵn** trong công cụ là của một dự án khác — nạp
@@ -56,9 +63,10 @@ Những ca được cố ý dựng vào fixture, vì thiếu chúng thì công c
   phải lỗi. Chỉ dữ liệu buổi lễ thật mới nghiệm thu được hạng mục đó.
 - **Token dấu thời gian là stub**, không phải RFC 3161 ký thật: kiểm được
   `SHA-256(preimage) == digest` và nội dung preimage, **không** kiểm được chữ ký/chuỗi chứng thư.
-- **Không kèm danh sách hồ sơ gốc + `K_idx`**, nên `listHash` trong preimage `FREEZE` chưa tái lập
-  được từ fixture này (hạng mục `ListHash`, vé #16/#17, cần fixture riêng).
 - Toàn bộ hồ sơ là **dữ liệu tổng hợp** (CCCD/SĐT/tên do generator sinh), không phải người thật.
+- **Khoá chỉ mục mù đi kèm `danh-sach-golden.tsv` là khoá dev** của môi trường test, vốn đã nằm
+  công khai trong mã nguồn backend. Nó không mở được gì của hệ thống thật; khoá thật **không bao
+  giờ** được đi vào repo này.
 
 ## Sinh lại fixture
 
@@ -73,7 +81,8 @@ bash fixtures/generator/sinh-lai-fixture.sh /đường/dẫn/backend-noxh-lotter
 
 Script chạy `fixtures/generator/GoldenTransparencyFixtureGenerator.cs` (một test xUnit trong dự án
 `Noxh.XacMinh.FixtureGen.csproj`, tham chiếu thẳng bộ integration test của backend), rồi ghi đè
-`transparency-golden.json` + `transparency-golden.meta.json` + `apartment-units-golden.json`.
+`transparency-golden.json` + `transparency-golden.meta.json` + `apartment-units-golden.json` +
+`danh-sach-golden.tsv` + `danh-sach-golden.meta.json`.
 
 Không dùng script được thì chạy tay:
 

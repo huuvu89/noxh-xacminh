@@ -1,0 +1,20 @@
+{
+  "bang": "danh-sach-golden.tsv",
+  "bangSha256": "a5b0d822d97ea5ac8066d0e96050bdb52594197d2134b7403b3b19e17dab22d8",
+  "listHash": "94a1178733df395c523a705051b5632b0afd7f8bcd69939b0e77e5e81228e958",
+  "kIdxHex": "4445565f4944585f4b45595f5245504c4143455f494e5f50524f445f33324221",
+  "kIdxGhiChu": "Khoá chỉ mục mù CỦA MÔI TRƯỜNG TEST — chính là khoá dev mặc định nằm sẵn trong mã nguồn backend (EncryptionKeyProvider: 'DEV_IDX_KEY_REPLACE_IN_PROD_32B!' dạng UTF-8). KHÔNG phải khoá của bất kỳ hệ thống thật nào; khoá thật không bao giờ được vào repo này.",
+  "nguon": "danh sách hồ sơ do GoldenTransparencyFixtureGenerator seed vào backend rồi khoá qua POST /admin/projects/{id}/applicants/lock",
+  "generator": "fixtures/generator/GoldenTransparencyFixtureGenerator.cs",
+  "backendCommit": "89ca029dc9fa7c82fed257e728d0bd3530c7c0a7",
+  "backendCommittedAt": "2026-08-12T11:52:08+00:00",
+  "soHoSo": 40,
+  "coCauNhom": {
+    "U1": 2,
+    "U2": 6,
+    "U3": 2,
+    "U4": 1,
+    "U5": 1,
+    "U6": 28
+  }
+}

@@ -19,6 +19,7 @@ public static class Verifier
         ResultsHashCheck.Run,
         FreezeTimestampCheck.Run,
         MocNeoCheck.Run,
+        DanhSachHoSoCheck.Run,
     ];
 
     public static VerificationReport Verify(VerificationInput input) =>
