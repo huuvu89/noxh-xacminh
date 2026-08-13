@@ -91,18 +91,15 @@ public static class DeckRebuilder
         return ketQua with { Tickets = tickets, DeckHash = CanonicalDeckSerializer.Hash(tickets) };
     }
 
-    /// <summary>Bản dựng lại của mọi chồng phiếu công cụ biết dựng, giữ nguyên thứ tự báo cáo.</summary>
-    public static IReadOnlyList<DeckRebuild> RebuildAll(TransparencyReport report) =>
-        (report.Decks ?? []).Select(deck => Rebuild(report, deck)).OfType<DeckRebuild>().ToList();
-
     /// <summary>Trả về lý do KHÔNG lấy được hạt giống gốc, <c>null</c> nếu lấy được.</summary>
     private static string? HatGiongGoc(TransparencyReport report, out string? hex, out byte[]? bytes)
     {
         hex = null;
         bytes = null;
 
+        // Lọc ô rỗng: mảng JSON có phần tử `null` là file hỏng, không được thành ngoại lệ trắng trang.
         var nguon = (report.EntropySources ?? [])
-            .Where(n => Chuan(n.Round) == VongHatGiongA1)
+            .Where(n => n is not null && Chuan(n.Round) == VongHatGiongA1)
             .ToList();
 
         if (nguon.Count == 0)
