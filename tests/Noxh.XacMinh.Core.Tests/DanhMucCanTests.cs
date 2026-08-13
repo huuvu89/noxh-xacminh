@@ -222,6 +222,22 @@ public class DanhMucCanTests
     }
 
     [Fact]
+    public void AC5_MaLoaiTrung_ChoThongBaoKemMaLoai()
+    {
+        var trung = """
+            {
+              "2PN-1WC": [{ "unitCode": "2PN-1WC-D301" }],
+              "2PN-1WC": [{ "unitCode": "2PN-1WC-D302" }]
+            }
+            """;
+
+        var ketQua = UnitCatalogJson.Parse(Bytes(trung));
+
+        Assert.False(ketQua.Success);
+        Assert.Contains("2PN-1WC", ketQua.ErrorMessage);
+    }
+
+    [Fact]
     public void AC5_MoiKieuRac_DeuRaThongBao_KhongNemNgoaiLe()
     {
         string[] rac =

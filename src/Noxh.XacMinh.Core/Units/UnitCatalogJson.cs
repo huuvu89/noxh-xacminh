@@ -58,6 +58,12 @@ public static class UnitCatalogJson
         {
             var tenLoai = MoTaGiaTri.Gon(khoi.Name);
 
+            // JSON cho phép trùng khoá, danh mục thì không: hai khối cùng mã loại thì "quỹ căn loại
+            // L" là khối nào cũng là đoán.
+            if (loai.Any(l => string.Equals(l.TypeCode, khoi.Name, StringComparison.Ordinal)))
+                return UnitCatalogParseResult.Failed(
+                    $"Loại căn '{tenLoai}' xuất hiện nhiều lần trong file danh mục.");
+
             if (khoi.Value.ValueKind != JsonValueKind.Array)
                 return UnitCatalogParseResult.Failed(
                     $"Loại căn '{tenLoai}' phải là một danh sách căn.");
