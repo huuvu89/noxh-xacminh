@@ -1,0 +1,68 @@
+# Pipeline dựng + chạy test cho công cụ hậu kiểm (vé #21).
+# Repo này không deploy từ GitLab: bản tĩnh đem lên GitHub Pages, nên ở đây dừng ở "dựng được
+# và test xanh". Runner nhóm `docker-runner-quydautu` (docker/linux-amd64) có trần 900s mỗi job.
+
+stages:
+  - test
+  - build
+
+# Đúng hai loại pipeline: nhánh chính và merge request. Không có nhánh-đẩy-lẻ để khỏi sinh hai
+# pipeline trùng nhau cho cùng một commit khi MR đang mở.
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_OPEN_MERGE_REQUESTS'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+variables:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
+  DOTNET_NOLOGO: "true"
+  DOTNET_CLI_TELEMETRY_OPTOUT: "true"
+  # Gói nằm trong thư mục project thì cache của GitLab mới ôm được (cache không ra ngoài
+  # $CI_PROJECT_DIR).
+  NUGET_PACKAGES: "$CI_PROJECT_DIR/.nuget/packages"
+
+default:
+  image: mcr.microsoft.com/dotnet/sdk:8.0
+  cache:
+    key: nuget-packages-v1
+    paths:
+      - .nuget/packages/
+
+# ─────────────────────────────────────────
+# STAGE: TEST
+# ─────────────────────────────────────────
+# Chạy ở phạm vi solution: thêm project test mới là CI tự chạy, không phải nhớ sửa file này.
+test_all:
+  stage: test
+  timeout: 15m
+  script:
+    - dotnet restore
+    - dotnet test
+        --configuration Release
+        --no-restore
+        --logger "junit;LogFilePath=$CI_PROJECT_DIR/TestResults/{assembly}-junit.xml"
+        --results-directory "$CI_PROJECT_DIR/TestResults"
+  artifacts:
+    when: always
+    reports:
+      junit: TestResults/*-junit.xml
+    expire_in: 7 days
+
+# ─────────────────────────────────────────
+# STAGE: BUILD
+# ─────────────────────────────────────────
+# Bản tĩnh là thứ thật sự đem đi dùng; `dotnet build` không phủ được bước publish của Blazor
+# WebAssembly (cắt tỉa, sinh boot manifest), nên phải dựng riêng. `needs: []` để chạy song song
+# với test — hỏng bên nào cũng đỏ pipeline, chờ nối tiếp chỉ tổ dài thêm.
+build_static:
+  stage: build
+  timeout: 15m
+  needs: []
+  script:
+    - dotnet publish src/Noxh.XacMinh.Web --configuration Release --output publish
+  artifacts:
+    paths:
+      - publish/wwwroot/
+    expire_in: 7 days
