@@ -10,7 +10,10 @@
         Trong lúc lễ chạy, từng lô bản ghi (vé đã bốc, cam kết ngẫu nhiên, đầu chuỗi băm) được đẩy
         thẳng lên một kho lưu trữ mà máy chủ bốc thăm <strong>chỉ có quyền ghi thêm</strong> —
         chiếm được máy chủ hay cơ sở dữ liệu cũng không xoá được thứ đã lên kho. Đọc trail để xem
-        các lô có móc xích liền nhau hay không, tức là có lô nào ở giữa bị lấy bớt hay không.
+        các lô có móc xích liền nhau hay không, và để <strong>đối chiếu từng bản ghi trên kho với
+        báo cáo minh bạch</strong>: bản đã lên kho không sửa lại được, nên báo cáo công bố sau mà
+        khác đi là lộ ra ngay. Ngược lại, thứ <strong>chưa bao giờ được đẩy lên</strong> thì trail
+        không thấy — giới hạn đó ghi kèm ở từng kết luận.
         Bước này <strong>gọi mạng tới kho</strong>: chỉ gửi đi địa chỉ kho bạn nhập (và chữ ký của
         khoá chỉ-đọc, nếu có) — <strong>không có dữ liệu nào của bạn rời khỏi máy này</strong>, và
         vẫn không hỏi máy chủ bốc thăm câu nào.
@@ -138,6 +141,6 @@
         if (kho.Loi is not null) return $"— đọc kho không được: {kho.Loi}";
 
         return $"— đã đọc {kho.Lo.Count} lô ({kho.Lo.Sum(l => l.BanGhi.Count)} bản ghi) từ {kho.MoTaNguon}, "
-               + $"{kho.MoTaCheDo}. Kết luận nằm ở hai hạng mục trail phía trên.";
+               + $"{kho.MoTaCheDo}. Kết luận nằm ở các hạng mục trail phía trên.";
     }
 }

@@ -64,4 +64,10 @@ public static class CheckIds
     public const string TrailChuoiLo = "trail-chuoi-lo";
 
     public const string TrailKhoangTrong = "trail-khoang-trong";
+
+    public const string TrailLuotBoc = "trail-luot-boc";
+
+    public const string TrailCamKet = "trail-cam-ket-ngau-nhien";
+
+    public const string TrailDauChuoi = "trail-dau-chuoi";
 }
