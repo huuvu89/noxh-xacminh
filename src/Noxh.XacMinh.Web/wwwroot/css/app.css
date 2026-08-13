@@ -322,6 +322,24 @@ footer {
     color: #555;
 }
 
+/* Mã băm 64 ký tự phải xuống dòng được, kẻo trên điện thoại nó kéo ngang cả trang. */
+.dau-vet-ban-dung { margin: .75rem 0 0; }
+.dau-vet-ban-dung dt { font-weight: 600; }
+.dau-vet-ban-dung dd {
+    margin: 0 0 .5rem;
+    font-family: ui-monospace, monospace;
+    overflow-wrap: anywhere;
+}
+
+.nut-tai-offline {
+    display: inline-block;
+    padding: .5rem 1rem;
+    border: 1px solid var(--vien);
+    border-radius: .25rem;
+    background: var(--nen-mo);
+    text-decoration: none;
+}
+
 .dang-tai { text-align: center; color: #555; }
 
 #blazor-error-ui {

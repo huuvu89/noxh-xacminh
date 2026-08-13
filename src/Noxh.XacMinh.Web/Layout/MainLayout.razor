@@ -1,4 +1,6 @@
 @inherits LayoutComponentBase
+@using Noxh.XacMinh.Web.BanDung
+@inject ThongTinBanDung banDung
 
 <main>
     @* Lỗi hiển thị không được nuốt cả trang: người dùng phải còn thấy được nút thử lại. *@
@@ -13,6 +15,4 @@
     </ErrorBoundary>
 </main>
 
-<footer>
-    Công cụ chạy hoàn toàn trong trình duyệt của bạn — mã nguồn mở, không gửi dữ liệu đi đâu.
-</footer>
+<ChanTrangBanDung ThongTin="banDung" />

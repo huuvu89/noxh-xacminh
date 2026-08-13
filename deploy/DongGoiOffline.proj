@@ -1,0 +1,14 @@
+<Project>
+
+  <!--
+    Đóng gói bằng MSBuild chứ không bằng lệnh `zip`: chỗ nào dựng được công cụ thì chỗ đó có .NET
+    SDK, còn `zip` thì image SDK chính thức không cài sẵn — và một bước dựng chỉ chạy được trên
+    đúng một cái máy là bước dựng không ai kiểm lại được.
+  -->
+  <Target Name="DongGoi">
+    <Error Condition="'$(ThuMuc)' == '' Or '$(FileRa)' == ''"
+           Text="Cần -p:ThuMuc=&lt;thư mục&gt; và -p:FileRa=&lt;file .zip&gt;." />
+    <ZipDirectory SourceDirectory="$(ThuMuc)" DestinationFile="$(FileRa)" Overwrite="true" />
+  </Target>
+
+</Project>

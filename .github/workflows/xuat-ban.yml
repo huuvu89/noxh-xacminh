@@ -1,0 +1,77 @@
+# Dựng công cụ từ mã nguồn rồi xuất bản lên địa chỉ tĩnh công khai (vé #22).
+#
+# Cả lập luận "trang này đúng là mã nguồn công khai kia" đứng trên chỗ này: việc dựng phải nằm
+# trong chính lần chạy công khai — đẩy lên một artifact ai đó dựng sẵn ở máy riêng là mở lại đúng
+# khe hở mà vé này bịt.
+#
+# `.gitlab-ci.yml` vẫn là hàng rào test của repo; file này chỉ lo dựng và đẩy.
+name: Xuất bản công cụ kiểm chứng
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Hai lần đẩy sát nhau không được tranh nhau ghi đè: xếp hàng, và không huỷ giữa chừng để trang
+# không nằm lại ở trạng thái dựng dở.
+concurrency:
+  group: xuat-ban
+  cancel-in-progress: false
+
+jobs:
+  dung:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      # Cho ra base_path đúng của địa chỉ tĩnh (kể cả khi có tên miền riêng) — base href sai thì
+      # _framework/ tải hụt và trang đứng ở màn hình "đang tải".
+      - name: Cấu hình địa chỉ tĩnh
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Dựng bản đem lên và gói offline
+        env:
+          BASE_HREF: ${{ steps.pages.outputs.base_path }}
+          COMMIT: ${{ github.sha }}
+          LINK_LAN_DUNG: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: ./deploy/dung-ban-xuat-ban.sh
+
+      # Mã băm phải xem được từ ngoài, không chỉ nằm trong trang: người hoài nghi đối chiếu con số
+      # ở chân trang với con số ở đây, và cả hai đều chỉ về commit này.
+      - name: Ghi dấu vết bản dựng ra tóm tắt lần chạy
+        run: |
+          {
+            echo "### Bản đã xuất bản"
+            echo ""
+            echo "| | |"
+            echo "|---|---|"
+            echo "| commit | \`${{ github.sha }}\` |"
+            echo "| gói offline | \`$(basename xuat-ban/noxh-xacminh-offline-*.zip)\` |"
+            echo "| SHA-256 gói | \`$(sha256sum xuat-ban/noxh-xacminh-offline-*.zip | cut -d' ' -f1)\` |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: xuat-ban/site
+
+  xuat-ban:
+    needs: dung
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.day.outputs.page_url }}
+    steps:
+      - id: day
+        uses: actions/deploy-pages@v4
