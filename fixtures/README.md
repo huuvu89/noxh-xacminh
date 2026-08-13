@@ -7,6 +7,12 @@ chính backend (`backend-noxh-lottery`) chạy trọn một buổi lễ bốc th
 `transparency-golden.meta.json` ghi nguồn gốc: commit backend đã sinh ra fixture, mốc thời gian
 sinh, và SHA-256 của chính file fixture (`sha256sum transparency-golden.json` phải khớp).
 
+`apartment-units-golden.json` là **danh mục căn của chính dự án trong fixture** (20 căn, 2 loại), ở
+đúng định dạng file danh mục người kiểm nạp vào công cụ. Tái lập vòng phân căn ưu tiên phải dựng lại
+quỹ căn ưu tiên từ danh mục, mà bản danh mục **nhúng sẵn** trong công cụ là của một dự án khác — nạp
+nhầm bản nhúng vào fixture này thì hạng mục đó ra KHÔNG KIỂM ĐƯỢC, đúng như thiết kế. Generator ghi
+lại file này mỗi lần sinh fixture.
+
 ## Vì sao không bịa JSON
 
 Chồng phiếu trong fixture phải **mọc ra từ `MASTER_SEED`** theo đúng phép xáo của engine. Một
@@ -67,7 +73,7 @@ bash fixtures/generator/sinh-lai-fixture.sh /đường/dẫn/backend-noxh-lotter
 
 Script chạy `fixtures/generator/GoldenTransparencyFixtureGenerator.cs` (một test xUnit trong dự án
 `Noxh.XacMinh.FixtureGen.csproj`, tham chiếu thẳng bộ integration test của backend), rồi ghi đè
-`transparency-golden.json` + `transparency-golden.meta.json`.
+`transparency-golden.json` + `transparency-golden.meta.json` + `apartment-units-golden.json`.
 
 Không dùng script được thì chạy tay:
 

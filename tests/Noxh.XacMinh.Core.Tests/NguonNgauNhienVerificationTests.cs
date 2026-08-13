@@ -23,8 +23,10 @@ public class NguonNgauNhienVerificationTests
         return result.Report!;
     }
 
+    // Kèm danh mục căn của dự án trong fixture: thiếu nó thì vòng phân căn ưu tiên ra KHÔNG KIỂM
+    // ĐƯỢC và kéo cả kết luận chung theo, che mất thứ file này đang kiểm.
     private static VerificationReport Verify(TransparencyReport report) =>
-        Verifier.Verify(new VerificationInput(report));
+        Verifier.Verify(new VerificationInput(report, DanhMucGolden.Doc()));
 
     private static IReadOnlyList<CheckResult> HangMuc(VerificationReport report, string id) =>
         report.Items.Where(i => i.Id.StartsWith(id + ":", StringComparison.Ordinal)).ToList();

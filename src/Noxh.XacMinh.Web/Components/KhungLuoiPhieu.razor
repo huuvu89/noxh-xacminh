@@ -58,6 +58,7 @@
 
     private IReadOnlyList<DeckGrid> luoi = [];
     private TransparencyReport? daDung;
+    private UnitCatalog? danhMucDaDung;
     private int chiSo;
     private DeckFilter boLoc = DeckFilter.TatCa;
     private string maHoSo = string.Empty;
@@ -66,18 +67,23 @@
     /// <summary>Rỗng là trạng thái hợp lệ (chưa nạp file), không phải thiếu tham số.</summary>
     [Parameter] public TransparencyReport? BaoCao { get; set; }
 
+    /// <summary>Danh mục căn đang dùng — vòng phân căn ưu tiên cần nó mới dựng lại được.</summary>
+    [Parameter] public UnitCatalog? DanhMuc { get; set; }
+
     private DeckGrid Hien => luoi[Math.Clamp(chiSo, 0, luoi.Count - 1)];
 
     private IReadOnlyList<DeckCell> OHienThi => Hien.Filter(boLoc, maHoSo);
 
-    // Dựng lại lưới khi (và chỉ khi) báo cáo đổi: giữ ô đang chọn của báo cáo cũ là chỉ vào chỗ khác,
-    // còn dựng lại ở mọi lần cha vẽ lại thì gõ vào ô dán JSON cũng làm mất chồng phiếu đang xem.
+    // Dựng lại lưới khi (và chỉ khi) báo cáo hoặc danh mục căn đổi: giữ ô đang chọn của báo cáo cũ là
+    // chỉ vào chỗ khác, còn dựng lại ở mọi lần cha vẽ lại thì gõ vào ô dán JSON cũng làm mất chồng
+    // phiếu đang xem.
     protected override void OnParametersSet()
     {
-        if (ReferenceEquals(daDung, BaoCao)) return;
+        if (ReferenceEquals(daDung, BaoCao) && ReferenceEquals(danhMucDaDung, DanhMuc)) return;
 
         daDung = BaoCao;
-        luoi = BaoCao is null ? [] : DeckGridBuilder.Build(BaoCao);
+        danhMucDaDung = DanhMuc;
+        luoi = BaoCao is null ? [] : DeckGridBuilder.Build(BaoCao, DanhMuc);
         chiSo = 0;
         viTriChon = null;
     }

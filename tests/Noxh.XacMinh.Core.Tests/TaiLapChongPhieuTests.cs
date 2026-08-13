@@ -91,31 +91,35 @@ public class TaiLapChongPhieuTests
     [Fact]
     public void AC1_CacVongChuaBietDungLai_KhongDeRaKetLuanBia()
     {
-        // A2/B/C cần danh mục căn + thứ tự hồ sơ, chưa dựng lại được: im lặng còn hơn báo ĐẠT bừa.
+        // B/C cần quỹ căn còn dư suy từ vòng trước, chưa dựng lại được: im lặng còn hơn báo ĐẠT bừa.
         var golden = Golden();
 
-        var items = TaiLapItems(Verify(golden));
-
-        Assert.Equal([$"{CheckIds.DeckRebuild}:{VongQuyenMua}"], items.Select(i => i.Id));
         Assert.All(
-            golden.Decks!.Where(d => d.Round != VongQuyenMua),
-            d => Assert.Null(DeckRebuilder.Rebuild(golden, d)));
+            golden.Decks!.Where(d => d.Round!.StartsWith("B:", StringComparison.Ordinal) || d.Round == "C"),
+            d => Assert.Null(DeckRebuilder.Rebuild(golden, d, DanhMucGolden.Doc())));
     }
 
     [Fact]
-    public void AC1_BaoCaoKhongCoChongPhieuVongQuyenMua_KhongKiemDuoc_ChuKhongImLang()
+    public void AC1_BaoCaoKhongCoChongPhieuNaoDungLaiDuoc_KhongKiemDuoc_ChuKhongImLang()
     {
-        var khongCoA1 = Parse(EditGolden(root =>
+        var khongCoVongDungLaiDuoc = Parse(EditGolden(root =>
         {
             var decks = root["decks"]!.AsArray();
-            var a1 = decks.First(d => d!["round"]!.GetValue<string>() == VongQuyenMua);
-            decks.Remove(a1);
+            foreach (var deck in decks.Where(d => KhongPhaiVongDungLaiDuoc(d!) == false).ToList())
+                decks.Remove(deck);
         }));
 
-        var item = Assert.Single(TaiLapItems(Verify(khongCoA1)));
+        var item = Assert.Single(TaiLapItems(Verify(khongCoVongDungLaiDuoc)));
 
         Assert.Equal(CheckStatus.KhongKiemDuoc, item.Status);
         Assert.NotEmpty(item.Metrics);
+    }
+
+    private static bool KhongPhaiVongDungLaiDuoc(JsonNode deck)
+    {
+        var vong = deck["round"]!.GetValue<string>();
+
+        return vong != VongQuyenMua && !vong.StartsWith("A2:", StringComparison.Ordinal);
     }
 
     [Fact]

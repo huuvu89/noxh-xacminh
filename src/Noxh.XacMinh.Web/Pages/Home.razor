@@ -1,5 +1,6 @@
 @page "/"
 @using System.Text
+@inject TrangThaiDanhMuc danhMuc
 
 <PageTitle>Kiểm chứng kết quả bốc thăm NƠXH</PageTitle>
 
@@ -35,12 +36,13 @@
 @if (baoCao is not null)
 {
     <KetQuaKiem BaoCao="baoCao" Nguon="@nguon" />
-    <KhungLuoiPhieu BaoCao="nguonBaoCao" />
+    <KhungLuoiPhieu BaoCao="nguonBaoCao" DanhMuc="danhMuc.DanhMuc" />
 }
 
 @* Danh mục căn là dữ liệu công cụ tự mang theo, không đến từ file người dùng thả vào — nên hiện
-   sẵn kể cả khi chưa nạp báo cáo nào. *@
-<DanhMucCan />
+   sẵn kể cả khi chưa nạp báo cáo nào. Đổi danh mục thì kiểm lại: vòng phân căn ưu tiên dựng lại từ
+   chính nó, để kết luận cũ đứng yên là nói dối. *@
+<DanhMucCan DaDoi="KiemLaiBaoCaoDaNap" />
 
 @code {
     // 64 MB: báo cáo của một dự án ~900 vé chỉ vài MB; giới hạn để file nhầm không treo tab.
@@ -90,7 +92,14 @@
         loi = null;
         nguon = TenNguon(nap.Report!, tenNguon);
         nguonBaoCao = nap.Report!;
-        baoCao = Verifier.Verify(new VerificationInput(nap.Report!));
+        baoCao = Verifier.Verify(new VerificationInput(nap.Report!, danhMuc.DanhMuc));
+    }
+
+    private void KiemLaiBaoCaoDaNap()
+    {
+        if (nguonBaoCao is null) return;
+
+        baoCao = Verifier.Verify(new VerificationInput(nguonBaoCao, danhMuc.DanhMuc));
     }
 
     private static string TenNguon(TransparencyReport report, string tenNguon) =>
