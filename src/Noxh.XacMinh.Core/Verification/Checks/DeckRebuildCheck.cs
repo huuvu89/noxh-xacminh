@@ -31,6 +31,16 @@ internal static class DeckRebuildCheck
         + " Trước khi kết luận, xem lại danh mục căn đang dùng có đúng là danh mục của dự án này không: "
         + "dựng lại quỹ căn ưu tiên bằng một danh mục khác thì cũng ra mã băm khác.";
 
+    private const string DatGiaiThichBocThang =
+        "Quỹ căn còn dư của loại căn này (danh mục trừ đi những căn đã phân ở vòng ưu tiên) và cả chồng phiếu "
+        + "của nó dựng lại được từ hạt giống đã cam kết trước lễ, ra đúng mã băm đã niêm phong. Lưu ý: quỹ căn "
+        + "còn dư là dữ liệu công cụ SUY RA từ bảng kết quả, không phải dữ liệu ban tổ chức công bố — nó khớp "
+        + "được tới từng lá vé chính là bằng chứng suy diễn đó đúng.";
+
+    private const string KhongDatGiaiThichBocThang = KhongDatGiaiThich
+        + " Trước khi kết luận, xem lại danh mục căn đang dùng có đúng là danh mục của dự án này không: quỹ căn "
+        + "còn dư suy ra từ một danh mục khác thì cũng ra mã băm khác.";
+
     public static IEnumerable<CheckResult> Run(VerificationInput input)
     {
         var dungDuoc = (input.Report.Decks ?? [])
@@ -46,7 +56,8 @@ internal static class DeckRebuildCheck
                 "Tái lập chồng phiếu từ hạt giống",
                 CheckStatus.KhongKiemDuoc,
                 "Báo cáo không có chồng phiếu nào thuộc vòng công cụ dựng lại được (vòng quyền mua, vòng "
-                + "phân căn ưu tiên), nên không dựng lại được chồng phiếu nào từ hạt giống để đối chiếu.")
+                + "phân căn ưu tiên, vòng bốc thẳng theo loại căn), nên không dựng lại được chồng phiếu nào "
+                + "từ hạt giống để đối chiếu.")
             {
                 Metrics = [new CheckMetric("Nhãn dẫn xuất hạt giống", LotteryLabels.A1Deck)],
             };
@@ -60,9 +71,12 @@ internal static class DeckRebuildCheck
     private static CheckResult Kiem(Deck deck, DeckRebuild taiLap)
     {
         var id = $"{CheckIds.DeckRebuild}:{taiLap.Round}";
-        var title = taiLap.TypeCode is { } loai
-            ? $"Tái lập vòng phân căn ưu tiên — loại căn {loai}"
-            : $"Tái lập chồng phiếu vòng {taiLap.Round} từ hạt giống";
+        var title = taiLap.Kind switch
+        {
+            LoaiTaiLap.PhanCanUuTien => $"Tái lập vòng phân căn ưu tiên — loại căn {taiLap.TypeCode}",
+            LoaiTaiLap.BocThangTheoLoai => $"Tái lập vòng bốc thẳng theo loại căn — loại căn {taiLap.TypeCode}",
+            _ => $"Tái lập chồng phiếu vòng {taiLap.Round} từ hạt giống",
+        };
         var soLieu = SoLieu(taiLap);
 
         CheckResult ChuaKiemDuoc(string vi) =>
@@ -77,18 +91,19 @@ internal static class DeckRebuildCheck
                 + "chiếu — lấy chính bản dựng lại làm chuẩn thì hạng mục này tự khớp với nó.");
 
         var khop = string.Equals(taiLap.DeckHash, Hex.ChuanHoa(deck.DeckHash), StringComparison.Ordinal);
-        var vongUuTien = taiLap.TypeCode is not null;
 
         return new CheckResult(
             id,
             title,
             khop ? CheckStatus.Dat : CheckStatus.KhongDat,
-            (khop, vongUuTien) switch
+            (khop, taiLap.Kind) switch
             {
-                (true, false) => DatGiaiThich,
-                (true, true) => DatGiaiThichUuTien,
-                (false, false) => KhongDatGiaiThich,
-                (false, true) => KhongDatGiaiThichUuTien,
+                (true, LoaiTaiLap.PhanCanUuTien) => DatGiaiThichUuTien,
+                (true, LoaiTaiLap.BocThangTheoLoai) => DatGiaiThichBocThang,
+                (true, _) => DatGiaiThich,
+                (false, LoaiTaiLap.PhanCanUuTien) => KhongDatGiaiThichUuTien,
+                (false, LoaiTaiLap.BocThangTheoLoai) => KhongDatGiaiThichBocThang,
+                (false, _) => KhongDatGiaiThich,
             },
             Expected: Hex.ChuanHoa(deck.DeckHash),
             Actual: taiLap.DeckHash,
@@ -120,15 +135,30 @@ internal static class DeckRebuildCheck
 
         if (taiLap.TypeCode is not { } loai) return soLieu;
 
+        var tenQuy = taiLap.Kind == LoaiTaiLap.BocThangTheoLoai ? "quỹ căn còn dư" : "quỹ căn ưu tiên";
+
         soLieu.Add(new CheckMetric("Loại căn", loai));
-        soLieu.Add(new CheckMetric("Nhãn dẫn xuất quỹ căn ưu tiên", Co(taiLap.PoolSeedLabel)));
-        soLieu.Add(new CheckMetric("Hạt giống dẫn xuất quỹ căn ưu tiên", Co(taiLap.PoolSeed)));
+        soLieu.Add(new CheckMetric($"Nhãn dẫn xuất {tenQuy}", Co(taiLap.PoolSeedLabel)));
+        soLieu.Add(new CheckMetric($"Hạt giống dẫn xuất {tenQuy}", Co(taiLap.PoolSeed)));
         soLieu.Add(new CheckMetric(
             $"Số căn loại {loai} trong danh mục đang dùng",
             taiLap.CatalogUnitCount?.ToString() ?? KhongCo));
+
+        // Hai dòng suy diễn của vòng bốc thẳng đứng TRƯỚC quỹ đã xáo: người kiểm phải thấy công cụ trừ
+        // ra từ đâu rồi mới tới thứ nó đem đi dựng chồng phiếu.
+        if (taiLap.Kind == LoaiTaiLap.BocThangTheoLoai)
+        {
+            soLieu.Add(new CheckMetric(
+                $"Căn loại {loai} đã phân ở vòng trước (công cụ suy ra từ bảng kết quả)",
+                DanhSach(taiLap.AllocatedBefore)));
+            soLieu.Add(new CheckMetric(
+                $"Quỹ căn còn dư suy ra (danh mục loại {loai} trừ số trên)",
+                DanhSach(taiLap.LeftoverUnits)));
+        }
+
         soLieu.Add(new CheckMetric(
-            "Quỹ căn ưu tiên dựng lại từ hạt giống (theo thứ tự)",
-            taiLap.PriorityUnits is { Count: > 0 } quy ? string.Join(" · ", quy) : KhongCo));
+            $"{char.ToUpperInvariant(tenQuy[0])}{tenQuy[1..]} dựng lại từ hạt giống (theo thứ tự)",
+            DanhSach(taiLap.PoolUnits)));
 
         return soLieu;
     }
@@ -136,4 +166,7 @@ internal static class DeckRebuildCheck
     private const string KhongCo = "(không công bố)";
 
     private static string Co(string? giaTri) => string.IsNullOrWhiteSpace(giaTri) ? KhongCo : giaTri;
+
+    private static string DanhSach(IReadOnlyList<string>? can) =>
+        can is { Count: > 0 } ? string.Join(" · ", can) : KhongCo;
 }

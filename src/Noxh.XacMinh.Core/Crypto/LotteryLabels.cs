@@ -14,6 +14,9 @@ public static class LotteryLabels
     /// <summary>Chồng phiếu vòng phân căn ưu tiên đi theo loại căn: <c>A2:{mã loại}</c>.</summary>
     public const string RoundA2Prefix = "A2:";
 
+    /// <summary>Chồng phiếu vòng bốc thẳng theo loại căn: <c>B:{mã loại}</c>.</summary>
+    public const string RoundBPrefix = "B:";
+
     // ── Ticket payloads ─────────────────────────────────────────────────────
     public const string A1Win = "TRUNG_QUYEN_MUA";
 
@@ -25,6 +28,9 @@ public static class LotteryLabels
     /// <summary>Vé của người vào vòng ưu tiên nhưng hết suất: chờ máy gom phân căn dư.</summary>
     public const string A2Pending = "CHO_PHAN_LOAI_DU";
 
+    /// <summary>Vé không trúng của vòng bốc thẳng theo loại căn.</summary>
+    public const string BLose = "KHONG_TRUNG";
+
     public static string Win(string unitCode) => WinPrefix + unitCode;
 
     // ── Seed labels ─────────────────────────────────────────────────────────
@@ -35,4 +41,10 @@ public static class LotteryLabels
 
     /// <summary>Nhãn dẫn xuất chồng phiếu vòng phân căn ưu tiên của một loại căn.</summary>
     public static string A2Deck(string typeCode) => $"A2:deck:{typeCode}";
+
+    /// <summary>Nhãn dẫn xuất quỹ căn còn dư của một loại căn (vòng bốc thẳng).</summary>
+    public static string LeftoverUnits(string typeCode) => $"B:units:{typeCode}";
+
+    /// <summary>Nhãn dẫn xuất chồng phiếu vòng bốc thẳng của một loại căn.</summary>
+    public static string BDeck(string typeCode) => $"B:deck:{typeCode}";
 }
