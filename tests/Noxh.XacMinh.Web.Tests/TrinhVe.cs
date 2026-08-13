@@ -22,17 +22,20 @@ internal sealed class TrinhVe : IAsyncDisposable
     public TrinhVe(
         TrangThaiHienThi? trangThai = null,
         TrangThaiDanhMuc? danhMuc = null,
-        TrangThaiMocNeo? mocNeo = null)
+        TrangThaiMocNeo? mocNeo = null,
+        TrangThaiDanhSach? danhSach = null)
     {
         TrangThai = trangThai ?? new TrangThaiHienThi();
         DanhMuc = danhMuc ?? new TrangThaiDanhMuc();
         MocNeo = mocNeo ?? new TrangThaiMocNeo(KhongGoiMang);
+        DanhSach = danhSach ?? new TrangThaiDanhSach();
 
         var services = new ServiceCollection();
         services.AddLogging();
         services.AddSingleton(TrangThai);
         services.AddSingleton(DanhMuc);
         services.AddSingleton(MocNeo);
+        services.AddSingleton(DanhSach);
         services.AddSingleton<IJSRuntime, KhongGoiJs>();
         dichVu = services.BuildServiceProvider();
         trinh = new HtmlRenderer(dichVu, dichVu.GetRequiredService<ILoggerFactory>());
@@ -43,6 +46,8 @@ internal sealed class TrinhVe : IAsyncDisposable
     public TrangThaiDanhMuc DanhMuc { get; }
 
     public TrangThaiMocNeo MocNeo { get; }
+
+    public TrangThaiDanhSach DanhSach { get; }
 
     /// <summary>Vẽ HTML tĩnh thì không có mạng — ai gọi tới đây là lỗi thiết kế test, không phải kết quả.</summary>
     private static Task<QuanSatKhoi> KhongGoiMang(YeuCauTraCuuKhoi yeu, CancellationToken huy) =>

@@ -246,6 +246,38 @@ h1 { font-size: 1.5rem; }
 
 .dung-ban-nhung { margin-top: .5rem; padding: .5rem 1rem; font-size: 1rem; }
 
+/* ── Danh sách hồ sơ đầu vào (tổ giám sát) ─────────────────────────────────────────────── */
+
+.danh-sach-ho-so { margin-top: 2rem; }
+.danh-sach-ho-so h2 { font-size: 1.2rem; margin-bottom: .25rem; }
+
+/* Cảnh báo về khoá phải nổi hơn mọi thứ khác trong khung: người dán khoá cần đọc nó trước. */
+.canh-bao-khoa {
+    margin: .75rem 0;
+    padding: .75rem 1rem;
+    border-left: .35rem solid var(--khong-dat);
+    background: #fdecea;
+}
+
+.canh-bao-khoa-la {
+    margin: .5rem 0;
+    padding: .5rem .75rem;
+    border-left: .35rem solid var(--khong-kiem-duoc);
+    background: #fdf6e3;
+    font-size: .9rem;
+}
+
+.o-dan-danh-sach, .o-dan-khoa { display: block; margin-top: .75rem; font-size: .9rem; }
+.o-dan-danh-sach textarea, .o-dan-khoa input {
+    width: 100%;
+    margin-top: .25rem;
+    font-family: ui-monospace, monospace;
+    font-size: .85rem;
+}
+
+.hieu-canh-bao, .kiem-danh-sach, .xoa-khoa { margin-top: .75rem; padding: .5rem 1rem; font-size: 1rem; }
+.xoa-khoa { margin-left: .5rem; }
+
 footer {
     max-width: 46rem;
     margin: 2rem auto 0;

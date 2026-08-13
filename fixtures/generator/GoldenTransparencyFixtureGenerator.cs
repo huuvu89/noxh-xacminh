@@ -77,6 +77,10 @@ public class GoldenTransparencyFixtureGenerator : IClassFixture<TestWebAppFactor
         // Khoá danh sách qua endpoint thật → ListHash có thật, nằm trong preimage mốc entropy.
         await PostOkAsync(admin, $"/admin/projects/{projectId}/applicants/lock");
 
+        // Ghi luôn bảng danh sách vừa bị khoá: hạng mục "danh sách hồ sơ đầu vào" chỉ tái lập được
+        // khi có cả bảng lẫn khoá chỉ mục mù, mà báo cáo minh bạch không mang theo thứ nào.
+        await WriteDanhSachFixtureAsync(projectId, outPath);
+
         // ── Vòng A1 (quyền mua) ──────────────────────────────────────────────────────────
         await CeremonyFlow.StartGateAAsync(admin, projectId, RSupervisorHex);
 
@@ -210,6 +214,68 @@ public class GoldenTransparencyFixtureGenerator : IClassFixture<TestWebAppFactor
             .Should().Contain(t => t.GetProperty("scope").GetString() == "FREEZE");
         root.GetProperty("ketQua").GetProperty("rows").GetArrayLength().Should().BeGreaterThan(0);
         root.GetProperty("nguonNgauNhien").GetArrayLength().Should().Be(3);
+    }
+
+    /// <summary>
+    /// Bảng danh sách hồ sơ đã khoá + khoá chỉ mục mù đã dùng, ở đúng dạng tổ giám sát dán vào công
+    /// cụ kiểm chứng (bốn cột ngăn bằng tab: mã hồ sơ · họ tên · số định danh · nhóm đối tượng).
+    ///
+    /// Khoá ghi ra đây là khoá DEV mặc định của backend, vốn đã nằm công khai trong mã nguồn — nó
+    /// chỉ mở được dữ liệu test. Khoá thật không bao giờ được đi vào repo công cụ kiểm chứng.
+    /// </summary>
+    private async Task WriteDanhSachFixtureAsync(Guid projectId, string outPath)
+    {
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        var khoa = scope.ServiceProvider.GetRequiredService<EncryptionKeyProvider>().KIdx;
+
+        var project = await db.Projects.AsNoTracking().FirstAsync(p => p.Id == projectId);
+        var applicants = await db.Applicants.AsNoTracking()
+            .Where(a => a.ProjectId == projectId)
+            .ToListAsync();
+
+        // Cùng phép sắp với LockListEndpoint (OrderBy mặc định) — bảng in ra phải cùng thứ tự với
+        // chuỗi đã đem băm, kẻo người kiểm dán đúng bảng mà vẫn ra "không khớp".
+        var ordered = applicants.OrderBy(a => a.MaHoSo).ToList();
+
+        var bang = new StringBuilder("Mã hồ sơ\tHọ tên\tSố định danh\tNhóm đối tượng\n");
+        foreach (var a in ordered)
+            bang.Append($"{a.MaHoSo}\t{a.FullName}\t{a.Cccd}\t{a.Group}\n");
+
+        var text = bang.ToString();
+        var dir = Path.GetDirectoryName(Path.GetFullPath(outPath))!;
+
+        await File.WriteAllTextAsync(Path.Combine(dir, "danh-sach-golden.tsv"), text, new UTF8Encoding(false));
+
+        var meta = new
+        {
+            bang = "danh-sach-golden.tsv",
+            bangSha256 = Convert.ToHexString(
+                SHA256.HashData(new UTF8Encoding(false).GetBytes(text))).ToLowerInvariant(),
+            listHash = project.ListHash,
+            kIdxHex = Convert.ToHexString(khoa).ToLowerInvariant(),
+            kIdxGhiChu =
+                "Khoá chỉ mục mù CỦA MÔI TRƯỜNG TEST — chính là khoá dev mặc định nằm sẵn trong mã nguồn "
+                + "backend (EncryptionKeyProvider: 'DEV_IDX_KEY_REPLACE_IN_PROD_32B!' dạng UTF-8). KHÔNG phải "
+                + "khoá của bất kỳ hệ thống thật nào; khoá thật không bao giờ được vào repo này.",
+            nguon = "danh sách hồ sơ do GoldenTransparencyFixtureGenerator seed vào backend rồi khoá qua "
+                    + "POST /admin/projects/{id}/applicants/lock",
+            generator = "fixtures/generator/GoldenTransparencyFixtureGenerator.cs",
+            backendCommit = Environment.GetEnvironmentVariable("NOXH_BACKEND_COMMIT"),
+            backendCommittedAt = Environment.GetEnvironmentVariable("NOXH_BACKEND_COMMITTED_AT"),
+            soHoSo = ordered.Count,
+            coCauNhom = ordered.GroupBy(a => a.Group).OrderBy(g => g.Key)
+                .ToDictionary(g => g.Key.ToString(), g => g.Count()),
+        };
+
+        await File.WriteAllTextAsync(
+            Path.Combine(dir, "danh-sach-golden.meta.json"),
+            JsonSerializer.Serialize(meta, new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+            }) + "\n",
+            new UTF8Encoding(false));
     }
 
     private static string UnitCatalogPathOf(string outPath) =>

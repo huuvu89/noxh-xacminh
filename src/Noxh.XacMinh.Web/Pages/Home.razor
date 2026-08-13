@@ -2,6 +2,7 @@
 @using System.Text
 @inject TrangThaiDanhMuc danhMuc
 @inject TrangThaiMocNeo mocNeo
+@inject TrangThaiDanhSach danhSach
 
 <PageTitle>Kiểm chứng kết quả bốc thăm NƠXH</PageTitle>
 
@@ -38,6 +39,7 @@
 {
     <KetQuaKiem BaoCao="baoCao" Nguon="@nguon" />
     <MocNeoChuoiKhoi DaDoi="KiemLaiBaoCaoDaNap" />
+    <DanhSachHoSo DaDoi="KiemLaiBaoCaoDaNap" />
     <KhungLuoiPhieu BaoCao="nguonBaoCao" DanhMuc="danhMuc.DanhMuc" />
 }
 
@@ -96,17 +98,22 @@
         loi = null;
         nguon = TenNguon(nap.Report!, tenNguon);
         nguonBaoCao = nap.Report!;
-        // Báo cáo mới ⇒ block đã tra cứu của báo cáo trước không được dùng lại.
+        // Báo cáo mới ⇒ block đã tra cứu của báo cáo trước không được dùng lại, và bảng danh sách
+        // + khoá của việc đã xong không được nằm lại trong bộ nhớ.
         mocNeo.DatBaoCao(nap.Report!);
-        baoCao = Verifier.Verify(new VerificationInput(nap.Report!, danhMuc.DanhMuc, mocNeo.DaDoc));
+        danhSach.Xoa();
+        baoCao = Verifier.Verify(DuLieuVaoLoi(nap.Report!));
     }
 
     private void KiemLaiBaoCaoDaNap()
     {
         if (nguonBaoCao is null) return;
 
-        baoCao = Verifier.Verify(new VerificationInput(nguonBaoCao, danhMuc.DanhMuc, mocNeo.DaDoc));
+        baoCao = Verifier.Verify(DuLieuVaoLoi(nguonBaoCao));
     }
+
+    private VerificationInput DuLieuVaoLoi(TransparencyReport report) =>
+        new(report, danhMuc.DanhMuc, mocNeo.DaDoc, danhSach.DaDan);
 
     private static string TenNguon(TransparencyReport report, string tenNguon) =>
         string.IsNullOrWhiteSpace(report.ProjectName) ? tenNguon : $"{report.ProjectName} — {tenNguon}";

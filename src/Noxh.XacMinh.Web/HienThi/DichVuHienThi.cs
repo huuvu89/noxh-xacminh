@@ -8,5 +8,6 @@ public static class DichVuHienThi
     public static IServiceCollection ThemHienThi(this IServiceCollection services) =>
         services
             .AddScoped<TrangThaiHienThi>()
-            .AddScoped<TrangThaiDanhMuc>();
+            .AddScoped<TrangThaiDanhMuc>()
+            .AddScoped<TrangThaiDanhSach>();
 }

@@ -58,4 +58,6 @@ public static class CheckIds
     public const string FreezeTimestamp = "tsa-freeze";
 
     public const string MocNeo = "moc-neo";
+
+    public const string DanhSachHoSo = "danh-sach-ho-so";
 }

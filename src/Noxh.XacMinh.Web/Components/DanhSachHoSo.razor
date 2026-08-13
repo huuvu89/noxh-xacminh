@@ -1,0 +1,94 @@
+@* Hạng mục dành cho tổ giám sát: dán bảng danh sách đã khoá + khoá chỉ mục mù để dựng lại mã băm
+   danh sách. Ở chế độ này công cụ KHÔNG phát bất kỳ request nào — không gọi mạng, không ghi đĩa. *@
+@inject TrangThaiDanhSach trangThai
+
+<section class="danh-sach-ho-so">
+    <h2>Danh sách hồ sơ đầu vào (dành cho tổ giám sát)</h2>
+
+    <p class="dan-nhap">
+        Hạng mục này trả lời câu còn thiếu của mọi lập luận công bằng: <strong>danh sách đầu vào của
+        buổi bốc thăm đúng là danh sách nào</strong>. Dán bảng danh sách đã khoá và khoá chỉ mục mù,
+        công cụ dựng lại mã băm danh sách rồi so với giá trị đã ghim và đã được đóng dấu thời gian.
+    </p>
+
+    <p class="canh-bao-khoa" role="alert">
+        <strong>Khoá chỉ mục mù là dữ liệu tối mật.</strong> Nó là khoá của chính hệ thống bốc thăm:
+        ai có nó thì tự tính được chỉ mục mù của bất kỳ số định danh nào, tức là dò được một người
+        có tên trong danh sách hay không. Chỉ dán khi bạn là người được giao giữ khoá, và chỉ trên
+        máy bạn tin.
+        Ở màn hình này công cụ <strong>không gửi đi bất kỳ request nào</strong>: bảng và khoá chỉ
+        nằm trong bộ nhớ của tab, không ghi ra đĩa, không lưu cookie, đóng tab là mất.
+    </p>
+
+    @if (!trangThai.DaHieuCanhBao)
+    {
+        <button type="button" class="hieu-canh-bao" @onclick="() => trangThai.HieuCanhBao()">
+            Tôi đã đọc cảnh báo, mở ô dán danh sách và khoá
+        </button>
+    }
+    else
+    {
+        <label class="o-dan-danh-sach">
+            <span>
+                Bảng danh sách đã khoá — bốn cột theo đúng thứ tự biên bản: mã hồ sơ · họ tên ·
+                số định danh · nhóm đối tượng. Dán thẳng từ bảng tính (cột ngăn nhau bằng tab) hoặc
+                dán bảng kiểu <code>| … | … |</code>. Dòng tiêu đề để nguyên cũng được.
+            </span>
+            <textarea @bind="bang" @bind:event="oninput" rows="8" spellcheck="false"
+                      placeholder="HS001&#9;Trần Thị Bình&#9;079010000001&#9;U1"></textarea>
+        </label>
+
+        <label class="o-dan-khoa">
+            <span>Khoá chỉ mục mù (K_idx) — 64 ký tự hex</span>
+            @* type=password + autocomplete=off: không để trình quản lý mật khẩu của trình duyệt
+               lưu lại khoá. Đây là chỗ duy nhất khoá xuất hiện, và nó không đi đâu khác. *@
+            <input type="password" autocomplete="off" spellcheck="false" @bind="khoa"
+                   @bind:event="oninput" />
+        </label>
+
+        <button type="button" class="kiem-danh-sach" @onclick="Kiem" disabled="@ChuaDuDeKiem">
+            Dựng lại mã băm danh sách
+        </button>
+
+        @if (trangThai.DaDan is not null)
+        {
+            <button type="button" class="xoa-khoa" @onclick="Xoa">
+                Xoá bảng và khoá khỏi bộ nhớ
+            </button>
+
+            @if (!trangThai.KhoaDangHex)
+            {
+                <p class="canh-bao-khoa-la">
+                    Khoá bạn dán không phải 64 ký tự hex. Công cụ vẫn dùng đúng cách backend dùng một
+                    chuỗi như vậy (đọc thẳng dạng UTF-8), nhưng khoá của hệ thống thật là 64 ký tự
+                    hex — hãy xem lại trước khi kết luận danh sách không khớp.
+                </p>
+            }
+        }
+    }
+</section>
+
+@code {
+    /// <summary>Dán xong là dữ liệu vào lõi đã đổi — kết luận đang hiện phải được tính lại.</summary>
+    [Parameter] public EventCallback DaDoi { get; set; }
+
+    // Chỉ sống trong component, không đi vào bất kỳ nơi lưu trữ nào.
+    private string bang = string.Empty;
+    private string khoa = string.Empty;
+
+    private bool ChuaDuDeKiem => string.IsNullOrWhiteSpace(bang) || string.IsNullOrWhiteSpace(khoa);
+
+    private async Task Kiem()
+    {
+        trangThai.Dat(bang, khoa);
+        await DaDoi.InvokeAsync();
+    }
+
+    private async Task Xoa()
+    {
+        trangThai.Xoa();
+        bang = string.Empty;
+        khoa = string.Empty;
+        await DaDoi.InvokeAsync();
+    }
+}
