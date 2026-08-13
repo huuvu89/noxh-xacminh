@@ -1,4 +1,5 @@
 using Noxh.XacMinh.Core.Transparency;
+using Noxh.XacMinh.Core.Units;
 
 namespace Noxh.XacMinh.Core.Decks;
 
@@ -10,9 +11,9 @@ namespace Noxh.XacMinh.Core.Decks;
 /// </summary>
 public static class DeckGridBuilder
 {
-    public static IReadOnlyList<DeckGrid> Build(TransparencyReport report) =>
+    public static IReadOnlyList<DeckGrid> Build(TransparencyReport report, UnitCatalog? catalog = null) =>
         (report.Decks ?? [])
-            .Select(deck => Dung(deck, NhatKyGhepDuoc(report, deck), DeckRebuilder.Rebuild(report, deck)))
+            .Select(deck => Dung(deck, NhatKyGhepDuoc(report, deck), DeckRebuilder.Rebuild(report, deck, catalog)))
             .ToList();
 
     /// <summary>

@@ -31,6 +31,26 @@
     </p>
 }
 
+@* Quỹ căn ưu tiên KHÔNG có trong báo cáo minh bạch: công cụ dựng lại nó từ hạt giống, nên nó phải
+   hiện ra cho người dân xem chứ không chỉ nằm ở chế độ chuyên sâu. *@
+@if (Luoi.Rebuild is { PriorityUnits: { Count: > 0 } quyCan } taiLap)
+{
+    <div class="quy-can-uu-tien">
+        <h3>Quỹ căn ưu tiên loại @taiLap.TypeCode — dựng lại từ hạt giống</h3>
+        <p class="dan-nhap">
+            Những căn này không do ai chọn: công cụ xáo lại danh mục căn loại @taiLap.TypeCode bằng chính
+            hạt giống đã cam kết trước lễ và ra đúng thứ tự dưới đây, rồi chúng thành vé trúng trong chồng
+            phiếu này.
+        </p>
+        <ol class="danh-sach-can">
+            @foreach (var can in quyCan)
+            {
+                <li><code>@MoTaGiaTri.Gon(can)</code></li>
+            }
+        </ol>
+    </div>
+}
+
 @if (Luoi.Cells.Count == 0)
 {
     <p class="chua-mo">Chồng phiếu này chưa công bố nội dung vé, nên chưa có ô phiếu nào để vẽ.</p>

@@ -1,0 +1,26 @@
+{
+  "2PN": [
+    { "unitCode": "2PN-001", "block": "A", "floor": 1 },
+    { "unitCode": "2PN-002", "block": "A", "floor": 1 },
+    { "unitCode": "2PN-003", "block": "A", "floor": 1 },
+    { "unitCode": "2PN-004", "block": "A", "floor": 1 },
+    { "unitCode": "2PN-005", "block": "A", "floor": 2 },
+    { "unitCode": "2PN-006", "block": "A", "floor": 2 },
+    { "unitCode": "2PN-007", "block": "A", "floor": 2 },
+    { "unitCode": "2PN-008", "block": "A", "floor": 2 },
+    { "unitCode": "2PN-009", "block": "A", "floor": 3 },
+    { "unitCode": "2PN-010", "block": "A", "floor": 3 },
+    { "unitCode": "2PN-011", "block": "A", "floor": 3 },
+    { "unitCode": "2PN-012", "block": "A", "floor": 3 }
+  ],
+  "1PN": [
+    { "unitCode": "1PN-001", "block": "A", "floor": 1 },
+    { "unitCode": "1PN-002", "block": "A", "floor": 1 },
+    { "unitCode": "1PN-003", "block": "A", "floor": 1 },
+    { "unitCode": "1PN-004", "block": "A", "floor": 1 },
+    { "unitCode": "1PN-005", "block": "A", "floor": 2 },
+    { "unitCode": "1PN-006", "block": "A", "floor": 2 },
+    { "unitCode": "1PN-007", "block": "A", "floor": 2 },
+    { "unitCode": "1PN-008", "block": "A", "floor": 2 }
+  ]
+}

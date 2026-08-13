@@ -14,6 +14,7 @@ public class GoldenFixtureTests
 {
     private const string FixtureFile = "transparency-golden.json";
     private const string MetaFile = "transparency-golden.meta.json";
+    private const string UnitCatalogFile = "apartment-units-golden.json";
 
     private static JsonElement Fixture() => Load(FixtureFile);
     private static JsonElement Meta() => Load(MetaFile);
@@ -213,6 +214,52 @@ public class GoldenFixtureTests
         Assert.Matches("^[0-9a-f]{40}$", commit);
         Assert.NotEqual(JsonValueKind.Null, meta.GetProperty("backendCommittedAt").ValueKind);
         Assert.NotEqual(JsonValueKind.Null, meta.GetProperty("generatedAtUtc").ValueKind);
+    }
+
+    // ── Vé #12: danh mục căn của chính dự án trong fixture ───────────────────────────────
+
+    /// <summary>
+    /// Tái lập vòng phân căn ưu tiên cần quỹ căn của <b>dự án trong fixture</b> — bản danh mục nhúng
+    /// sẵn trong công cụ là của dự án khác. Danh mục thiếu một căn nào đó thì phép dựng lại quỹ căn
+    /// ưu tiên ra một hoán vị khác, và test tái lập đỏ mà không nói được vì sao.
+    /// </summary>
+    [Fact]
+    public void Ve12_CoDanhMucCanCuaDuAnTrongFixture_PhuDuMoiCanDaTrungTrongVe()
+    {
+        var path = RepoPaths.Fixture(UnitCatalogFile);
+        Assert.True(File.Exists(path), $"Thiếu danh mục căn của dự án trong fixture: {path}");
+
+        using var doc = JsonDocument.Parse(File.ReadAllText(path));
+        var maCan = doc.RootElement.EnumerateObject()
+            .SelectMany(loai => loai.Value.EnumerateArray())
+            .Select(can => can.GetProperty("unitCode").GetString()!)
+            .ToHashSet(StringComparer.Ordinal);
+
+        var canDaTrung = Decks()
+            .SelectMany(d => d.GetProperty("tickets").EnumerateArray())
+            .Select(t => t.GetString()!)
+            .Where(p => p.StartsWith("TRUNG:", StringComparison.Ordinal))
+            .Select(p => p["TRUNG:".Length..])
+            .Distinct(StringComparer.Ordinal)
+            .ToList();
+
+        Assert.NotEmpty(canDaTrung);
+        Assert.All(canDaTrung, can => Assert.Contains(can, maCan));
+    }
+
+    [Fact]
+    public void Ve12_MaLoaiCanTrongDanhMuc_KhopVoiTenVongPhanCanUuTien()
+    {
+        using var doc = JsonDocument.Parse(File.ReadAllText(RepoPaths.Fixture(UnitCatalogFile)));
+        var maLoai = doc.RootElement.EnumerateObject().Select(l => l.Name).ToHashSet(StringComparer.Ordinal);
+
+        var loaiCuaVongUuTien = DeckRounds()
+            .Where(r => r.StartsWith("A2:", StringComparison.Ordinal))
+            .Select(r => r["A2:".Length..])
+            .ToList();
+
+        Assert.NotEmpty(loaiCuaVongUuTien);
+        Assert.All(loaiCuaVongUuTien, loai => Assert.Contains(loai, maLoai));
     }
 
     [Fact]

@@ -45,7 +45,7 @@
 
     @if (trangThai.Nguon == NguonDanhMuc.NguoiDungNap)
     {
-        <button type="button" class="dung-ban-nhung" @onclick="trangThai.DungBanNhung">
+        <button type="button" class="dung-ban-nhung" @onclick="DungBanNhung">
             Dùng lại bản nhúng sẵn
         </button>
     }
@@ -60,6 +60,12 @@
     // 8 MB: danh mục 509 căn chỉ vài chục KB; giới hạn để file nhầm không treo tab.
     private const long GioiHanByte = 8L * 1024 * 1024;
 
+    /// <summary>
+    /// Báo cho trang biết danh mục đang dùng đã đổi — vòng phân căn ưu tiên dựng lại từ chính danh
+    /// mục này, nên kết luận đang hiện trên màn hình phải được tính lại chứ không được đứng yên.
+    /// </summary>
+    [Parameter] public EventCallback DaDoi { get; set; }
+
     private string MoTaNguon => trangThai.Nguon == NguonDanhMuc.Nhung
         ? "bản nhúng sẵn trong công cụ"
         : $"bản do bạn nạp — {trangThai.TenFile}";
@@ -73,12 +79,18 @@
             using var buffer = new MemoryStream();
             await stream.CopyToAsync(buffer);
 
-            trangThai.Nap(buffer.ToArray(), file.Name);
+            if (trangThai.Nap(buffer.ToArray(), file.Name)) await DaDoi.InvokeAsync();
         }
         catch (Exception ex)
         {
             // Đọc file hỏng/quá lớn chỉ là lỗi nạp — danh mục đang dùng giữ nguyên.
             trangThai.BaoLoi($"Không đọc được file danh mục: {ex.Message}.");
         }
+    }
+
+    private async Task DungBanNhung()
+    {
+        trangThai.DungBanNhung();
+        await DaDoi.InvokeAsync();
     }
 }

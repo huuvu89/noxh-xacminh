@@ -163,6 +163,10 @@ public class GoldenTransparencyFixtureGenerator : IClassFixture<TestWebAppFactor
         await File.WriteAllTextAsync(outPath, pretty, new UTF8Encoding(false));
         await File.WriteAllTextAsync(MetaPathOf(outPath), BuildMeta(outPath, pretty, doc.RootElement),
             new UTF8Encoding(false));
+
+        // Danh mục căn của chính dự án này: tái lập vòng phân căn ưu tiên phải dựng lại quỹ căn từ
+        // danh mục, mà bản nhúng sẵn trong công cụ là của dự án khác.
+        await File.WriteAllTextAsync(UnitCatalogPathOf(outPath), BuildUnitCatalog(), new UTF8Encoding(false));
     }
 
     /// <summary>Fixture thiếu khối nào thì chặn tại nguồn, đừng ghi ra file rồi mới phát hiện.</summary>
@@ -206,6 +210,25 @@ public class GoldenTransparencyFixtureGenerator : IClassFixture<TestWebAppFactor
             .Should().Contain(t => t.GetProperty("scope").GetString() == "FREEZE");
         root.GetProperty("ketQua").GetProperty("rows").GetArrayLength().Should().BeGreaterThan(0);
         root.GetProperty("nguonNgauNhien").GetArrayLength().Should().Be(3);
+    }
+
+    private static string UnitCatalogPathOf(string outPath) =>
+        Path.Combine(Path.GetDirectoryName(Path.GetFullPath(outPath))!, "apartment-units-golden.json");
+
+    /// <summary>Danh mục căn ở đúng định dạng ban tổ chức công bố: <c>{"mã loại": [{"unitCode": …}]}</c>.</summary>
+    private static string BuildUnitCatalog()
+    {
+        var danhMuc = Types.ToDictionary(
+            t => t.Code,
+            t => Enumerable.Range(1, t.TotalUnits)
+                .Select(u => new { unitCode = $"{t.Code}-{u:D3}", block = "A", floor = (u - 1) / 4 + 1 })
+                .ToList());
+
+        return JsonSerializer.Serialize(danhMuc, new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+        }) + "\n";
     }
 
     private static string MetaPathOf(string outPath) =>
