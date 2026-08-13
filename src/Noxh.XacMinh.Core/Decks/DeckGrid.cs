@@ -31,13 +31,16 @@ public sealed record CellDraw(string? ApplicantId, bool? AutoDrawn);
 /// <summary>
 /// Một ô phiếu. <see cref="Draws"/> giữ <b>mọi</b> lượt bốc nhận ô này: bình thường nhiều nhất một
 /// lượt, nhưng file bị chèn thêm lượt thì lưới phải cho thấy chỗ đó, không được giấu bớt.
+/// <see cref="MatchesRebuild"/> rỗng nghĩa là công cụ <b>chưa dựng lại</b> chồng phiếu này — không
+/// phải "ô này lệch".
 /// </summary>
 public sealed record DeckCell(
     int Position,
     string? Payload,
     TicketKind Kind,
     string Label,
-    IReadOnlyList<CellDraw> Draws)
+    IReadOnlyList<CellDraw> Draws,
+    bool? MatchesRebuild = null)
 {
     public bool Drawn => Draws.Count > 0;
 
@@ -46,15 +49,31 @@ public sealed record DeckCell(
 
 /// <summary>
 /// Số liệu tóm tắt của một chồng phiếu. Ba trường liên quan tới lượt bốc là <c>null</c> khi báo cáo
-/// không ghép được nhật ký bốc cho chồng phiếu này — "không biết" chứ không phải "bằng 0".
+/// không ghép được nhật ký bốc cho chồng phiếu này — "không biết" chứ không phải "bằng 0"; tương tự,
+/// <see cref="CellsMatchingRebuild"/> rỗng khi công cụ chưa dựng lại được chồng phiếu.
 /// </summary>
-public sealed record DeckSummary(int Size, int WonCount, int? ManualDraws, int? AutoDraws, int? UndrawnCells)
+public sealed record DeckSummary(
+    int Size,
+    int WonCount,
+    int? ManualDraws,
+    int? AutoDraws,
+    int? UndrawnCells,
+    int? CellsMatchingRebuild = null)
 {
     public bool HasDrawLog => UndrawnCells is not null;
 }
 
-/// <summary>Lưới ô phiếu của một chồng phiếu đã công bố, kèm số liệu tóm tắt và phép lọc/tra cứu.</summary>
-public sealed record DeckGrid(string? Round, string? DeckHash, IReadOnlyList<DeckCell> Cells, DeckSummary Summary)
+/// <summary>
+/// Lưới ô phiếu của một chồng phiếu đã công bố, kèm số liệu tóm tắt và phép lọc/tra cứu.
+/// <see cref="Rebuild"/> là bản dựng lại từ hạt giống, <c>null</c> khi công cụ chưa dựng lại được
+/// vòng này — kết luận ĐẠT/KHÔNG ĐẠT vẫn thuộc về hạng mục kiểm, không thuộc lưới.
+/// </summary>
+public sealed record DeckGrid(
+    string? Round,
+    string? DeckHash,
+    IReadOnlyList<DeckCell> Cells,
+    DeckSummary Summary,
+    DeckRebuild? Rebuild = null)
 {
     /// <summary>
     /// Lọc theo loại vé/lượt bốc rồi lọc tiếp theo mã hồ sơ giả (chuỗi con, không phân biệt hoa

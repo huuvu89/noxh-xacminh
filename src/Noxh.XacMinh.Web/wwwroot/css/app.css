@@ -114,7 +114,7 @@ h1 { font-size: 1.5rem; }
 .tom-tat .nhan-so { color: #555; }
 .tom-tat .so { font-weight: 700; }
 
-.thieu-nhat-ky, .chua-mo, .khong-khop, .khong-co-chong-phieu {
+.thieu-nhat-ky, .chua-mo, .khong-khop, .khong-co-chong-phieu, .chua-tai-lap {
     padding: .5rem .75rem;
     border-left: .35rem solid var(--khong-kiem-duoc);
     background: var(--nen-mo);
@@ -131,6 +131,20 @@ h1 { font-size: 1.5rem; }
 .chip-loai.loai-khong-ro { background: var(--ve-khong-ro); }
 .chip-loai.mau-chua-boc { background: #fff; border: 2px dashed #777; }
 
+/* Dấu hiệu tái lập nằm trên kênh HÌNH (ký hiệu ở góc + viền), tách khỏi kênh MÀU đang dùng cho loại
+   vé: một ô lệch phải nhảy ra giữa hàng trăm ô kể cả khi người xem không phân biệt được màu. */
+.chip-loai.mau-khop-tai-lap, .chip-loai.mau-lech-tai-lap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    font-size: .7rem;
+    line-height: 1;
+}
+
+.chip-loai.mau-khop-tai-lap { color: var(--dat); }
+.chip-loai.mau-lech-tai-lap { color: var(--khong-dat); border: 2px solid var(--khong-dat); }
+
 /* Mỗi khối là một đơn vị trình duyệt được phép bỏ qua khi nằm ngoài màn hình: chồng ~900 ô cuộn
    mượt trên điện thoại mà không cần JS ảo hoá, và cả lưới vẫn nằm trong DOM để tìm/đọc màn hình. */
 .khoi-o {
@@ -143,6 +157,7 @@ h1 { font-size: 1.5rem; }
 }
 
 .o-phieu {
+    position: relative;
     /* 2.6rem ≈ 44px: chạm được bằng ngón tay, đúng cỡ mục tiêu chạm tối thiểu. */
     min-height: 2.6rem;
     padding: 0;
@@ -163,6 +178,27 @@ h1 { font-size: 1.5rem; }
 /* Ô chưa ai bốc: viền đứt + xám hoá — khác biệt về hình, không chỉ về màu. Xám hoá chứ không giảm
    opacity: hoà vào nền trắng thì con số trong ô mất tương phản. */
 .o-phieu.chua-boc { border: 2px dashed #333; filter: grayscale(75%); }
+
+/* Khớp bản dựng lại: dấu ✓ nhỏ ở góc — thêm một kênh hình lên ô, không đụng vào màu loại vé. */
+.o-phieu.khop-tai-lap::after,
+.o-phieu.lech-tai-lap::after {
+    position: absolute;
+    top: 0;
+    right: .15rem;
+    font-size: .7rem;
+    line-height: 1.1;
+    text-shadow: 0 0 2px #000, 0 0 2px #000;
+}
+
+.o-phieu.khop-tai-lap::after { content: "✓"; color: #fff; }
+
+/* Ô lệch: viền đỏ dày ăn vào trong + dấu ✗ — đây là thứ phải nhảy ra giữa hàng trăm ô. */
+.o-phieu.lech-tai-lap {
+    border: 3px solid var(--khong-dat);
+    box-shadow: 0 0 0 2px #fff inset;
+}
+
+.o-phieu.lech-tai-lap::after { content: "✗"; color: #fff; }
 
 .o-phieu.dang-chon { outline: 3px solid #1b1b1b; outline-offset: 1px; }
 

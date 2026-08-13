@@ -11,6 +11,7 @@ public static class Verifier
     private static readonly IReadOnlyList<Func<VerificationInput, IEnumerable<CheckResult>>> Checks =
     [
         DeckHashCheck.Run,
+        DeckRebuildCheck.Run,
         RServerCommitCheck.Run,
         MasterSeedCheck.Run,
         DrawLogChainCheck.Run,

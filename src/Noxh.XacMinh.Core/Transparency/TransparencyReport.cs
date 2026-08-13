@@ -159,6 +159,9 @@ public sealed class Deck
 
     [JsonPropertyName("size")] public int? Size { get; init; }
 
+    /// <summary>Số vé trúng chồng phiếu khai lúc niêm phong — thành phần để dựng lại chồng phiếu.</summary>
+    [JsonPropertyName("wonCount")] public int? WonCount { get; init; }
+
     [JsonPropertyName("sealedAt")] public string? SealedAt { get; init; }
 
     [JsonPropertyName("tickets")] public IReadOnlyList<string?>? Tickets { get; init; }

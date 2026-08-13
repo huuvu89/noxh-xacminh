@@ -6,6 +6,13 @@
     <li><span class="nhan-so">Lượt người bấm</span> <span class="so">@So(Luoi.Summary.ManualDraws)</span></li>
     <li><span class="nhan-so">Lượt máy bốc thay</span> <span class="so">@So(Luoi.Summary.AutoDraws)</span></li>
     <li><span class="nhan-so">Ô chưa ai bốc</span> <span class="so">@So(Luoi.Summary.UndrawnCells)</span></li>
+    @if (Luoi.Summary.CellsMatchingRebuild is { } khop)
+    {
+        <li>
+            <span class="nhan-so">Ô khớp bản dựng lại từ hạt giống</span>
+            <span class="so">@khop</span> / @Luoi.Summary.Size
+        </li>
+    }
 </ul>
 
 @if (!Luoi.Summary.HasDrawLog)
@@ -13,6 +20,14 @@
     <p class="thieu-nhat-ky">
         Báo cáo không công bố nhật ký bốc ghép được với chồng phiếu này, nên công cụ không biết ô nào
         đã có người bốc — không phải là chưa ai bốc ô nào.
+    </p>
+}
+
+@if (Luoi.Rebuild?.Tickets is null)
+{
+    <p class="chua-tai-lap">
+        Công cụ chưa dựng lại được chồng phiếu vòng này từ hạt giống, nên các ô không mang dấu hiệu
+        khớp bản dựng lại — không phải là chúng đã được đối chiếu và đạt.
     </p>
 }
 
@@ -28,6 +43,11 @@ else
             <li><span class="chip-loai @LopLoaiVe.Cua(loai)"></span> @LopLoaiVe.Nhan(loai)</li>
         }
         <li><span class="chip-loai mau-chua-boc"></span> Chưa ai bốc ô này</li>
+        @if (Luoi.Rebuild?.Tickets is not null)
+        {
+            <li><span class="chip-loai mau-khop-tai-lap">✓</span> Khớp bản dựng lại từ hạt giống</li>
+            <li><span class="chip-loai mau-lech-tai-lap">✗</span> Lệch bản dựng lại từ hạt giống</li>
+        }
     </ul>
 
     @if (OHienThi.Count == 0)
@@ -68,6 +88,9 @@ else
 
         <dt>Nội dung vé</dt>
         <dd><code>@(chon.Payload is null ? "(chưa công bố)" : MoTaGiaTri.Gon(chon.Payload))</code></dd>
+
+        <dt>Dựng lại từ hạt giống</dt>
+        <dd>@TaiLap(chon.MatchesRebuild)</dd>
 
         <dt>Lượt bốc</dt>
         <dd>
@@ -110,7 +133,15 @@ else
 
     private string LopO(DeckCell o) =>
         $"o-phieu {LopLoaiVe.Cua(o.Kind)} {(o.Drawn ? "da-boc" : "chua-boc")}"
+        + o.MatchesRebuild switch { true => " khop-tai-lap", false => " lech-tai-lap", _ => string.Empty }
         + (o.Position == ViTriChon ? " dang-chon" : string.Empty);
+
+    private static string TaiLap(bool? khop) => khop switch
+    {
+        true => "Khớp bản dựng lại từ hạt giống — lá vé ở đúng vị trí mà hạt giống sinh ra.",
+        false => "LỆCH bản dựng lại từ hạt giống — vị trí này không phải thứ hạt giống sinh ra.",
+        _ => "Công cụ chưa dựng lại chồng phiếu vòng này, nên chưa nói được ô này khớp hay lệch.",
+    };
 
     private static IEnumerable<IEnumerable<DeckCell>> ChiaKhoi(IReadOnlyList<DeckCell> o)
     {
@@ -128,6 +159,10 @@ else
         phan.Add(o.Draws.Count == 0
             ? "chưa ai bốc ô này"
             : string.Join("; ", o.Draws.Select(b => $"hồ sơ {b.ApplicantId ?? "(không công bố)"}, {AiBoc(b.AutoDrawn)}")));
+
+        // Chữ chứ không chỉ hình: ô lệch bản dựng lại phải đọc được bằng trình đọc màn hình.
+        if (o.MatchesRebuild is { } khop)
+            phan.Add(khop ? "khớp bản dựng lại từ hạt giống" : "LỆCH bản dựng lại từ hạt giống");
 
         return string.Join(" · ", phan);
     }
