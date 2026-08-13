@@ -73,15 +73,6 @@ public static class DeckRebuilder
     /// </summary>
     private const int TranQuyMo = 100_000;
 
-    /// <summary>Nhãn dẫn xuất hạt giống của chồng phiếu, <c>null</c> nếu công cụ chưa dựng lại được vòng đó.</summary>
-    public static string? SeedLabel(string? round)
-    {
-        var vong = Chuan(round);
-        if (vong == LotteryLabels.RoundA1) return LotteryLabels.A1Deck;
-
-        return LoaiCanUuTien(vong) is { } loai ? LotteryLabels.A2Deck(loai) : null;
-    }
-
     /// <summary>
     /// Dựng lại một chồng phiếu; <c>null</c> nếu công cụ chưa biết dựng lại vòng của nó. Danh mục căn
     /// là dữ liệu đầu vào do ban tổ chức công bố (vỏ giao diện đưa vào), chỉ vòng phân căn ưu tiên
@@ -106,7 +97,7 @@ public static class DeckRebuilder
         return Chuan(round[LotteryLabels.RoundA2Prefix.Length..]);
     }
 
-    private static DeckRebuild? VongQuyenMua(TransparencyReport report, Deck deck, string round)
+    private static DeckRebuild VongQuyenMua(TransparencyReport report, Deck deck, string round)
     {
         var ketQua = new DeckRebuild(round, LotteryLabels.A1Deck, VongHatGiongA);
 
