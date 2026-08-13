@@ -73,7 +73,8 @@ chồng phiếu mọc ra từ hạt giống đã cam kết trước, không ph�
 | `fixtures/` | Fixture chuẩn vàng: JSON minh bạch **thật** của một dự án đã chạy trọn 4 vòng, kèm danh mục căn và **bảng danh sách hồ sơ đã khoá** (+ khoá chỉ mục mù dev) của chính dự án đó, và mã nguồn sinh lại tất cả từ backend. Đọc [`fixtures/README.md`](fixtures/README.md) trước khi dùng — nó nói rõ fixture chứng minh được gì và **không** chứng minh được gì. |
 | `src/Noxh.XacMinh.Core/` | Lõi kiểm chứng **thuần, không I/O**: lõi mật mã copy nguyên văn từ backend (`Crypto/`), model JSON minh bạch (`Transparency/`), và seam duy nhất `Verifier.Verify(VerificationInput) → VerificationReport` (`Verification/`). Thêm hạng mục kiểm = thêm một `Checks/*.cs` rồi cắm vào `Verifier`. `Decks/` giữ hai thứ: `DeckRebuilder.Rebuild(report, deck, catalog)` **dựng lại** chồng phiếu từ hạt giống — hai vòng đi theo loại căn dựng lại cả quỹ căn của loại đó trước (vòng ưu tiên: xáo danh mục; vòng bốc thẳng: `QuyCanConDu` suy quỹ căn còn dư từ bảng kết quả rồi mới xáo — hạng mục kiểm và lưới cùng dùng một bản dựng lại), vòng căn dư dựng lại quỹ căn dư **chung** (cũng suy ra từ bảng kết quả) cộng **hoán vị số dự khuyết** từ nhãn hạt giống riêng — bằng chứng trực tiếp rằng hạng dự khuyết không phụ thuộc thời điểm bấm; quy mô danh sách dự khuyết không nằm trong mã băm đầu vào nên lấy từ `waitlistSize` của báo cáo, báo cáo không công bố thì bản dựng lại mang theo giả định và lệch mã băm chỉ cho KHÔNG KIỂM ĐƯỢC. Còn `DeckGridBuilder.Build(report, catalog)` là phép **trình bày** — lưới ô phiếu + số liệu tóm tắt + bộ lọc, không kết luận ĐẠT/KHÔNG ĐẠT. `Units/` giữ **danh mục căn nhúng sẵn** (509 căn, 5 loại — bản do ban tổ chức công bố, nhúng thẳng vào assembly) kèm phép nạp file danh mục khác đè lên; danh mục đi vào lõi qua `VerificationInput.Catalog`. `DanhSach/` là hạng mục của tổ giám sát: nạp danh sách vào bằng **hai đường** — thả thẳng **file Excel gốc** (`FileExcel` đọc `.xlsx` không cần thư viện ngoài; `CotDanhSach` nhận cột theo tên tiêu đề rồi cắt khoảng trắng từng ô, đúng như backend đọc lúc nhập) hoặc **dán bảng** làm lối thoát khi gặp file lạ; cả hai đi vào chung `BangDanhSach`, rồi dựng lại `ListHash` bằng phép băm copy nguyên văn từ backend (`MaBamDanhSach` — JSON mặc định của .NET, nhóm ra số, tiếng Việt bị escape), và khi lệch thì thử các biến thể chuẩn hoá để nói "khớp nếu…" (`ChanDoanBang`) chứ **không** tự sửa dữ liệu người kiểm dán vào. `Kho/` là phần đọc **trail bằng chứng** trên kho lưu trữ chỉ-ghi: `SigV4` ký request bằng tay (hàm thuần, ghim bằng bộ vector chuẩn AWS công bố — và **chỉ ký GET/HEAD**, nên khoá có quyền ghi dán nhầm vào cũng không dùng được), `YeuCauDocKho` dựng request path-style, `LietKeKho`/`DocLoBangChung` bóc danh sách object và từng lô JSONL `NOXH-TRAIL-v1`; các lô đọc được đi vào lõi qua `VerificationInput.Kho`. `XuatKetQua/` dựng **bản xuất kết quả** ra Markdown — cũng là hàm thuần: thời điểm kiểm và mã băm đầu vào do vỏ UI đưa vào qua `ThongTinBanXuat`, nên bản xuất tất định và test được. |
 | `src/Noxh.XacMinh.Web/` | Vỏ giao diện Blazor WebAssembly: nạp file/nội dung dán, gọi lõi, vẽ kết luận. Không tự kiểm gì cả. Khuôn hiển thị chung ở `Components/` (`KetQuaKiem` vẽ mọi hạng mục; `KhungLuoiPhieu` giữ trạng thái xem lưới, `LuoiOPhieu` chỉ vẽ lưới, `DanhMucCan` hiện danh mục căn đang dùng, `MocNeoChuoiKhoi` là nút tra cứu block, `DanhSachHoSo` là khung thả file Excel gốc / dán bảng danh sách + khoá chỉ mục mù — cảnh báo mức nhạy cảm hiện trước khi mở ô nạp, và có nút xoá khoá khỏi bộ nhớ; `TrailBangChung` là khung nhập địa chỉ kho bằng chứng + khoá chỉ-đọc; `XuatKetQua` là nút tải bản kết quả — link `data:` dựng ngay trong trang, không JS, không máy chủ), chế độ hiển thị / danh mục / danh sách hồ sơ / kết quả tra cứu mốc neo / trail đã đọc ở `HienThi/`. Hai chỗ gọi mạng nằm gọn ở `MocNeo/` (đọc block từ sổ cái công khai → `VerificationInput.Blocks`) và `Kho/` (đọc lô bằng chứng từ kho chỉ-ghi → `VerificationInput.Kho`); mọi kiểu hỏng (mạng đứt, CORS, kho từ chối, quá hạn) thành một kết quả mang lỗi đi vào lõi, không thành ngoại lệ bị nuốt. |
-| `tests/` | Test. `Noxh.XacMinh.Fixtures.Tests` là hàng rào của fixture; `Noxh.XacMinh.Core.Tests` kiểm lõi qua đúng seam, bằng fixture chuẩn vàng và các bản bị sửa dựng từ chính nó; `Noxh.XacMinh.Web.Tests` vẽ component ra HTML tĩnh để kiểm khuôn hiển thị hai chế độ; `Noxh.XacMinh.Pipeline.Tests` là hàng rào của `.gitlab-ci.yml` — ghim những mệnh đề mà một lần sửa cẩu thả có thể làm mất im lặng (chạy trên nhánh chính + MR, lệnh test ở phạm vi solution, không job nào nuốt mã lỗi). |
+| `deploy/` | Cách bản tĩnh ra khỏi máy: `dung-ban-xuat-ban.sh` dựng **bản đem lên địa chỉ tĩnh** và **gói offline** từ cùng một lần publish, rồi ghi `build-info.json` (mã commit · mã băm gói · link lần chạy dựng) mà chân trang đọc để in ra. Chạy được cả trên máy cá nhân — người hoài nghi tự dựng lại và đối chiếu. `offline/` là mấy file đi kèm trong gói (hướng dẫn + script mở máy chủ file tại chỗ). |
+| `tests/` | Test. `Noxh.XacMinh.Fixtures.Tests` là hàng rào của fixture; `Noxh.XacMinh.Core.Tests` kiểm lõi qua đúng seam, bằng fixture chuẩn vàng và các bản bị sửa dựng từ chính nó; `Noxh.XacMinh.Web.Tests` vẽ component ra HTML tĩnh để kiểm khuôn hiển thị hai chế độ; `Noxh.XacMinh.Pipeline.Tests` là hàng rào của cấu hình dựng — `.gitlab-ci.yml` và `.github/workflows/xuat-ban.yml` + `deploy/dung-ban-xuat-ban.sh` — ghim những mệnh đề mà một lần sửa cẩu thả có thể làm mất im lặng (chạy trên nhánh chính + MR, lệnh test ở phạm vi solution, không job nào nuốt mã lỗi, dựng từ mã nguồn, 404 fallback, base href). |
 
 ```bash
 dotnet test          # toàn bộ test trong solution
@@ -99,6 +100,60 @@ python3 -m http.server 8080 --directory publish/wwwroot
 
 Không job nào `allow_failure` và không job nào nuốt mã lỗi: đỏ phải chặn, nếu không thì không có
 tín hiệu nào tới được người làm. `Noxh.XacMinh.Pipeline.Tests` ghim đúng những mệnh đề đó.
+
+## Xuất bản công khai và chứng minh nguồn gốc bản dựng
+
+Người dân mở một địa chỉ tĩnh là dùng được công cụ. Người hoài nghi thì cần hơn thế: bằng chứng
+rằng **trang đang mở đúng là mã nguồn công khai này**, không phải một bản đã bị sửa. Chuỗi bằng
+chứng đó gồm ba mắt xích, in ngay ở chân trang:
+
+| Ở chân trang | Đối chiếu với |
+|---|---|
+| **mã commit đã dựng** | commit trong repo công khai — đọc được toàn bộ mã nguồn tại đúng điểm đó |
+| **SHA-256 của gói offline** | `sha256sum` trên gói bạn tự tải về, và con số in trong nhật ký lần chạy dựng |
+| **link tới lần chạy dựng** | nhật ký công khai: nó dựng từ commit nào, bằng lệnh gì, ra mã băm gì |
+
+Việc dựng chạy tự động, không có bước dựng tay: `.github/workflows/xuat-ban.yml` chạy mỗi lần đẩy
+lên nhánh chính, gọi `deploy/dung-ban-xuat-ban.sh` **trong chính lần chạy công khai đó** rồi đẩy
+kết quả lên. Đẩy lên một artifact ai đó dựng sẵn ở máy riêng là mở lại đúng khe hở mà mắt xích trên
+bịt lại.
+
+Dựng lại tại chỗ — cũng chính kịch bản CI gọi, nên không có đường rẽ nào riêng cho CI:
+
+```bash
+BASE_HREF=/noxh-xacminh/ ./deploy/dung-ban-xuat-ban.sh
+python3 -m http.server 8080 --directory xuat-ban/site
+```
+
+Ra `xuat-ban/site/` (bản đem lên) và `xuat-ban/noxh-xacminh-offline-<commit>.zip` (gói offline).
+Nội dung dựng lại được; riêng **mã băm của file `.zip`** còn phụ thuộc công cụ nén, nên hãy so nội
+dung thư mục chứ đừng chờ hai file zip trùng byte.
+
+Ba chi tiết nhỏ, thiếu cái nào cũng ra một trang hỏng theo kiểu khó đoán:
+
+- **`base href`** đặt theo thư mục con của địa chỉ tĩnh (và luôn có dấu `/` cuối) — sai thì
+  `_framework/` tải hụt và trang đứng ở màn hình "đang tải". Kịch bản kiểm lại sau khi thay và
+  **thoát lỗi** nếu không khớp, thay vì đẩy lên rồi mới biết.
+- **`404.html`** là bản sao của `index.html` — máy chủ tĩnh không biết định tuyến bên trong trang,
+  nên đường dẫn con và F5 phải rơi về chính trang kiểm chứng.
+- **`.nojekyll`** giữ `_framework/` khỏi bị nuốt bởi Jekyll trên hosting kiểu GitHub Pages.
+
+### Bản offline
+
+Nút **Tải bản offline (.zip)** ở chân trang tải về đúng gói mà lần chạy dựng đó sinh ra: toàn bộ
+công cụ, dùng được cả khi trang công khai bị gỡ. Gói **không chạy bằng cách nháy đúp `index.html`**
+— công cụ là WebAssembly, trình duyệt tải phần chạy bằng `fetch`, mà `fetch` trên `file://` bị
+chặn; nên gói kèm `chay-offline.sh` / `chay-offline.cmd` mở một máy chủ file **ngay trên máy đó**
+(không gói tin nào ra Internet). Chi tiết trong `deploy/offline/HUONG-DAN-OFFLINE.md`.
+
+Gói không thể chứa mã băm của chính nó, nên chân trang của bản offline in mã commit + link lần dựng
+và nói thẳng rằng mã băm nằm ở trang công khai — im lặng bỏ trống là để người kiểm tưởng đã đối
+chiếu xong.
+
+> Chân trang đọc `build-info.json` — một file **của chính bản dựng**, cùng origin với trang, như
+> `_framework/`. Đây không phải đường ra mạng thứ ba: hai đường ra mạng vẫn là tra cứu mốc neo và
+> đọc kho bằng chứng, cả hai chỉ chạy khi người dùng bấm. Đọc không được thì chân trang nói "chưa
+> có dấu vết dựng công khai", không bịa.
 
 ## Hạng mục đã kiểm được
 
