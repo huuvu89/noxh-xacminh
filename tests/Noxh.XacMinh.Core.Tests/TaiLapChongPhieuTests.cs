@@ -88,15 +88,18 @@ public class TaiLapChongPhieuTests
         Assert.Equal(item.Actual, Hex.Sha256Hex(System.Text.Encoding.UTF8.GetBytes(item.Preimage!)));
     }
 
+    /// <summary>
+    /// Bốn vòng của buổi lễ đều dựng lại được (vé #11→#14). Vòng mang tên lạ thì công cụ im lặng —
+    /// đoán nó thuộc vòng nào rồi dựng theo công thức của vòng đó là đẻ ra một kết luận bịa.
+    /// </summary>
     [Fact]
-    public void AC1_CacVongChuaBietDungLai_KhongDeRaKetLuanBia()
+    public void AC1_VongMangTenLa_KhongDeRaKetLuanBia()
     {
-        // Vòng C cần quỹ căn dư và số dự khuyết, chưa dựng lại được: im lặng còn hơn báo ĐẠT bừa.
-        var golden = Golden();
+        var vongLa = Parse(EditGolden(root => ChongPhieu(root, "C")["round"] = "D:2PN"));
 
         Assert.All(
-            golden.Decks!.Where(d => d.Round == "C"),
-            d => Assert.Null(DeckRebuilder.Rebuild(golden, d, DanhMucGolden.Doc())));
+            vongLa.Decks!.Where(d => d.Round == "D:2PN"),
+            d => Assert.Null(DeckRebuilder.Rebuild(vongLa, d, DanhMucGolden.Doc())));
     }
 
     [Fact]

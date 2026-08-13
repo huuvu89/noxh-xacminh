@@ -10,6 +10,7 @@ public enum LoaiTaiLap
     QuyenMua,
     PhanCanUuTien,
     BocThangTheoLoai,
+    CanDuVaDuKhuyet,
 }
 
 /// <summary>
@@ -37,6 +38,13 @@ public sealed record DeckRebuild(string Round, string SeedLabel, string EntropyR
     public string? DeckHash { get; init; }
 
     public string? Blocker { get; init; }
+
+    /// <summary>
+    /// Giả định mà bản dựng lại này đang đứng trên (dữ liệu báo cáo không công bố, công cụ phải hiểu
+    /// theo một cách). Có giả định thì <b>lệch mã băm không được kết luận KHÔNG ĐẠT</b>: lệch có thể
+    /// là do giả định sai chứ không phải do buổi lễ sai.
+    /// </summary>
+    public string? Assumption { get; init; }
 
     // ── Riêng các vòng đi theo loại căn (phân căn ưu tiên, bốc thẳng) ───────
 
@@ -70,6 +78,28 @@ public sealed record DeckRebuild(string Round, string SeedLabel, string EntropyR
     /// Cũng là <b>suy diễn</b>: đây là danh sách đem xáo để dựng lại chồng phiếu vòng bốc thẳng.
     /// </summary>
     public IReadOnlyList<string>? LeftoverUnits { get; init; }
+
+    // ── Riêng vòng căn dư (vòng cuối) ───────────────────────────────────────
+
+    /// <summary>Nhãn dẫn xuất hoán vị số dự khuyết — nhãn riêng, tách khỏi nhãn xáo chồng phiếu.</summary>
+    public string? WaitlistSeedLabel { get; init; }
+
+    public string? WaitlistSeed { get; init; }
+
+    /// <summary>
+    /// Quy mô danh sách dự khuyết của dự án, lấy từ báo cáo. <c>null</c> = báo cáo không công bố, khi
+    /// đó bản dựng lại hiểu là không giới hạn và mang theo <see cref="Assumption"/>.
+    /// </summary>
+    public int? WaitlistSize { get; init; }
+
+    public int? WaitlistCount { get; init; }
+
+    /// <summary>
+    /// Số dự khuyết dựng lại, theo <b>thứ tự các ô dự khuyết trong chồng phiếu</b>. Đây là hoán vị
+    /// 1..wl mọc ra từ hạt giống rồi gán vào ô theo vị trí tăng dần — không liên quan gì tới thứ tự
+    /// bấm, nên bấm sớm không đổi được hạng dự khuyết.
+    /// </summary>
+    public IReadOnlyList<int>? WaitlistNumbers { get; init; }
 }
 
 /// <summary>
@@ -80,10 +110,10 @@ public sealed record DeckRebuild(string Round, string SeedLabel, string EntropyR
 /// <b>sau khi</b> niêm phong; dựng lại chứng minh chính chồng phiếu đó mọc ra từ hạt giống đã cam
 /// kết <b>trước</b> lễ, nên không ai sắp đặt được vị trí vé trúng.
 ///
-/// Đã dựng lại được vòng quyền mua (A1), vòng phân căn ưu tiên (A2 từng loại căn — dựng lại cả quỹ
-/// căn ưu tiên của loại đó rồi mới tới chồng phiếu) và vòng bốc thẳng theo loại căn (B từng loại —
-/// quỹ căn còn dư phải <b>suy ra</b> từ căn đã phân ở vòng trước). Vòng C còn cần quỹ căn dư và số
-/// dự khuyết; công cụ không dựng lại được thì <b>không kết luận</b> chứ không đoán.
+/// Dựng lại được cả bốn vòng: quyền mua (A1), phân căn ưu tiên (A2 từng loại căn — dựng lại cả quỹ
+/// căn ưu tiên của loại đó rồi mới tới chồng phiếu), bốc thẳng theo loại căn (B từng loại — quỹ căn
+/// còn dư phải <b>suy ra</b> từ căn đã phân ở vòng trước) và căn dư (C — một quỹ chung, cộng thêm
+/// hoán vị số dự khuyết). Vòng nào chưa dựng lại được thì <b>không kết luận</b> chứ không đoán.
 /// </summary>
 public static class DeckRebuilder
 {
@@ -109,6 +139,8 @@ public static class DeckRebuilder
         var round = Chuan(deck.Round);
 
         if (round == LotteryLabels.RoundA1) return VongQuyenMua(report, deck, round!);
+
+        if (round == LotteryLabels.RoundC) return VongCanDu(report, deck, round!, catalog);
 
         if (LoaiCan(round, LotteryLabels.RoundA2Prefix) is { } loaiUuTien)
             return VongUuTien(report, deck, round!, loaiUuTien, catalog);
@@ -272,6 +304,156 @@ public static class DeckRebuilder
         return Xao(ketQua with { PoolUnits = quyDaXao }, truocKhiXao, deckSeed);
     }
 
+    /// <summary>
+    /// Vòng căn dư (vòng cuối): <b>một</b> chồng phiếu duy nhất trên quỹ căn dư chung — mọi căn chưa
+    /// ai nhận sau vòng bốc thẳng, không chia theo loại. Vé trúng lấy lần lượt từ đầu quỹ đã xáo bằng
+    /// <c>"C:units"</c>, cả chồng phiếu xáo bằng <c>"C:deck"</c>, rồi các ô dự khuyết được đánh số
+    /// bằng một hoán vị 1..wl xáo riêng bằng <c>"C:waitlist"</c> và gán theo vị trí ô tăng dần.
+    ///
+    /// Chính nhãn hạt giống riêng đó là điều đáng dựng lại nhất của cả công cụ: số dự khuyết không
+    /// mọc ra từ vị trí trong chồng phiếu (thứ do thứ tự bấm quyết định), nên bấm sớm không được hạng
+    /// nhỏ hơn. Dựng lại đúng từng số là chứng minh trực tiếp điều đó với người dân.
+    ///
+    /// Quy mô danh sách dự khuyết là dữ liệu của dự án, KHÔNG nằm trong mã băm đầu vào — phải lấy từ
+    /// báo cáo. Báo cáo không công bố thì công cụ hiểu là không giới hạn, nhưng đánh dấu đó là
+    /// <see cref="DeckRebuild.Assumption"/> để lệch mã băm không bị kết luận thành KHÔNG ĐẠT.
+    /// </summary>
+    private static DeckRebuild VongCanDu(
+        TransparencyReport report, Deck deck, string round, UnitCatalog? danhMuc)
+    {
+        var ketQua = new DeckRebuild(round, LotteryLabels.CDeck, LotteryLabels.RoundC, LoaiTaiLap.CanDuVaDuKhuyet)
+        {
+            PoolSeedLabel = LotteryLabels.CUnits,
+            WaitlistSeedLabel = LotteryLabels.CWaitlist,
+            WaitlistSize = report.WaitlistSize,
+        };
+
+        if (HatGiongGoc(report, LotteryLabels.RoundC, out var masterSeedHex, out var masterSeed) is { } thieuHatGiong)
+            return ketQua with { MasterSeed = masterSeedHex, Blocker = thieuHatGiong };
+
+        var poolSeed = MasterSeed.RoundSeed(masterSeed!, LotteryLabels.CUnits);
+        var deckSeed = MasterSeed.RoundSeed(masterSeed!, LotteryLabels.CDeck);
+        var waitlistSeed = MasterSeed.RoundSeed(masterSeed!, LotteryLabels.CWaitlist);
+        ketQua = ketQua with
+        {
+            MasterSeed = masterSeedHex,
+            RoundSeed = Hex.ChuanHoa(Convert.ToHexString(deckSeed)),
+            PoolSeed = Hex.ChuanHoa(Convert.ToHexString(poolSeed)),
+            WaitlistSeed = Hex.ChuanHoa(Convert.ToHexString(waitlistSeed)),
+        };
+
+        if (danhMuc is null)
+            return ketQua with
+            {
+                Blocker = "Công cụ chưa có danh mục căn hộ của dự án này, mà quỹ căn dư của vòng cuối phải dựng "
+                    + "lại từ chính danh mục đó — nạp file danh mục căn do ban tổ chức công bố rồi kiểm lại.",
+            };
+
+        ketQua = ketQua with { CatalogUnitCount = danhMuc.Types.Sum(t => t.UnitCodes.Count) };
+
+        var (daPhan, mauThuan) = QuyCanConDu.DaPhanTruocVongCanDu(report, danhMuc);
+        if (mauThuan is not null) return ketQua with { Blocker = mauThuan };
+
+        var daPhanRoi = daPhan!.ToHashSet(StringComparer.Ordinal);
+        // Một quỹ chung, sắp ordinal theo mã căn xuyên loại — đúng như máy chủ lấy căn chưa ai nhận.
+        var canDu = danhMuc.Types
+            .SelectMany(t => t.UnitCodes)
+            .Where(c => !daPhanRoi.Contains(c))
+            .Order(StringComparer.Ordinal)
+            .ToList();
+        ketQua = ketQua with { AllocatedBefore = daPhan, LeftoverUnits = canDu };
+
+        var (quyMo, veTrungKhai, nguon) = ThanhPhan(deck, VeVong.CanDu);
+        if (quyMo is null) return ketQua with { Blocker = nguon };
+
+        // Số vé trúng vòng cuối KHÔNG phải con số tự do: máy chủ đưa hết quỹ căn dư vào chồng phiếu,
+        // nên nó luôn bằng min(quy mô, số căn dư). Lệch ⇒ suy diễn quỹ căn dư sai (hoặc bảng kết quả
+        // đã bị sửa), mà công cụ không phân biệt được hai ca đó — nói chưa kiểm được, không kết luận.
+        var veTrung = Math.Min(quyMo.Value, canDu.Count);
+        ketQua = ketQua with
+        {
+            Size = quyMo,
+            WonCount = veTrung,
+            CompositionSource = nguon + " — riêng số vé trúng vòng cuối suy từ quỹ căn dư "
+                + "(= min(quy mô, số căn dư)) rồi đối chiếu với con số chồng phiếu khai",
+        };
+
+        if (veTrung != veTrungKhai)
+            return ketQua with
+            {
+                Blocker = $"Chồng phiếu vòng cuối khai {veTrungKhai} vé trúng, còn quỹ căn dư công cụ suy ra "
+                    + $"({canDu.Count} căn) trên quy mô {quyMo} vé chỉ sinh ra được {veTrung} vé trúng — suy diễn "
+                    + "quỹ căn dư và chồng phiếu công bố mâu thuẫn nhau, nên không đối chiếu được.",
+            };
+
+        if (KhopQuyCanDu(deck, canDu) is { } lechQuy) return ketQua with { Blocker = lechQuy };
+
+        if (report.WaitlistSize is { } quyMoDuKhuyet && quyMoDuKhuyet < 0)
+            return ketQua with
+            {
+                Blocker = $"Báo cáo khai quy mô danh sách dự khuyết là {quyMoDuKhuyet} — con số vô lý, nên công "
+                    + "cụ không dựng lại chồng phiếu vòng cuối theo nó.",
+            };
+
+        // Báo cáo bỏ trống quy mô dự khuyết đúng là cách dự án "không giới hạn" trông ra, nên hiểu vậy
+        // là hiểu đúng máy chủ — nhưng vẫn phải nói ra là công cụ đang giả định.
+        var tranDuKhuyet = report.WaitlistSize ?? int.MaxValue;
+        var soDuKhuyet = Math.Min(quyMo.Value - veTrung, tranDuKhuyet);
+        ketQua = ketQua with
+        {
+            WaitlistCount = soDuKhuyet,
+            // Không có ô dự khuyết nào thì trần dự khuyết không đụng tới bản dựng lại — khi đó đừng
+            // gắn giả định, kẻo một chồng phiếu bị sắp đặt lại được hạ xuống "chưa kiểm được".
+            Assumption = report.WaitlistSize is null && soDuKhuyet > 0
+                ? "báo cáo không công bố quy mô danh sách dự khuyết, nên công cụ dựng lại theo giả định danh "
+                    + "sách dự khuyết KHÔNG giới hạn — đúng như một dự án bỏ trống con số đó"
+                : null,
+        };
+
+        var quyDaXao = SeededShuffle.Shuffle(canDu, poolSeed).Take(veTrung).ToList();
+
+        // Trước khi xáo: [TRÚNG:{căn} theo thứ tự quỹ căn dư, DỰ KHUYẾT chưa đánh số × wl, KHÔNG TRÚNG].
+        var truocKhiXao = new List<string>(quyMo.Value);
+        truocKhiXao.AddRange(quyDaXao.Select(LotteryLabels.Win));
+        truocKhiXao.AddRange(Enumerable.Repeat(LotteryLabels.WaitlistPlaceholder, soDuKhuyet));
+        truocKhiXao.AddRange(Enumerable.Repeat(LotteryLabels.CLose, quyMo.Value - veTrung - soDuKhuyet));
+
+        var daXao = SeededShuffle.Shuffle(truocKhiXao, deckSeed);
+        var so = SeededShuffle.Shuffle(Enumerable.Range(1, soDuKhuyet).ToList(), waitlistSeed);
+
+        var k = 0;
+        var ve = daXao
+            .Select(v => v == LotteryLabels.WaitlistPlaceholder ? LotteryLabels.WaitlistTicket(so[k++]) : v)
+            .ToList();
+
+        return ketQua with
+        {
+            PoolUnits = quyDaXao,
+            WaitlistNumbers = so,
+            Tickets = ve,
+            DeckHash = CanonicalDeckSerializer.Hash(ve),
+        };
+    }
+
+    /// <summary>
+    /// Vé trúng đang công bố có nằm trong quỹ căn dư suy ra không. Nằm ngoài nghĩa là hoặc suy diễn
+    /// sai, hoặc căn đó đã được phân hai lần — không phân biệt được, nên chưa kiểm được.
+    /// </summary>
+    private static string? KhopQuyCanDu(Deck deck, List<string> canDu)
+    {
+        var trongQuy = canDu.ToHashSet(StringComparer.Ordinal);
+        var lac = (deck.Tickets ?? [])
+            .Where(v => v is not null && v.StartsWith(LotteryLabels.WinPrefix, StringComparison.Ordinal))
+            .Select(v => v![LotteryLabels.WinPrefix.Length..])
+            .FirstOrDefault(can => !trongQuy.Contains(can));
+
+        return lac is null
+            ? null
+            : $"Chồng phiếu vòng cuối công bố vé trúng căn '{MoTaGiaTri.Gon(lac)}', mà căn đó không nằm trong "
+                + "quỹ căn dư công cụ suy ra được — hoặc suy diễn sai, hoặc căn này đã được phân hai lần. Công "
+                + "cụ không phân biệt được nên không kết luận đạt hay không đạt.";
+    }
+
     /// <summary>Trả về lý do KHÔNG lấy được quỹ căn của loại này trong danh mục, <c>null</c> nếu lấy được.</summary>
     private static string? LayQuyCan(UnitCatalog? danhMuc, string loai, string tenQuy, out UnitCatalogType? quyCan)
     {
@@ -394,6 +576,14 @@ public static class DeckRebuilder
             v => v == LotteryLabels.BLose || v.StartsWith(LotteryLabels.WinPrefix, StringComparison.Ordinal),
             v => v.StartsWith(LotteryLabels.WinPrefix, StringComparison.Ordinal),
             "vòng bốc thẳng theo loại căn");
+
+        /// <summary>Vòng cuối là vòng duy nhất có ba dạng vé: trúng căn, dự khuyết có số, không trúng.</summary>
+        public static readonly VeVong CanDu = new(
+            v => v == LotteryLabels.CLose
+                || v.StartsWith(LotteryLabels.WinPrefix, StringComparison.Ordinal)
+                || v.StartsWith(LotteryLabels.WaitlistPrefix, StringComparison.Ordinal),
+            v => v.StartsWith(LotteryLabels.WinPrefix, StringComparison.Ordinal),
+            "vòng căn dư");
     }
 
     /// <summary>

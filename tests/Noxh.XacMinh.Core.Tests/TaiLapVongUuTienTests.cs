@@ -183,16 +183,6 @@ public class TaiLapVongUuTienTests
         Assert.Equal(item.Actual, Hex.Sha256Hex(Encoding.UTF8.GetBytes(item.Preimage!)));
     }
 
-    [Fact]
-    public void AC2_VongCanDuVaSoDuKhuyet_VanChuaDungLai_KhongDeRaKetLuanBia()
-    {
-        var golden = Golden();
-
-        Assert.All(
-            golden.Decks!.Where(d => d.Round == "C"),
-            d => Assert.Null(DeckRebuilder.Rebuild(golden, d, DanhMuc())));
-    }
-
     // ── AC3: loại căn không có người đăng ký — xử lý đúng, không tạo kết luận giả ────────
 
     [Fact]
@@ -210,7 +200,7 @@ public class TaiLapVongUuTienTests
         Assert.Equal(
             [$"{CheckIds.DeckRebuild}:{VongQuyenMua}", $"{CheckIds.DeckRebuild}:{VongUuTien1PN}",
                 $"{CheckIds.DeckRebuild}:{VongUuTien2PN}", $"{CheckIds.DeckRebuild}:B:1PN",
-                $"{CheckIds.DeckRebuild}:B:2PN"],
+                $"{CheckIds.DeckRebuild}:B:2PN", $"{CheckIds.DeckRebuild}:C"],
             ids.Order(StringComparer.Ordinal));
     }
 

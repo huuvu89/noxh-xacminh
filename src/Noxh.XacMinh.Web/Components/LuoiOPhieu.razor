@@ -80,6 +80,52 @@
     </div>
 }
 
+@* Vòng cuối: quỹ căn dư cũng là SUY DIỄN, còn số dự khuyết là thứ đáng nói nhất với người dân —
+   nó mọc ra từ một hạt giống riêng, nên bấm sớm hay muộn không đổi được hạng. *@
+@if (Luoi.Rebuild is { Kind: LoaiTaiLap.CanDuVaDuKhuyet } vongCanDu)
+{
+    @if (vongCanDu.LeftoverUnits is { Count: > 0 } canDu)
+    {
+        <div class="quy-can-du">
+            <h3>Quỹ căn dư — suy ra từ các vòng trước</h3>
+            <p class="dan-nhap suy-dien">
+                <strong>Đây là dữ liệu suy diễn</strong>, không phải dữ liệu ban tổ chức công bố: báo cáo minh bạch
+                không công bố quỹ căn dư, nên công cụ lấy cả danh mục căn trừ đi
+                @(vongCanDu.AllocatedBefore?.Count ?? 0) căn đã có người nhận ở các vòng trước theo bảng kết quả.
+                Vòng cuối gộp mọi loại căn vào <strong>một quỹ chung</strong>.
+            </p>
+            <ol class="danh-sach-can">
+                @foreach (var can in canDu)
+                {
+                    <li><code>@MoTaGiaTri.Gon(can)</code></li>
+                }
+            </ol>
+        </div>
+    }
+
+    @if (vongCanDu.WaitlistNumbers is { Count: > 0 } soDuKhuyet)
+    {
+        <div class="so-du-khuyet">
+            <h3>Số dự khuyết — dựng lại từ hạt giống</h3>
+            <p class="dan-nhap">
+                Số dự khuyết <strong>không phụ thuộc thời điểm bấm</strong>. Máy chủ không đánh số theo thứ tự
+                bấm, cũng không theo vị trí ô: nó xáo dãy 1…@soDuKhuyet.Count bằng một hạt giống riêng
+                (<code>@vongCanDu.WaitlistSeedLabel</code>) đã cam kết trước lễ, rồi gán lần lượt vào các ô dự
+                khuyết theo vị trí tăng dần. Vì vậy <strong>bấm sớm không được số nhỏ hơn</strong>, mạng nhanh hay
+                điện thoại tốt cũng không đổi được hạng của ai. Công cụ dựng lại đúng dãy dưới đây và khớp với số
+                in trên từng lá vé đã công bố — đó là bằng chứng, không phải lời hứa.
+            </p>
+            <p class="danh-sach-so">
+                Số dự khuyết theo thứ tự ô: <code>@string.Join(" · ", soDuKhuyet)</code>
+            </p>
+            @if (vongCanDu.WaitlistSize is { } quyMo)
+            {
+                <p class="quy-mo-du-khuyet">Quy mô danh sách dự khuyết của dự án (báo cáo công bố): @quyMo.</p>
+            }
+        </div>
+    }
+}
+
 @if (Luoi.Cells.Count == 0)
 {
     <p class="chua-mo">Chồng phiếu này chưa công bố nội dung vé, nên chưa có ô phiếu nào để vẽ.</p>

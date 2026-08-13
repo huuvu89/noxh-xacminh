@@ -120,12 +120,14 @@ h1 { font-size: 1.5rem; }
     background: var(--nen-mo);
 }
 
-.quy-can-uu-tien, .quy-can-con-du { margin: .75rem 0; padding: .5rem .75rem; border: 1px solid var(--vien); border-radius: .25rem; }
-.quy-can-uu-tien h3, .quy-can-con-du h3 { font-size: 1rem; margin: 0 0 .25rem; }
+.quy-can-uu-tien, .quy-can-con-du, .quy-can-du, .so-du-khuyet { margin: .75rem 0; padding: .5rem .75rem; border: 1px solid var(--vien); border-radius: .25rem; }
+.quy-can-uu-tien h3, .quy-can-con-du h3, .quy-can-du h3, .so-du-khuyet h3 { font-size: 1rem; margin: 0 0 .25rem; }
 
 /* Quỹ căn còn dư là suy diễn của công cụ: viền cảnh báo để không ai đọc nhầm là dữ liệu công bố. */
 .dan-nhap.suy-dien { padding: .4rem .6rem; border-left: .35rem solid var(--khong-kiem-duoc); background: var(--nen-mo); }
 .quy-can-con-du .da-phan { margin: .5rem 0 0; font-size: .85rem; }
+.so-du-khuyet .danh-sach-so { margin: .5rem 0 0; }
+.so-du-khuyet .quy-mo-du-khuyet { margin: .35rem 0 0; font-size: .85rem; }
 .danh-sach-can { display: flex; flex-wrap: wrap; gap: .35rem .9rem; margin: .5rem 0 0; padding-left: 1.25rem; font-size: .9rem; }
 
 .chu-giai { display: flex; flex-wrap: wrap; gap: .35rem .9rem; list-style: none; padding: 0; margin: .75rem 0; font-size: .8rem; }
