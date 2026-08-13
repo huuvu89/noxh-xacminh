@@ -43,6 +43,8 @@ public static class CheckIds
 {
     public const string DeckHash = "deck-hash";
 
+    public const string DeckRebuild = "deck-rebuild";
+
     public const string RServerCommit = "r-server-commit";
 
     public const string MasterSeed = "master-seed";

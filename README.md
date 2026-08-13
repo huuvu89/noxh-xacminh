@@ -55,7 +55,7 @@ chồng phiếu mọc ra từ hạt giống đã cam kết trước, không ph�
 | Thư mục | Nội dung |
 |---|---|
 | `fixtures/` | Fixture chuẩn vàng: JSON minh bạch **thật** của một dự án đã chạy trọn 4 vòng, kèm mã nguồn sinh lại nó từ backend. Đọc [`fixtures/README.md`](fixtures/README.md) trước khi dùng — nó nói rõ fixture chứng minh được gì và **không** chứng minh được gì. |
-| `src/Noxh.XacMinh.Core/` | Lõi kiểm chứng **thuần, không I/O**: lõi mật mã copy nguyên văn từ backend (`Crypto/`), model JSON minh bạch (`Transparency/`), và seam duy nhất `Verifier.Verify(VerificationInput) → VerificationReport` (`Verification/`). Thêm hạng mục kiểm = thêm một `Checks/*.cs` rồi cắm vào `Verifier`. `Decks/` là phép **trình bày** (không phải kiểm): `DeckGridBuilder.Build(report)` dựng lưới ô phiếu + số liệu tóm tắt + bộ lọc. `Units/` giữ **danh mục căn nhúng sẵn** (509 căn, 5 loại — bản do ban tổ chức công bố, nhúng thẳng vào assembly) kèm phép nạp file danh mục khác đè lên. |
+| `src/Noxh.XacMinh.Core/` | Lõi kiểm chứng **thuần, không I/O**: lõi mật mã copy nguyên văn từ backend (`Crypto/`), model JSON minh bạch (`Transparency/`), và seam duy nhất `Verifier.Verify(VerificationInput) → VerificationReport` (`Verification/`). Thêm hạng mục kiểm = thêm một `Checks/*.cs` rồi cắm vào `Verifier`. `Decks/` giữ hai thứ: `DeckRebuilder.Rebuild(report, deck)` **dựng lại** chồng phiếu từ hạt giống (hạng mục kiểm và lưới cùng dùng một bản dựng lại), còn `DeckGridBuilder.Build(report)` là phép **trình bày** — lưới ô phiếu + số liệu tóm tắt + bộ lọc, không kết luận ĐẠT/KHÔNG ĐẠT. `Units/` giữ **danh mục căn nhúng sẵn** (509 căn, 5 loại — bản do ban tổ chức công bố, nhúng thẳng vào assembly) kèm phép nạp file danh mục khác đè lên. |
 | `src/Noxh.XacMinh.Web/` | Vỏ giao diện Blazor WebAssembly: nạp file/nội dung dán, gọi lõi, vẽ kết luận. Không tự kiểm gì cả. Khuôn hiển thị chung ở `Components/` (`KetQuaKiem` vẽ mọi hạng mục; `KhungLuoiPhieu` giữ trạng thái xem lưới, `LuoiOPhieu` chỉ vẽ lưới, `DanhMucCan` hiện danh mục căn đang dùng), chế độ hiển thị và danh mục đang dùng ở `HienThi/`. |
 | `tests/` | Test. `Noxh.XacMinh.Fixtures.Tests` là hàng rào của fixture; `Noxh.XacMinh.Core.Tests` kiểm lõi qua đúng seam, bằng fixture chuẩn vàng và các bản bị sửa dựng từ chính nó; `Noxh.XacMinh.Web.Tests` vẽ component ra HTML tĩnh để kiểm khuôn hiển thị hai chế độ. |
 
@@ -82,7 +82,8 @@ python3 -m http.server 8080 --directory publish/wwwroot
 | 5 | Vé từng lượt bốc — payload khớp vé ở đúng vị trí trong chồng phiếu, từng vòng một, liệt kê đủ điểm lệch | ✅ |
 | 6 | Mã băm bảng kết quả chung cuộc — `resultsHash == SHA-256(canonical(rows))`, phủ cả những dòng không có vé nào | ✅ |
 | 7 | Dấu thời gian mốc cam kết — băm lại chuỗi đóng dấu của từng token, bóc từng trường đối chiếu cam kết neo và cam kết ngẫu nhiên máy chủ; không có token thì cảnh báo | ✅ |
-| 8–9 và các vòng tái lập | | chưa (vé tiếp theo) |
+| ★ | **Tái lập chồng phiếu vòng quyền mua (A1)** — dựng lại chồng phiếu từ `MASTER_SEED` bằng phép xáo copy nguyên văn từ backend rồi so `deckHash`; lưới ô phiếu đánh dấu từng ô khớp/lệch bản dựng lại | ✅ |
+| 8–9 và tái lập A2/B/C | | chưa (vé tiếp theo) |
 
 ## Vì sao C# WebAssembly chứ không phải JavaScript
 

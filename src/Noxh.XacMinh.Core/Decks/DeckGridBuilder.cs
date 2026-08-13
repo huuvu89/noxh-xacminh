@@ -11,7 +11,9 @@ namespace Noxh.XacMinh.Core.Decks;
 public static class DeckGridBuilder
 {
     public static IReadOnlyList<DeckGrid> Build(TransparencyReport report) =>
-        (report.Decks ?? []).Select(deck => Dung(deck, NhatKyGhepDuoc(report, deck))).ToList();
+        (report.Decks ?? [])
+            .Select(deck => Dung(deck, NhatKyGhepDuoc(report, deck), DeckRebuilder.Rebuild(report, deck)))
+            .ToList();
 
     /// <summary>
     /// Ghép nhật ký ↔ chồng phiếu theo <b>tên vòng</b>, đúng quy tắc của hạng mục kiểm vé từng lượt
@@ -33,7 +35,7 @@ public static class DeckGridBuilder
             .ToList();
     }
 
-    private static DeckGrid Dung(Deck deck, List<DrawLogEntry>? nhatKy)
+    private static DeckGrid Dung(Deck deck, List<DrawLogEntry>? nhatKy, DeckRebuild? taiLap)
     {
         // Số ô lấy theo nội dung vé đã công bố, không theo trường size: size là con số deck tự khai,
         // còn thứ deckHash niêm phong là mảng tickets. Chưa mở vé thì chưa có lưới để vẽ.
@@ -44,6 +46,10 @@ public static class DeckGridBuilder
             .GroupBy(e => e.Position!.Value)
             .ToDictionary(g => g.Key, g => g.Select(e => new CellDraw(e.ApplicantId, e.AutoDrawn)).ToList());
 
+        // Bản dựng lại ngắn hơn bản công bố thì những ô thừa là LỆCH, không phải "chưa biết": bản
+        // dựng lại đã có, chỉ là ở vị trí đó nó không sinh ra lá vé nào.
+        var banDungLai = taiLap?.Tickets;
+
         var o = ve.Select((payload, viTri) =>
         {
             var (kind, label) = TicketPayload.Doc(payload);
@@ -53,20 +59,23 @@ public static class DeckGridBuilder
                 payload,
                 kind,
                 label,
-                theoViTri.TryGetValue(viTri, out var boc) ? boc : []);
+                theoViTri.TryGetValue(viTri, out var boc) ? boc : [],
+                banDungLai is null ? null : viTri < banDungLai.Count && banDungLai[viTri] == payload);
         }).ToList();
 
-        return new DeckGrid(deck.Round, deck.DeckHash, o, TomTat(o, nhatKy, theoViTri.Count));
+        return new DeckGrid(deck.Round, deck.DeckHash, o, TomTat(o, nhatKy, theoViTri.Count, banDungLai), taiLap);
     }
 
     private static DeckSummary TomTat(
         List<DeckCell> o,
         List<DrawLogEntry>? nhatKy,
-        int soODaBoc)
+        int soODaBoc,
+        IReadOnlyList<string>? banDungLai)
     {
         var trung = o.Count(x => x.Kind == TicketKind.Trung);
+        var khopTaiLap = banDungLai is null ? (int?)null : o.Count(x => x.MatchesRebuild == true);
 
-        if (nhatKy is null) return new DeckSummary(o.Count, trung, null, null, null);
+        if (nhatKy is null) return new DeckSummary(o.Count, trung, null, null, null, khopTaiLap);
 
         // Đếm theo lượt bốc trong vòng, kể cả lượt khai vị trí ngoài phạm vi chồng phiếu: giấu nó đi
         // thì thanh tóm tắt lệch với nhật ký công bố. Lượt không công bố autoDrawn không thuộc bên nào.
@@ -75,6 +84,7 @@ public static class DeckGridBuilder
             trung,
             nhatKy.Count(e => e.AutoDrawn == false),
             nhatKy.Count(e => e.AutoDrawn == true),
-            o.Count - soODaBoc);
+            o.Count - soODaBoc,
+            khopTaiLap);
     }
 }
