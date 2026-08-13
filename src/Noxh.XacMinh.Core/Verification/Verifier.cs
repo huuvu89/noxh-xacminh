@@ -16,6 +16,7 @@ public static class Verifier
         DrawLogChainCheck.Run,
         DrawTicketMatchCheck.Run,
         ResultsHashCheck.Run,
+        FreezeTimestampCheck.Run,
     ];
 
     public static VerificationReport Verify(VerificationInput input) =>

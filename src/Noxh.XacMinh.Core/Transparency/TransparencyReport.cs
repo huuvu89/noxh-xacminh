@@ -16,13 +16,57 @@ public sealed class TransparencyReport
 
     [JsonPropertyName("completedAt")] public string? CompletedAt { get; init; }
 
+    /// <summary>
+    /// Mã băm danh sách hồ sơ đã ghim. Endpoint minh bạch công khai hiện KHÔNG công bố trường này
+    /// (nó nằm trong bản dành cho tổ giám sát), nhưng nó là một dòng của chuỗi đóng dấu mốc cam kết
+    /// — khai sẵn để đối chiếu được ngay khi bản báo cáo có nó.
+    /// </summary>
+    [JsonPropertyName("listHash")] public string? ListHash { get; init; }
+
     [JsonPropertyName("nguonNgauNhien")] public IReadOnlyList<EntropySource>? EntropySources { get; init; }
+
+    [JsonPropertyName("camKetNeo")] public AnchorCommitment? AnchorCommitment { get; init; }
+
+    [JsonPropertyName("dauThoiGian")] public IReadOnlyList<TimestampToken?>? Timestamps { get; init; }
 
     [JsonPropertyName("decks")] public IReadOnlyList<Deck>? Decks { get; init; }
 
     [JsonPropertyName("nhatKyBoc")] public IReadOnlyList<DrawLogEntry>? DrawLog { get; init; }
 
     [JsonPropertyName("ketQua")] public ResultTable? Results { get; init; }
+}
+
+/// <summary>
+/// Cam kết mốc neo: hai block đích được chốt <b>trước khi chúng tồn tại</b>, kèm thời điểm chốt.
+/// Đây chính là bộ số mà dấu thời gian của bên thứ ba đóng lên.
+/// </summary>
+public sealed class AnchorCommitment
+{
+    [JsonPropertyName("ethTargetHeight")] public long? EthTargetHeight { get; init; }
+
+    [JsonPropertyName("btcTargetHeight")] public long? BtcTargetHeight { get; init; }
+
+    [JsonPropertyName("anchorFrozenAt")] public string? AnchorFrozenAt { get; init; }
+}
+
+/// <summary>
+/// Một dấu thời gian RFC 3161. <see cref="Preimage"/> là chuỗi được đóng dấu, <see cref="Digest"/>
+/// là dấu vân tay nằm trong token. <see cref="Scope"/> nói dấu này đóng lên mốc nào
+/// (<c>FREEZE</c> = mốc cam kết, <c>STEPCHAIN:{vòng}</c>/<c>RESULTS:{vòng}</c> = mốc khác).
+/// </summary>
+public sealed class TimestampToken
+{
+    [JsonPropertyName("scope")] public string? Scope { get; init; }
+
+    [JsonPropertyName("authority")] public string? Authority { get; init; }
+
+    [JsonPropertyName("genTime")] public string? GenTime { get; init; }
+
+    [JsonPropertyName("serialNumber")] public string? SerialNumber { get; init; }
+
+    [JsonPropertyName("digest")] public string? Digest { get; init; }
+
+    [JsonPropertyName("preimage")] public string? Preimage { get; init; }
 }
 
 /// <summary>Bảng kết quả chung cuộc kèm mã băm đã ghim (<c>resultsHash</c>) của chính bảng đó.</summary>
