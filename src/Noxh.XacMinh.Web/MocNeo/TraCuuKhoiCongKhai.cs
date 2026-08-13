@@ -9,7 +9,8 @@ namespace Noxh.XacMinh.Web.MocNeo;
 public delegate Task<QuanSatKhoi> DocKhoiCongKhai(YeuCauTraCuuKhoi yeu, CancellationToken huy);
 
 /// <summary>
-/// Chỗ <b>duy nhất</b> trong công cụ nói chuyện với mạng. Nó chỉ gửi đi một con số công khai (độ cao
+/// Một trong hai chỗ trong công cụ nói chuyện với mạng (chỗ kia là đọc kho bằng chứng, xem
+/// <c>Kho/TaiKhoBangChung</c>). Nó chỉ gửi đi một con số công khai (độ cao
 /// block) và chỉ nhận về dữ liệu của sổ cái công khai — không đụng tới file người dùng thả vào, và
 /// không bao giờ hỏi máy chủ bốc thăm (hệ thống đang bị nghi ngờ thì không được làm chứng cho chính
 /// nó).

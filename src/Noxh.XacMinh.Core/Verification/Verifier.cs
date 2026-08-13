@@ -20,6 +20,7 @@ public static class Verifier
         FreezeTimestampCheck.Run,
         MocNeoCheck.Run,
         DanhSachHoSoCheck.Run,
+        TrailBangChungCheck.Run,
     ];
 
     public static VerificationReport Verify(VerificationInput input) =>

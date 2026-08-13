@@ -140,7 +140,9 @@ public class HaiCheDoHienThiTests
         var baoCao = BaoCaoChuanVang();
         var html = await Ve(trinh, baoCao);
 
-        Assert.All(baoCao.Items, i => Assert.Contains(i.Expected!, html));
+        // Hạng mục nào có giá trị kỳ vọng thì chế độ chuyên sâu phải hiện ra; hạng mục chưa có gì để
+        // so (trail chưa đọc kho) thì không có con số nào để đòi.
+        Assert.All(baoCao.Items.Where(i => i.Expected is not null), i => Assert.Contains(i.Expected!, html));
     }
 
     // ── AC3: lựa chọn chế độ giữ nguyên khi nạp file mới trong cùng phiên ─────────────────

@@ -60,4 +60,8 @@ public static class CheckIds
     public const string MocNeo = "moc-neo";
 
     public const string DanhSachHoSo = "danh-sach-ho-so";
+
+    public const string TrailChuoiLo = "trail-chuoi-lo";
+
+    public const string TrailKhoangTrong = "trail-khoang-trong";
 }

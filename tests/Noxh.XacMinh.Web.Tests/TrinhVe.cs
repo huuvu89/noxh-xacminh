@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
+using Noxh.XacMinh.Core.Kho;
 using Noxh.XacMinh.Core.Verification;
 using Noxh.XacMinh.Web.HienThi;
 using Noxh.XacMinh.Web.MocNeo;
@@ -23,12 +24,14 @@ internal sealed class TrinhVe : IAsyncDisposable
         TrangThaiHienThi? trangThai = null,
         TrangThaiDanhMuc? danhMuc = null,
         TrangThaiMocNeo? mocNeo = null,
-        TrangThaiDanhSach? danhSach = null)
+        TrangThaiDanhSach? danhSach = null,
+        TrangThaiKho? kho = null)
     {
         TrangThai = trangThai ?? new TrangThaiHienThi();
         DanhMuc = danhMuc ?? new TrangThaiDanhMuc();
         MocNeo = mocNeo ?? new TrangThaiMocNeo(KhongGoiMang);
         DanhSach = danhSach ?? new TrangThaiDanhSach();
+        Kho = kho ?? new TrangThaiKho(KhongDocKho);
 
         var services = new ServiceCollection();
         services.AddLogging();
@@ -36,6 +39,7 @@ internal sealed class TrinhVe : IAsyncDisposable
         services.AddSingleton(DanhMuc);
         services.AddSingleton(MocNeo);
         services.AddSingleton(DanhSach);
+        services.AddSingleton(Kho);
         services.AddSingleton<IJSRuntime, KhongGoiJs>();
         dichVu = services.BuildServiceProvider();
         trinh = new HtmlRenderer(dichVu, dichVu.GetRequiredService<ILoggerFactory>());
@@ -49,9 +53,14 @@ internal sealed class TrinhVe : IAsyncDisposable
 
     public TrangThaiDanhSach DanhSach { get; }
 
+    public TrangThaiKho Kho { get; }
+
     /// <summary>Vẽ HTML tĩnh thì không có mạng — ai gọi tới đây là lỗi thiết kế test, không phải kết quả.</summary>
     private static Task<QuanSatKhoi> KhongGoiMang(YeuCauTraCuuKhoi yeu, CancellationToken huy) =>
         throw new NotSupportedException($"Vẽ HTML tĩnh không gọi mạng (block {yeu.DoCao}).");
+
+    private static Task<KhoBangChung> KhongDocKho(ThongSoKho kho, KhoaKho? khoa, CancellationToken huy) =>
+        throw new NotSupportedException($"Vẽ HTML tĩnh không gọi mạng (kho {kho.MoTa}).");
 
     /// <summary>
     /// Trả HTML đã giải mã thực thể: bộ vẽ escape mọi ký tự ngoài ASCII (<c>Đ</c> → <c>&amp;#x110;</c>),
