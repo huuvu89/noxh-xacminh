@@ -12,12 +12,12 @@ namespace Noxh.XacMinh.Pipeline.Tests;
 /// </summary>
 public class CauHinhPipelineTests
 {
-    private static readonly string Path_ = System.IO.Path.Combine(RepoPaths.RepoRoot, ".gitlab-ci.yml");
+    private static readonly string DuongDan = Path.Combine(RepoPaths.RepoRoot, ".gitlab-ci.yml");
 
     private static string Yaml()
     {
-        Assert.True(File.Exists(Path_), $"Thiếu cấu hình pipeline: {Path_}");
-        return File.ReadAllText(Path_);
+        Assert.True(File.Exists(DuongDan), $"Thiếu cấu hình pipeline: {DuongDan}");
+        return File.ReadAllText(DuongDan);
     }
 
     /// <summary>Cắt file thành các khối theo khoá cấp cao nhất (cột 0), đủ để soi từng job.</summary>
@@ -29,7 +29,9 @@ public class CauHinhPipelineTests
 
         foreach (var line in Yaml().Split('\n'))
         {
-            var m = Regex.Match(line, @"^([A-Za-z_][\w.\-]*):");
+            // Nhận cả khoá ẩn (`.mau_dung_chung:`) — bỏ qua thì thân nó bị gộp vào job đứng trước
+            // và mọi khẳng định về job đó thành ra nói về chỗ khác.
+            var m = Regex.Match(line, @"^(\.?[A-Za-z_][\w.\-]*):");
             if (m.Success)
             {
                 if (key is not null) blocks[key] = string.Join('\n', body);
