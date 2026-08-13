@@ -35,6 +35,7 @@
 @if (baoCao is not null)
 {
     <KetQuaKiem BaoCao="baoCao" Nguon="@nguon" />
+    <KhungLuoiPhieu BaoCao="nguonBaoCao" />
 }
 
 @code {
@@ -45,6 +46,9 @@
     private string? loi;
     private string? nguon;
     private VerificationReport? baoCao;
+
+    // Lưới ô phiếu vẽ từ chính báo cáo đã nạp — giữ lại để khỏi phải đọc file lần nữa.
+    private TransparencyReport? nguonBaoCao;
 
     private async Task NhanFile(InputFileChangeEventArgs e)
     {
@@ -61,6 +65,7 @@
         {
             // Đọc file hỏng/quá lớn không được làm trắng trang.
             baoCao = null;
+            nguonBaoCao = null;
             loi = $"Không đọc được file: {ex.Message}";
         }
     }
@@ -73,12 +78,14 @@
         if (!nap.Success)
         {
             baoCao = null;
+            nguonBaoCao = null;
             loi = nap.ErrorMessage;
             return;
         }
 
         loi = null;
         nguon = TenNguon(nap.Report!, tenNguon);
+        nguonBaoCao = nap.Report!;
         baoCao = Verifier.Verify(new VerificationInput(nap.Report!));
     }
 

@@ -55,8 +55,8 @@ chồng phiếu mọc ra từ hạt giống đã cam kết trước, không ph�
 | Thư mục | Nội dung |
 |---|---|
 | `fixtures/` | Fixture chuẩn vàng: JSON minh bạch **thật** của một dự án đã chạy trọn 4 vòng, kèm mã nguồn sinh lại nó từ backend. Đọc [`fixtures/README.md`](fixtures/README.md) trước khi dùng — nó nói rõ fixture chứng minh được gì và **không** chứng minh được gì. |
-| `src/Noxh.XacMinh.Core/` | Lõi kiểm chứng **thuần, không I/O**: lõi mật mã copy nguyên văn từ backend (`Crypto/`), model JSON minh bạch (`Transparency/`), và seam duy nhất `Verifier.Verify(VerificationInput) → VerificationReport` (`Verification/`). Thêm hạng mục kiểm = thêm một `Checks/*.cs` rồi cắm vào `Verifier`. |
-| `src/Noxh.XacMinh.Web/` | Vỏ giao diện Blazor WebAssembly: nạp file/nội dung dán, gọi lõi, vẽ kết luận. Không tự kiểm gì cả. Khuôn hiển thị chung ở `Components/` (`KetQuaKiem` vẽ mọi hạng mục), chế độ hiển thị ở `HienThi/`. |
+| `src/Noxh.XacMinh.Core/` | Lõi kiểm chứng **thuần, không I/O**: lõi mật mã copy nguyên văn từ backend (`Crypto/`), model JSON minh bạch (`Transparency/`), và seam duy nhất `Verifier.Verify(VerificationInput) → VerificationReport` (`Verification/`). Thêm hạng mục kiểm = thêm một `Checks/*.cs` rồi cắm vào `Verifier`. `Decks/` là phép **trình bày** (không phải kiểm): `DeckGridBuilder.Build(report)` dựng lưới ô phiếu + số liệu tóm tắt + bộ lọc. |
+| `src/Noxh.XacMinh.Web/` | Vỏ giao diện Blazor WebAssembly: nạp file/nội dung dán, gọi lõi, vẽ kết luận. Không tự kiểm gì cả. Khuôn hiển thị chung ở `Components/` (`KetQuaKiem` vẽ mọi hạng mục; `KhungLuoiPhieu` giữ trạng thái xem lưới, `LuoiOPhieu` chỉ vẽ lưới), chế độ hiển thị ở `HienThi/`. |
 | `tests/` | Test. `Noxh.XacMinh.Fixtures.Tests` là hàng rào của fixture; `Noxh.XacMinh.Core.Tests` kiểm lõi qua đúng seam, bằng fixture chuẩn vàng và các bản bị sửa dựng từ chính nó; `Noxh.XacMinh.Web.Tests` vẽ component ra HTML tĩnh để kiểm khuôn hiển thị hai chế độ. |
 
 ```bash

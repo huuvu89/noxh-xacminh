@@ -1,0 +1,140 @@
+@* Chỉ vẽ lưới: chồng phiếu đang xem, bộ lọc và ô đang chọn do KhungLuoiPhieu giữ. *@
+
+<ul class="tom-tat">
+    <li><span class="nhan-so">Quy mô chồng phiếu</span> <span class="so">@Luoi.Summary.Size</span> ô</li>
+    <li><span class="nhan-so">Vé trúng</span> <span class="so">@Luoi.Summary.WonCount</span></li>
+    <li><span class="nhan-so">Lượt người bấm</span> <span class="so">@So(Luoi.Summary.ManualDraws)</span></li>
+    <li><span class="nhan-so">Lượt máy bốc thay</span> <span class="so">@So(Luoi.Summary.AutoDraws)</span></li>
+    <li><span class="nhan-so">Ô chưa ai bốc</span> <span class="so">@So(Luoi.Summary.UndrawnCells)</span></li>
+</ul>
+
+@if (!Luoi.Summary.HasDrawLog)
+{
+    <p class="thieu-nhat-ky">
+        Báo cáo không công bố nhật ký bốc ghép được với chồng phiếu này, nên công cụ không biết ô nào
+        đã có người bốc — không phải là chưa ai bốc ô nào.
+    </p>
+}
+
+@if (Luoi.Cells.Count == 0)
+{
+    <p class="chua-mo">Chồng phiếu này chưa công bố nội dung vé, nên chưa có ô phiếu nào để vẽ.</p>
+}
+else
+{
+    <ul class="chu-giai">
+        @foreach (var loai in Luoi.Cells.Select(o => o.Kind).Distinct())
+        {
+            <li><span class="chip-loai @LopLoaiVe.Cua(loai)"></span> @LopLoaiVe.Nhan(loai)</li>
+        }
+        <li><span class="chip-loai mau-chua-boc"></span> Chưa ai bốc ô này</li>
+    </ul>
+
+    @if (OHienThi.Count == 0)
+    {
+        <p class="khong-khop">Không có ô phiếu nào khớp bộ lọc và mã hồ sơ đang tìm.</p>
+    }
+    else
+    {
+        @* Chia khối + content-visibility: trình duyệt bỏ qua việc dựng hình phần đang nằm ngoài màn
+           hình, nên chồng ~900 ô cuộn mượt trên điện thoại mà không cần JS ảo hoá — và cả lưới vẫn
+           nằm trong DOM để tìm bằng Ctrl+F và trình đọc màn hình. *@
+        <div class="luoi-o">
+            @foreach (var khoi in ChiaKhoi(OHienThi))
+            {
+                <div class="khoi-o">
+                    @foreach (var o in khoi)
+                    {
+                        <button type="button"
+                                class="@LopO(o)"
+                                title="@MoTa(o)"
+                                aria-label="@MoTa(o)"
+                                @onclick="() => ChonO.InvokeAsync(o)">@o.Position</button>
+                    }
+                </div>
+            }
+        </div>
+    }
+}
+
+@if (OChon is { } chon)
+{
+    <dl class="chi-tiet-o">
+        <dt>Vị trí trong chồng phiếu</dt>
+        <dd>@chon.Position</dd>
+
+        <dt>Loại kết quả</dt>
+        <dd>@LopLoaiVe.Nhan(chon.Kind) — @chon.Label</dd>
+
+        <dt>Nội dung vé</dt>
+        <dd><code>@(chon.Payload ?? "(chưa công bố)")</code></dd>
+
+        <dt>Lượt bốc</dt>
+        <dd>
+            @if (!chon.Drawn)
+            {
+                <span>
+                    Ô này không có lượt bốc nào. Vị trí bị đốt khi một lượt rút bị huỷ giữa đường, nên
+                    ô trống không nói lên điều gì về gian lận.
+                </span>
+            }
+            else
+            {
+                @foreach (var boc in chon.Draws)
+                {
+                    <p>
+                        Mã hồ sơ giả <code>@(boc.ApplicantId ?? "(không công bố)")</code> — @AiBoc(boc.AutoDrawn)
+                    </p>
+                }
+            }
+        </dd>
+    </dl>
+}
+
+@code {
+    /// <summary>Số ô mỗi khối — khối là đơn vị trình duyệt được phép bỏ qua khi nằm ngoài màn hình.</summary>
+    public const int SoOMoiKhoi = 60;
+
+    [Parameter, EditorRequired] public DeckGrid Luoi { get; set; } = default!;
+
+    /// <summary>Tập ô còn lại sau bộ lọc/tìm kiếm — component này không tự lọc.</summary>
+    [Parameter, EditorRequired] public IReadOnlyList<DeckCell> OHienThi { get; set; } = default!;
+
+    [Parameter] public int? ViTriChon { get; set; }
+
+    [Parameter] public EventCallback<DeckCell> ChonO { get; set; }
+
+    private DeckCell? OChon => ViTriChon is { } viTri ? Luoi.Cells.FirstOrDefault(o => o.Position == viTri) : null;
+
+    private static string So(int? giaTri) => giaTri?.ToString() ?? "không công bố";
+
+    private string LopO(DeckCell o) =>
+        $"o-phieu {LopLoaiVe.Cua(o.Kind)} {(o.Drawn ? "da-boc" : "chua-boc")}"
+        + (o.Position == ViTriChon ? " dang-chon" : string.Empty);
+
+    private static IEnumerable<IEnumerable<DeckCell>> ChiaKhoi(IReadOnlyList<DeckCell> o)
+    {
+        for (var i = 0; i < o.Count; i += SoOMoiKhoi)
+            yield return o.Skip(i).Take(SoOMoiKhoi);
+    }
+
+    private static string MoTa(DeckCell o)
+    {
+        var phan = new List<string> { $"Vị trí {o.Position}", o.Label };
+
+        if (o.Payload is not null) phan.Add($"vé {o.Payload}");
+
+        phan.Add(o.Draws.Count == 0
+            ? "chưa ai bốc ô này"
+            : string.Join("; ", o.Draws.Select(b => $"hồ sơ {b.ApplicantId ?? "(không công bố)"}, {AiBoc(b.AutoDrawn)}")));
+
+        return string.Join(" · ", phan);
+    }
+
+    private static string AiBoc(bool? mayBoc) => mayBoc switch
+    {
+        true => "máy bốc thay",
+        false => "người bấm",
+        _ => "báo cáo không công bố người bấm hay máy bốc",
+    };
+}
