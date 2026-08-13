@@ -1,5 +1,7 @@
 @page "/"
 @using System.Text
+@using Noxh.XacMinh.Core.Crypto
+@using Noxh.XacMinh.Core.XuatKetQua
 @inject TrangThaiDanhMuc danhMuc
 @inject TrangThaiMocNeo mocNeo
 @inject TrangThaiDanhSach danhSach
@@ -38,7 +40,7 @@
 
 @if (baoCao is not null)
 {
-    <KetQuaKiem BaoCao="baoCao" Nguon="@nguon" />
+    <KetQuaKiem BaoCao="baoCao" Nguon="@nguon" ThongTinXuat="thongTinXuat" />
     <MocNeoChuoiKhoi DaDoi="KiemLaiBaoCaoDaNap" />
     <DanhSachHoSo DaDoi="KiemLaiBaoCaoDaNap" />
     <TrailBangChung DaDoi="KiemLaiBaoCaoDaNap" />
@@ -62,6 +64,12 @@
     // Lưới ô phiếu vẽ từ chính báo cáo đã nạp — giữ lại để khỏi phải đọc file lần nữa.
     private TransparencyReport? nguonBaoCao;
 
+    // Mã băm trên đúng byte người dùng thả vào, để bản xuất kết quả nói được "đã kiểm cái gì" —
+    // người thứ ba đối chiếu bằng `sha256sum` trên chính file họ tải, không phải tin lời công cụ.
+    private string maBamDauVao = string.Empty;
+    private string tenFileDauVao = string.Empty;
+    private ThongTinBanXuat? thongTinXuat;
+
     private async Task NhanFile(InputFileChangeEventArgs e)
     {
         try
@@ -71,28 +79,26 @@
             using var buffer = new MemoryStream();
             await stream.CopyToAsync(buffer);
 
-            Kiem(Encoding.UTF8.GetString(buffer.ToArray()), file.Name);
+            var byteGoc = buffer.ToArray();
+            Kiem(Encoding.UTF8.GetString(byteGoc), file.Name, byteGoc);
         }
         catch (Exception ex)
         {
             // Đọc file hỏng/quá lớn không được làm trắng trang.
-            baoCao = null;
-            nguonBaoCao = null;
-            mocNeo.DatBaoCao(null);
+            XoaKetQua();
             loi = $"Không đọc được file: {ex.Message}";
         }
     }
 
-    private void KiemNoiDungDan() => Kiem(noiDungDan, "nội dung đã dán");
+    private void KiemNoiDungDan() =>
+        Kiem(noiDungDan, "nội dung đã dán", Encoding.UTF8.GetBytes(noiDungDan));
 
-    private void Kiem(string json, string tenNguon)
+    private void Kiem(string json, string tenNguon, byte[] byteGoc)
     {
         var nap = TransparencyJson.Parse(json);
         if (!nap.Success)
         {
-            baoCao = null;
-            nguonBaoCao = null;
-            mocNeo.DatBaoCao(null);
+            XoaKetQua();
             loi = nap.ErrorMessage;
             return;
         }
@@ -100,12 +106,14 @@
         loi = null;
         nguon = TenNguon(nap.Report!, tenNguon);
         nguonBaoCao = nap.Report!;
+        tenFileDauVao = tenNguon;
+        maBamDauVao = Hex.Sha256Hex(byteGoc);
         // Báo cáo mới ⇒ block đã tra cứu và trail đã đọc của báo cáo trước không được dùng lại, và
         // bảng danh sách + khoá của việc đã xong không được nằm lại trong bộ nhớ.
         mocNeo.DatBaoCao(nap.Report!);
         danhSach.Xoa();
         kho.Xoa();
-        baoCao = Verifier.Verify(DuLieuVaoLoi(nap.Report!));
+        KiemLaiBaoCaoDaNap();
     }
 
     private void KiemLaiBaoCaoDaNap()
@@ -113,7 +121,32 @@
         if (nguonBaoCao is null) return;
 
         baoCao = Verifier.Verify(DuLieuVaoLoi(nguonBaoCao));
+        // Kiểm lại là một lần kiểm mới (đổi danh mục, đọc thêm trail) — bản xuất phải mang thời
+        // điểm và đầu vào của chính lần này.
+        thongTinXuat = new ThongTinBanXuat(
+            DateTimeOffset.UtcNow, PhienBanCongCu.HienTai, LietKeDauVao(), nguon);
     }
+
+    private void XoaKetQua()
+    {
+        baoCao = null;
+        nguonBaoCao = null;
+        thongTinXuat = null;
+        maBamDauVao = string.Empty;
+        tenFileDauVao = string.Empty;
+        mocNeo.DatBaoCao(null);
+    }
+
+    /// <summary>Mọi thứ đã đi vào lần kiểm này và đổi được kết luận — danh mục căn cũng là đầu vào.</summary>
+    private IReadOnlyList<DauVaoDaKiem> LietKeDauVao() =>
+    [
+        new($"Báo cáo minh bạch ({tenFileDauVao})", maBamDauVao),
+        new(
+            danhMuc.Nguon == NguonDanhMuc.Nhung
+                ? "Danh mục căn (bản nhúng sẵn trong công cụ)"
+                : $"Danh mục căn ({danhMuc.TenFile})",
+            danhMuc.DanhMuc.Sha256),
+    ];
 
     private VerificationInput DuLieuVaoLoi(TransparencyReport report) =>
         new(report, danhMuc.DanhMuc, mocNeo.DaDoc, danhSach.DaDan, kho.DaDoc);

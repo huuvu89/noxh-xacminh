@@ -65,6 +65,19 @@ h1 { font-size: 1.5rem; }
 .ket-luan.khong-dat { background: var(--khong-dat); }
 .ket-luan.khong-kiem-duoc { background: var(--khong-kiem-duoc); }
 
+.xuat-ket-qua { margin-top: 1rem; }
+.xuat-ket-qua .nut-xuat {
+    display: inline-block;
+    padding: .5rem 1rem;
+    border: 1px solid var(--vien);
+    border-radius: .25rem;
+    background: var(--nen-mo);
+    color: inherit;
+    font-weight: 600;
+    text-decoration: none;
+}
+.xuat-ket-qua .ghi-chu { margin: .35rem 0 0; font-size: .85rem; color: #444; }
+
 .chuyen-sau { display: block; margin: 1rem 0; }
 
 .hang-muc { list-style: none; padding: 0; margin: 0; }

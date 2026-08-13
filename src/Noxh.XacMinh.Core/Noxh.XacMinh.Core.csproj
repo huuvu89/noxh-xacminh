@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <!-- Lõi kiểm chứng thuần: không I/O, không mạng — vỏ UI nạp dữ liệu rồi đưa vào. -->
     <IsPackable>false</IsPackable>
+    <!-- Số này đi thẳng vào mỗi bản xuất kết quả: nó nói bản công cụ nào đã ra kết luận đó. -->
+    <Version>0.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

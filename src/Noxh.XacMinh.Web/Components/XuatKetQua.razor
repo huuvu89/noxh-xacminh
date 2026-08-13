@@ -1,0 +1,35 @@
+@* Tải file bằng data: URL — trang là WebAssembly tĩnh, không máy chủ để sinh file và không JS để
+   dựng blob. Đổi lại phải nhớ: dữ liệu nằm ngay trong HTML, nên chỉ dựng lại khi báo cáo đổi. *@
+@using System.Text
+@using Noxh.XacMinh.Core.XuatKetQua
+
+<section class="xuat-ket-qua">
+    <a class="nut-xuat" download="@tenFile" href="@duongDan">Tải kết quả kiểm (.md)</a>
+    <p class="ghi-chu">
+        File ghi đủ kết luận từng hạng mục, giá trị kỳ vọng và giá trị tính được, phiên bản công cụ
+        và mã băm dữ liệu đã kiểm — đủ để người khác tự tính lại, không phụ thuộc chế độ đang xem.
+    </p>
+</section>
+
+@code {
+    [Parameter, EditorRequired] public VerificationReport BaoCao { get; set; } = default!;
+
+    [Parameter, EditorRequired] public ThongTinBanXuat ThongTin { get; set; } = default!;
+
+    private VerificationReport? daDung;
+    private ThongTinBanXuat? daDungVoi;
+    private string tenFile = string.Empty;
+    private string duongDan = string.Empty;
+
+    protected override void OnParametersSet()
+    {
+        // Bật/tắt chế độ chuyên sâu vẽ lại cả khối này; dựng lại bản xuất mỗi lần vẽ là phí không.
+        if (ReferenceEquals(daDung, BaoCao) && ReferenceEquals(daDungVoi, ThongTin)) return;
+
+        daDung = BaoCao;
+        daDungVoi = ThongTin;
+        tenFile = BanXuatVanBan.TenFile(ThongTin);
+        duongDan = $"data:{BanXuatVanBan.KieuNoiDung};charset=utf-8;base64,"
+            + Convert.ToBase64String(Encoding.UTF8.GetBytes(BanXuatVanBan.Dung(BaoCao, ThongTin)));
+    }
+}
