@@ -1,0 +1,97 @@
+@* Giữ trạng thái xem lưới (chồng phiếu, bộ lọc, mã hồ sơ đang tìm, ô đang chọn); phép lọc nằm ở lõi. *@
+
+<section class="luoi-phieu">
+    <h2>Lưới ô phiếu</h2>
+
+    @if (luoi.Count == 0)
+    {
+        <p class="khong-co-chong-phieu">
+            Báo cáo không công bố chồng phiếu nào, nên chưa có lưới ô phiếu để xem.
+        </p>
+    }
+    else
+    {
+        <p class="dan-nhap">
+            Mỗi ô là một lá vé trong chồng phiếu đã niêm phong, xếp đúng thứ tự vị trí. Chạm vào một ô
+            để xem vé đó là gì và ai đã bốc nó.
+        </p>
+
+        <label class="chon-chong-phieu">
+            Chồng phiếu
+            <select @bind="chiSo" @bind:after="DoiChongPhieu">
+                @for (var i = 0; i < luoi.Count; i++)
+                {
+                    <option value="@i">Vòng @TenVong(luoi[i]) — @luoi[i].Summary.Size ô</option>
+                }
+            </select>
+        </label>
+
+        <fieldset class="bo-loc">
+            <legend>Lọc ô phiếu</legend>
+            @foreach (var (loc, nhan) in Loc)
+            {
+                <label>
+                    <input type="radio" name="bo-loc" checked="@(loc == boLoc)" @onchange="() => DatBoLoc(loc)" />
+                    @nhan
+                </label>
+            }
+        </fieldset>
+
+        <label class="tim-ho-so">
+            Tìm theo mã hồ sơ giả
+            <input type="search" @bind="maHoSo" @bind:event="oninput"
+                   placeholder="Dán mã hồ sơ giả trên tin nhắn kết quả của bạn" />
+        </label>
+
+        <LuoiOPhieu Luoi="Hien" OHienThi="OHienThi" ViTriChon="viTriChon" ChonO="ChonO" />
+    }
+</section>
+
+@code {
+    private static readonly (DeckFilter Loc, string Nhan)[] Loc =
+    [
+        (DeckFilter.TatCa, "Tất cả"),
+        (DeckFilter.ChiTrung, "Chỉ vé trúng"),
+        (DeckFilter.ChiMayBoc, "Chỉ vé máy bốc"),
+        (DeckFilter.ChiChuaBoc, "Chỉ ô chưa ai bốc"),
+    ];
+
+    private IReadOnlyList<DeckGrid> luoi = [];
+    private TransparencyReport? daDung;
+    private int chiSo;
+    private DeckFilter boLoc = DeckFilter.TatCa;
+    private string maHoSo = string.Empty;
+    private int? viTriChon;
+
+    /// <summary>Rỗng là trạng thái hợp lệ (chưa nạp file), không phải thiếu tham số.</summary>
+    [Parameter] public TransparencyReport? BaoCao { get; set; }
+
+    private DeckGrid Hien => luoi[Math.Clamp(chiSo, 0, luoi.Count - 1)];
+
+    private IReadOnlyList<DeckCell> OHienThi => Hien.Filter(boLoc, maHoSo);
+
+    // Dựng lại lưới khi (và chỉ khi) báo cáo đổi: giữ ô đang chọn của báo cáo cũ là chỉ vào chỗ khác,
+    // còn dựng lại ở mọi lần cha vẽ lại thì gõ vào ô dán JSON cũng làm mất chồng phiếu đang xem.
+    protected override void OnParametersSet()
+    {
+        if (ReferenceEquals(daDung, BaoCao)) return;
+
+        daDung = BaoCao;
+        luoi = BaoCao is null ? [] : DeckGridBuilder.Build(BaoCao);
+        chiSo = 0;
+        viTriChon = null;
+    }
+
+    private static string TenVong(DeckGrid l) =>
+        string.IsNullOrWhiteSpace(l.Round) ? "(không công bố)" : l.Round!;
+
+    private void DoiChongPhieu() => viTriChon = null;
+
+    private void DatBoLoc(DeckFilter loc)
+    {
+        boLoc = loc;
+        viTriChon = null;
+    }
+
+    private void ChonO(DeckCell o) => viTriChon = viTriChon == o.Position ? null : o.Position;
+}

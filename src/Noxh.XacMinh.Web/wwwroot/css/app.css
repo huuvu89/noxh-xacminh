@@ -5,6 +5,13 @@
     --khong-kiem-duoc: #6b5b16;
     --vien: #d7d7d7;
     --nen-mo: #f5f5f5;
+
+    /* Bốn loại kết quả cách nhau cả về độ sáng, không chỉ về màu — in đen trắng vẫn phân biệt được. */
+    --ve-trung: #0b6b3a;
+    --ve-cho-phan-loai-du: #8a6100;
+    --ve-du-khuyet: #1a4f8a;
+    --ve-khong-trung: #cfcfcf;
+    --ve-khong-ro: #6d3b8a;
 }
 
 * { box-sizing: border-box; }
@@ -90,6 +97,80 @@ h1 { font-size: 1.5rem; }
 .chi-tiet dd { margin: 0; }
 .chi-tiet code, .chi-tiet pre { word-break: break-all; white-space: pre-wrap; font-size: .8rem; }
 .chi-tiet pre { background: var(--nen-mo); padding: .5rem; border-radius: .25rem; }
+
+/* ── Lưới ô phiếu ──────────────────────────────────────────────────────────────────────── */
+
+.luoi-phieu { margin-top: 2rem; }
+.luoi-phieu h2 { font-size: 1.2rem; margin-bottom: .25rem; }
+
+.chon-chong-phieu, .tim-ho-so { display: block; margin: .75rem 0; font-weight: 600; }
+.chon-chong-phieu select, .tim-ho-so input { display: block; width: 100%; margin-top: .25rem; padding: .5rem; font-size: 1rem; }
+
+.bo-loc { margin: .75rem 0; padding: .5rem .75rem; border: 1px solid var(--vien); border-radius: .25rem; }
+.bo-loc legend { font-weight: 600; font-size: .85rem; }
+.bo-loc label { display: inline-block; margin-right: 1rem; }
+
+.tom-tat { display: flex; flex-wrap: wrap; gap: .5rem 1rem; list-style: none; padding: 0; margin: .75rem 0; font-size: .85rem; }
+.tom-tat .nhan-so { color: #555; }
+.tom-tat .so { font-weight: 700; }
+
+.thieu-nhat-ky, .chua-mo, .khong-khop, .khong-co-chong-phieu {
+    padding: .5rem .75rem;
+    border-left: .35rem solid var(--khong-kiem-duoc);
+    background: var(--nen-mo);
+}
+
+.chu-giai { display: flex; flex-wrap: wrap; gap: .35rem .9rem; list-style: none; padding: 0; margin: .75rem 0; font-size: .8rem; }
+.chu-giai li { display: flex; align-items: center; gap: .3rem; }
+
+.chip-loai { display: inline-block; width: .9rem; height: .9rem; border-radius: .2rem; border: 1px solid #0003; }
+.chip-loai.loai-trung { background: var(--ve-trung); }
+.chip-loai.loai-cho-phan-loai-du { background: var(--ve-cho-phan-loai-du); }
+.chip-loai.loai-du-khuyet { background: var(--ve-du-khuyet); }
+.chip-loai.loai-khong-trung { background: var(--ve-khong-trung); }
+.chip-loai.loai-khong-ro { background: var(--ve-khong-ro); }
+.chip-loai.mau-chua-boc { background: #fff; border: 2px dashed #777; }
+
+/* Mỗi khối là một đơn vị trình duyệt được phép bỏ qua khi nằm ngoài màn hình: chồng ~900 ô cuộn
+   mượt trên điện thoại mà không cần JS ảo hoá, và cả lưới vẫn nằm trong DOM để tìm/đọc màn hình. */
+.khoi-o {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 6rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(2.6rem, 1fr));
+    gap: .2rem;
+    margin-bottom: .2rem;
+}
+
+.o-phieu {
+    /* 2.6rem ≈ 44px: chạm được bằng ngón tay, đúng cỡ mục tiêu chạm tối thiểu. */
+    min-height: 2.6rem;
+    padding: 0;
+    border: 1px solid #0003;
+    border-radius: .2rem;
+    font: inherit;
+    font-size: .7rem;
+    color: #fff;
+    cursor: pointer;
+}
+
+.o-phieu.loai-trung { background: var(--ve-trung); }
+.o-phieu.loai-cho-phan-loai-du { background: var(--ve-cho-phan-loai-du); }
+.o-phieu.loai-du-khuyet { background: var(--ve-du-khuyet); }
+.o-phieu.loai-khong-trung { background: var(--ve-khong-trung); color: #1b1b1b; }
+.o-phieu.loai-khong-ro { background: var(--ve-khong-ro); }
+
+/* Ô chưa ai bốc: viền đứt + xám hoá — khác biệt về hình, không chỉ về màu. Xám hoá chứ không giảm
+   opacity: hoà vào nền trắng thì con số trong ô mất tương phản. */
+.o-phieu.chua-boc { border: 2px dashed #333; filter: grayscale(75%); }
+
+.o-phieu.dang-chon { outline: 3px solid #1b1b1b; outline-offset: 1px; }
+
+.chi-tiet-o { margin: .75rem 0 0; padding: .75rem 1rem; border: 1px solid var(--vien); border-radius: .25rem; font-size: .9rem; }
+.chi-tiet-o dt { font-weight: 600; margin-top: .5rem; }
+.chi-tiet-o dd { margin: 0; }
+.chi-tiet-o code { word-break: break-all; font-size: .85rem; }
+.chi-tiet-o p { margin: .25rem 0; }
 
 footer {
     max-width: 46rem;

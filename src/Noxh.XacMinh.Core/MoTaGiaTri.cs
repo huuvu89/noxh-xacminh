@@ -1,7 +1,10 @@
-namespace Noxh.XacMinh.Core.Verification.Checks;
+namespace Noxh.XacMinh.Core;
 
-/// <summary>Cách rút gọn giá trị lạ trước khi đưa vào câu giải thích, dùng chung cho mọi hạng mục.</summary>
-internal static class MoTaGiaTri
+/// <summary>
+/// Cách rút gọn giá trị lạ trước khi đưa lên màn hình, dùng chung cho mọi hạng mục kiểm <b>và</b> cho
+/// lưới ô phiếu — một quy tắc cắt duy nhất, kẻo mỗi chỗ cắt một kiểu rồi có chỗ quên cắt.
+/// </summary>
+public static class MoTaGiaTri
 {
     private const int Tran = 60;
 
