@@ -52,4 +52,6 @@ public static class CheckIds
     public const string DrawTicketMatch = "draw-ticket-match";
 
     public const string ResultsHash = "results-hash";
+
+    public const string FreezeTimestamp = "tsa-freeze";
 }
