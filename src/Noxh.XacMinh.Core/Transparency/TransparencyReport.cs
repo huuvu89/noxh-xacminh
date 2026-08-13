@@ -23,6 +23,13 @@ public sealed class TransparencyReport
     /// </summary>
     [JsonPropertyName("listHash")] public string? ListHash { get; init; }
 
+    /// <summary>
+    /// Quy mô danh sách dự khuyết của dự án. Con số này KHÔNG nằm trong mã băm đầu vào của vòng cuối,
+    /// nên muốn dựng lại chồng phiếu vòng đó thì phải lấy từ đây. Trống là một giá trị có nghĩa
+    /// (<b>không giới hạn</b>) chứ không hẳn là thiếu dữ liệu — hai ca đó công cụ không phân biệt được.
+    /// </summary>
+    [JsonPropertyName("waitlistSize")] public int? WaitlistSize { get; init; }
+
     [JsonPropertyName("nguonNgauNhien")] public IReadOnlyList<EntropySource>? EntropySources { get; init; }
 
     [JsonPropertyName("camKetNeo")] public AnchorCommitment? AnchorCommitment { get; init; }

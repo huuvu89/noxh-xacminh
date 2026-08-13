@@ -305,14 +305,6 @@ public class TaiLapVongBocThangTests
         Assert.Contains("nạp", item.Explanation, StringComparison.OrdinalIgnoreCase);
     }
 
-    [Fact]
-    public void AC4_VongCanDuVaSoDuKhuyet_VanChuaDungLai_KhongDeRaKetLuanBia()
-    {
-        var golden = Golden();
-
-        Assert.Null(DeckRebuilder.Rebuild(golden, golden.Decks!.Single(d => d.Round == "C"), DanhMuc()));
-    }
-
     // ── AC5: lưới ô phiếu đánh dấu ô khớp cho các chồng phiếu của vòng này ───────────────
 
     [Fact]

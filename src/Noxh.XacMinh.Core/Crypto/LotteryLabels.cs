@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Noxh.XacMinh.Core.Crypto;
 
 /// <summary>
@@ -17,6 +19,9 @@ public static class LotteryLabels
     /// <summary>Chồng phiếu vòng bốc thẳng theo loại căn: <c>B:{mã loại}</c>.</summary>
     public const string RoundBPrefix = "B:";
 
+    /// <summary>Vòng căn dư gộp một chồng phiếu duy nhất (<c>LotteryDeck.Round</c>).</summary>
+    public const string RoundC = "C";
+
     // ── Ticket payloads ─────────────────────────────────────────────────────
     public const string A1Win = "TRUNG_QUYEN_MUA";
 
@@ -31,7 +36,18 @@ public static class LotteryLabels
     /// <summary>Vé không trúng của vòng bốc thẳng theo loại căn.</summary>
     public const string BLose = "KHONG_TRUNG";
 
+    /// <summary>Vé không trúng chung cuộc của vòng căn dư — backend dùng chung chuỗi với vòng bốc thẳng.</summary>
+    public const string CLose = BLose;
+
+    /// <summary>Phiếu dự khuyết trước khi đánh số — chỉ tồn tại lúc dựng chồng phiếu.</summary>
+    public const string WaitlistPlaceholder = "DU_KHUYET";
+
+    /// <summary>Phiếu dự khuyết đã đánh số — phần sau tiền tố là số dự khuyết.</summary>
+    public const string WaitlistPrefix = "DU_KHUYET:";
+
     public static string Win(string unitCode) => WinPrefix + unitCode;
+
+    public static string WaitlistTicket(int so) => WaitlistPrefix + so.ToString(CultureInfo.InvariantCulture);
 
     // ── Seed labels ─────────────────────────────────────────────────────────
     public const string A1Deck = "A1:deck";
@@ -47,4 +63,16 @@ public static class LotteryLabels
 
     /// <summary>Nhãn dẫn xuất chồng phiếu vòng bốc thẳng của một loại căn.</summary>
     public static string BDeck(string typeCode) => $"B:deck:{typeCode}";
+
+    /// <summary>Nhãn dẫn xuất quỹ căn dư chung của vòng cuối (không đi theo loại căn).</summary>
+    public const string CUnits = "C:units";
+
+    /// <summary>Nhãn dẫn xuất chồng phiếu vòng căn dư.</summary>
+    public const string CDeck = "C:deck";
+
+    /// <summary>
+    /// Nhãn dẫn xuất hoán vị số dự khuyết 1..wl. Tách khỏi <see cref="CDeck"/> chính là điều làm số
+    /// dự khuyết độc lập với vị trí trong chồng phiếu — và do đó độc lập với thời điểm bấm.
+    /// </summary>
+    public const string CWaitlist = "C:waitlist";
 }
