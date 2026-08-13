@@ -18,6 +18,7 @@ public static class Verifier
         DrawTicketMatchCheck.Run,
         ResultsHashCheck.Run,
         FreezeTimestampCheck.Run,
+        MocNeoCheck.Run,
     ];
 
     public static VerificationReport Verify(VerificationInput input) =>

@@ -37,7 +37,10 @@ chồng phiếu mọc ra từ hạt giống đã cam kết trước, không ph�
 ## Nguyên tắc thiết kế
 
 - **Không gọi máy chủ bốc thăm.** Người dùng tự thả file JSON đã công bố vào. Lập luận "kiểm chứng
-  độc lập" chỉ mạnh khi công cụ không cần nói chuyện với hệ thống bị nghi ngờ.
+  độc lập" chỉ mạnh khi công cụ không cần nói chuyện với hệ thống bị nghi ngờ. Đường ra mạng **duy
+  nhất** là đọc block ở độ cao đã cam kết từ **sổ cái công khai** (Ethereum/Bitcoin) — chỉ chạy khi
+  người dùng bấm, chỉ gửi đi độ cao block vốn đã công khai, và không bấm thì hạng mục mốc neo dừng ở
+  KHÔNG KIỂM ĐƯỢC kèm link tra cứu tay.
 - **Toàn bộ logic kiểm nằm sau một hàm thuần, không I/O** — mọi thứ cần mạng do lớp giao diện lấy
   về rồi đưa vào dưới dạng dữ liệu. Nhờ vậy kiểm được bằng fixture, tất định, không cần trình duyệt.
 - **Lõi mật mã copy nguyên văn từ backend**, kèm test vector ghim. Viết lại theo trí nhớ là cách
@@ -56,7 +59,7 @@ chồng phiếu mọc ra từ hạt giống đã cam kết trước, không ph�
 |---|---|
 | `fixtures/` | Fixture chuẩn vàng: JSON minh bạch **thật** của một dự án đã chạy trọn 4 vòng, kèm danh mục căn của chính dự án đó và mã nguồn sinh lại cả hai từ backend. Đọc [`fixtures/README.md`](fixtures/README.md) trước khi dùng — nó nói rõ fixture chứng minh được gì và **không** chứng minh được gì. |
 | `src/Noxh.XacMinh.Core/` | Lõi kiểm chứng **thuần, không I/O**: lõi mật mã copy nguyên văn từ backend (`Crypto/`), model JSON minh bạch (`Transparency/`), và seam duy nhất `Verifier.Verify(VerificationInput) → VerificationReport` (`Verification/`). Thêm hạng mục kiểm = thêm một `Checks/*.cs` rồi cắm vào `Verifier`. `Decks/` giữ hai thứ: `DeckRebuilder.Rebuild(report, deck, catalog)` **dựng lại** chồng phiếu từ hạt giống — hai vòng đi theo loại căn dựng lại cả quỹ căn của loại đó trước (vòng ưu tiên: xáo danh mục; vòng bốc thẳng: `QuyCanConDu` suy quỹ căn còn dư từ bảng kết quả rồi mới xáo — hạng mục kiểm và lưới cùng dùng một bản dựng lại), vòng căn dư dựng lại quỹ căn dư **chung** (cũng suy ra từ bảng kết quả) cộng **hoán vị số dự khuyết** từ nhãn hạt giống riêng — bằng chứng trực tiếp rằng hạng dự khuyết không phụ thuộc thời điểm bấm; quy mô danh sách dự khuyết không nằm trong mã băm đầu vào nên lấy từ `waitlistSize` của báo cáo, báo cáo không công bố thì bản dựng lại mang theo giả định và lệch mã băm chỉ cho KHÔNG KIỂM ĐƯỢC. Còn `DeckGridBuilder.Build(report, catalog)` là phép **trình bày** — lưới ô phiếu + số liệu tóm tắt + bộ lọc, không kết luận ĐẠT/KHÔNG ĐẠT. `Units/` giữ **danh mục căn nhúng sẵn** (509 căn, 5 loại — bản do ban tổ chức công bố, nhúng thẳng vào assembly) kèm phép nạp file danh mục khác đè lên; danh mục đi vào lõi qua `VerificationInput.Catalog`. |
-| `src/Noxh.XacMinh.Web/` | Vỏ giao diện Blazor WebAssembly: nạp file/nội dung dán, gọi lõi, vẽ kết luận. Không tự kiểm gì cả. Khuôn hiển thị chung ở `Components/` (`KetQuaKiem` vẽ mọi hạng mục; `KhungLuoiPhieu` giữ trạng thái xem lưới, `LuoiOPhieu` chỉ vẽ lưới, `DanhMucCan` hiện danh mục căn đang dùng), chế độ hiển thị và danh mục đang dùng ở `HienThi/`. |
+| `src/Noxh.XacMinh.Web/` | Vỏ giao diện Blazor WebAssembly: nạp file/nội dung dán, gọi lõi, vẽ kết luận. Không tự kiểm gì cả. Khuôn hiển thị chung ở `Components/` (`KetQuaKiem` vẽ mọi hạng mục; `KhungLuoiPhieu` giữ trạng thái xem lưới, `LuoiOPhieu` chỉ vẽ lưới, `DanhMucCan` hiện danh mục căn đang dùng, `MocNeoChuoiKhoi` là nút tra cứu block), chế độ hiển thị / danh mục / kết quả tra cứu mốc neo ở `HienThi/`. `MocNeo/` là **chỗ duy nhất gọi mạng**: đọc block từ sổ cái công khai rồi đưa vào lõi dưới dạng dữ liệu (`VerificationInput.Blocks`); mọi kiểu hỏng (mạng đứt, CORS, quá hạn) thành một `QuanSatKhoi` mang lỗi, không thành ngoại lệ bị nuốt. |
 | `tests/` | Test. `Noxh.XacMinh.Fixtures.Tests` là hàng rào của fixture; `Noxh.XacMinh.Core.Tests` kiểm lõi qua đúng seam, bằng fixture chuẩn vàng và các bản bị sửa dựng từ chính nó; `Noxh.XacMinh.Web.Tests` vẽ component ra HTML tĩnh để kiểm khuôn hiển thị hai chế độ. |
 
 ```bash
@@ -85,7 +88,8 @@ python3 -m http.server 8080 --directory publish/wwwroot
 | ★ | **Tái lập chồng phiếu vòng quyền mua (A1)** — dựng lại chồng phiếu từ `MASTER_SEED` bằng phép xáo copy nguyên văn từ backend rồi so `deckHash`; lưới ô phiếu đánh dấu từng ô khớp/lệch bản dựng lại | ✅ |
 | ★ | **Tái lập vòng phân căn ưu tiên (A2)** — dựng lại **quỹ căn ưu tiên của từng loại** từ hạt giống (`POOL:{loại}`) rồi dựng chồng phiếu của loại đó (`A2:deck:{loại}`) và so `deckHash`; quỹ căn dựng lại hiện thẳng trên lưới. Cần danh mục căn — thiếu thì KHÔNG KIỂM ĐƯỢC kèm hướng dẫn nạp | ✅ |
 | ★ | **Tái lập vòng bốc thẳng theo loại căn (B)** — **suy ra quỹ căn còn dư của từng loại** (danh mục trừ đi những căn bảng kết quả nói đã phân ở vòng ưu tiên), xáo bằng `B:units:{loại}` rồi dựng chồng phiếu (`B:deck:{loại}`) và so `deckHash`. Quỹ căn còn dư là **dữ liệu suy diễn**, màn hình nói rõ điều đó; suy diễn mâu thuẫn (căn phân hai lần, căn không có trong danh mục, vé trúng nằm ngoài quỹ suy ra) ra KHÔNG KIỂM ĐƯỢC kèm chính mâu thuẫn, không ra KHÔNG ĐẠT | ✅ |
-| 8–9 và tái lập C | | chưa (vé tiếp theo) |
+| 8 | Mốc neo chuỗi khối — đọc block ở **độ cao đã cam kết** của chính chuỗi từng vòng dùng, so mã băm với bản công bố, rồi so thời điểm cấp dấu thời gian với thời điểm block được đào (cam kết phải có **trước** khi block tồn tại). Chưa tra cứu / nguồn ngoài hỏng ⇒ KHÔNG KIỂM ĐƯỢC kèm link tra cứu thủ công | ✅ |
+| 9 và tái lập C | | chưa (vé tiếp theo) |
 
 ## Vì sao C# WebAssembly chứ không phải JavaScript
 

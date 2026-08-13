@@ -218,6 +218,17 @@ h1 { font-size: 1.5rem; }
 .chi-tiet-o code { word-break: break-all; font-size: .85rem; }
 .chi-tiet-o p { margin: .25rem 0; }
 
+/* ── Mốc neo chuỗi khối ────────────────────────────────────────────────────────────────── */
+
+.moc-neo { margin-top: 2rem; }
+.moc-neo h2 { font-size: 1.2rem; margin-bottom: .25rem; }
+
+.danh-sach-moc-neo { margin: .75rem 0; padding-left: 1.25rem; font-size: .9rem; }
+.danh-sach-moc-neo li { margin: .25rem 0; }
+.danh-sach-moc-neo .ket-qua-doc { color: #555; }
+
+.tra-cuu-moc-neo { padding: .5rem 1rem; font-size: 1rem; }
+
 /* ── Danh mục căn hộ ───────────────────────────────────────────────────────────────────── */
 
 .danh-muc-can { margin-top: 2rem; }

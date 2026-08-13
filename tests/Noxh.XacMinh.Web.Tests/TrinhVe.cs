@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
+using Noxh.XacMinh.Core.Verification;
 using Noxh.XacMinh.Web.HienThi;
+using Noxh.XacMinh.Web.MocNeo;
 
 namespace Noxh.XacMinh.Web.Tests;
 
@@ -17,15 +19,20 @@ internal sealed class TrinhVe : IAsyncDisposable
     private readonly ServiceProvider dichVu;
     private readonly HtmlRenderer trinh;
 
-    public TrinhVe(TrangThaiHienThi? trangThai = null, TrangThaiDanhMuc? danhMuc = null)
+    public TrinhVe(
+        TrangThaiHienThi? trangThai = null,
+        TrangThaiDanhMuc? danhMuc = null,
+        TrangThaiMocNeo? mocNeo = null)
     {
         TrangThai = trangThai ?? new TrangThaiHienThi();
         DanhMuc = danhMuc ?? new TrangThaiDanhMuc();
+        MocNeo = mocNeo ?? new TrangThaiMocNeo(KhongGoiMang);
 
         var services = new ServiceCollection();
         services.AddLogging();
         services.AddSingleton(TrangThai);
         services.AddSingleton(DanhMuc);
+        services.AddSingleton(MocNeo);
         services.AddSingleton<IJSRuntime, KhongGoiJs>();
         dichVu = services.BuildServiceProvider();
         trinh = new HtmlRenderer(dichVu, dichVu.GetRequiredService<ILoggerFactory>());
@@ -34,6 +41,12 @@ internal sealed class TrinhVe : IAsyncDisposable
     public TrangThaiHienThi TrangThai { get; }
 
     public TrangThaiDanhMuc DanhMuc { get; }
+
+    public TrangThaiMocNeo MocNeo { get; }
+
+    /// <summary>Vẽ HTML tĩnh thì không có mạng — ai gọi tới đây là lỗi thiết kế test, không phải kết quả.</summary>
+    private static Task<QuanSatKhoi> KhongGoiMang(YeuCauTraCuuKhoi yeu, CancellationToken huy) =>
+        throw new NotSupportedException($"Vẽ HTML tĩnh không gọi mạng (block {yeu.DoCao}).");
 
     /// <summary>
     /// Trả HTML đã giải mã thực thể: bộ vẽ escape mọi ký tự ngoài ASCII (<c>Đ</c> → <c>&amp;#x110;</c>),

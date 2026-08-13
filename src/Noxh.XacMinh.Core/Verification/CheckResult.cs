@@ -56,4 +56,6 @@ public static class CheckIds
     public const string ResultsHash = "results-hash";
 
     public const string FreezeTimestamp = "tsa-freeze";
+
+    public const string MocNeo = "moc-neo";
 }
