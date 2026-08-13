@@ -2,9 +2,9 @@ namespace Noxh.XacMinh.Web.BanDung;
 
 public static class DichVuBanDung
 {
-    /// <summary>File nằm cạnh trang, đọc không ra trong ngần này giây thì thôi — chân trang không
-    /// được giữ công cụ lại ở màn hình "đang tải".</summary>
-    private static readonly TimeSpan HanCho = TimeSpan.FromSeconds(10);
+    /// <summary>File nằm cạnh trang và runtime vừa tải xong nên đường mạng đã chứng minh là chạy
+    /// được; quá ngần này giây thì thôi — một dòng chân trang không đáng để cả công cụ nằm chờ.</summary>
+    private static readonly TimeSpan HanCho = TimeSpan.FromSeconds(5);
 
     /// <summary>
     /// Đọc dấu vết bản dựng đi kèm chính bản đang chạy. <b>Không phải đường ra mạng thứ ba</b>:
