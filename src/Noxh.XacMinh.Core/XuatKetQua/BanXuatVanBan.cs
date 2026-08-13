@@ -58,7 +58,9 @@ public static class BanXuatVanBan
 
         foreach (var dauVao in thongTin.DauVao)
         {
-            ra.Append($"  - {Markdown.MotDong(dauVao.Ten)}: {Markdown.Ma(dauVao.MaBamSha256)}\n");
+            ra.Append(
+                $"  - {Markdown.MotDong(dauVao.Ten)}: "
+                + $"{GiaTri(dauVao.MaBamSha256, "(không tính được mã băm)")}\n");
         }
 
         ra.Append(

@@ -16,15 +16,20 @@
 
     [Parameter, EditorRequired] public ThongTinBanXuat ThongTin { get; set; } = default!;
 
+    private VerificationReport? daDung;
+    private ThongTinBanXuat? daDungVoi;
     private string tenFile = string.Empty;
     private string duongDan = string.Empty;
 
     protected override void OnParametersSet()
     {
-        var noiDung = BanXuatVanBan.Dung(BaoCao, ThongTin);
+        // Bật/tắt chế độ chuyên sâu vẽ lại cả khối này; dựng lại bản xuất mỗi lần vẽ là phí không.
+        if (ReferenceEquals(daDung, BaoCao) && ReferenceEquals(daDungVoi, ThongTin)) return;
 
+        daDung = BaoCao;
+        daDungVoi = ThongTin;
         tenFile = BanXuatVanBan.TenFile(ThongTin);
         duongDan = $"data:{BanXuatVanBan.KieuNoiDung};charset=utf-8;base64,"
-            + Convert.ToBase64String(Encoding.UTF8.GetBytes(noiDung));
+            + Convert.ToBase64String(Encoding.UTF8.GetBytes(BanXuatVanBan.Dung(BaoCao, ThongTin)));
     }
 }

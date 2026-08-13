@@ -102,7 +102,7 @@ public class XuatKetQuaHienThiTests
     }
 
     [Fact]
-    public async Task AC1_ChuaNapBaoCao_ThiKhongCoLinkTaiChet()
+    public async Task AC1_ThieuThongTinXuat_ThiKhongVeNutTaiHong()
     {
         await using var trinh = new TrinhVe();
 
@@ -132,10 +132,12 @@ public class XuatKetQuaHienThiTests
     }
 
     [Fact]
-    public void AC1_KhongCanCongCuNgoai_TrangKhongThemFileJsNaoDeTaiVe()
+    public void AC1_NutTai_KhongDinhToiJsInterop_DeBanTinhVanTaiDuoc()
     {
-        var wwwroot = RepoPaths.Src("Noxh.XacMinh.Web", "wwwroot");
+        var component = File.ReadAllText(
+            RepoPaths.Src("Noxh.XacMinh.Web", "Components", "XuatKetQua.razor"));
 
-        Assert.Empty(Directory.GetFiles(wwwroot, "*.js", SearchOption.AllDirectories));
+        Assert.DoesNotContain("IJSRuntime", component, StringComparison.Ordinal);
+        Assert.DoesNotContain("InvokeAsync", component, StringComparison.Ordinal);
     }
 }
