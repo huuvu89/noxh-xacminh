@@ -172,6 +172,23 @@ h1 { font-size: 1.5rem; }
 .chi-tiet-o code { word-break: break-all; font-size: .85rem; }
 .chi-tiet-o p { margin: .25rem 0; }
 
+/* ── Danh mục căn hộ ───────────────────────────────────────────────────────────────────── */
+
+.danh-muc-can { margin-top: 2rem; }
+.danh-muc-can h2 { font-size: 1.2rem; margin-bottom: .25rem; }
+
+.nguon-danh-muc { margin: .75rem 0 .25rem; }
+
+.bang-loai-can { border-collapse: collapse; font-size: .9rem; }
+.bang-loai-can th, .bang-loai-can td { padding: .3rem .75rem; border: 1px solid var(--vien); text-align: left; }
+.bang-loai-can td:last-child, .bang-loai-can tfoot th { font-variant-numeric: tabular-nums; }
+.bang-loai-can tfoot td, .bang-loai-can tfoot th { font-weight: 700; }
+
+.ma-bam-danh-muc { font-size: .85rem; }
+.ma-bam-danh-muc code { word-break: break-all; }
+
+.dung-ban-nhung { margin-top: .5rem; padding: .5rem 1rem; font-size: 1rem; }
+
 footer {
     max-width: 46rem;
     margin: 2rem auto 0;

@@ -38,6 +38,10 @@
     <KhungLuoiPhieu BaoCao="nguonBaoCao" />
 }
 
+@* Danh mục căn là dữ liệu công cụ tự mang theo, không đến từ file người dùng thả vào — nên hiện
+   sẵn kể cả khi chưa nạp báo cáo nào. *@
+<DanhMucCan />
+
 @code {
     // 64 MB: báo cáo của một dự án ~900 vé chỉ vài MB; giới hạn để file nhầm không treo tab.
     private const long GioiHanByte = 64L * 1024 * 1024;
