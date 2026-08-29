@@ -29,7 +29,13 @@ public sealed record KhoBangChung(
     public static KhoBangChung Hong(CheDoDocKho cheDo, string loi, string? moTaNguon = null) =>
         new(cheDo, [], moTaNguon, loi, false);
 
-    public string MoTaCheDo => CheDo == CheDoDocKho.KhoaChiDoc
-        ? "đọc bằng khoá chỉ-đọc người kiểm dán vào"
-        : "đọc ẩn danh (kho đã mở công khai)";
+    public string MoTaCheDo => CheDo switch
+    {
+        CheDoDocKho.KhoaChiDoc => "đọc bằng khoá chỉ-đọc người kiểm dán vào",
+        CheDoDocKho.GoiNhapTay =>
+            "nạp từ gói đã tải sẵn bằng script — KHÔNG phải trình duyệt này đọc thẳng kho, nên "
+            + "\"các lô này đang nằm trên kho\" là điều công cụ không kiểm được, nó chỉ băm lại "
+            + "đúng byte trong gói",
+        _ => "đọc ẩn danh (kho đã mở công khai)",
+    };
 }

@@ -159,6 +159,131 @@ public class TrailBangChungHienThiTests
 }
 
 /// <summary>Vài lô bằng chứng đủ dùng cho phần hiển thị — nội dung lô là việc của test bên lõi.</summary>
+/// <summary>
+/// Đường thứ hai vào trail: gói đã tải sẵn bằng script rồi nạp vào. Có vì trình duyệt chỉ đọc được
+/// kho khi chính kho bật CORS, và vì bản offline vốn không có mạng. Điều phải canh ở vỏ: nạp gói
+/// <b>không gọi mạng</b>, và màn hình không được nói nhập nhèm rằng chính nó đã đọc kho.
+/// </summary>
+public class NapGoiTrailHienThiTests
+{
+    private static Task<string> VeKhung(TrinhVe trinh) =>
+        trinh.Ve<TrailBangChung>(new Dictionary<string, object?>());
+
+    [Fact]
+    public async Task NapGoi_KhongGoiMang_MaVanCoTrailDeKiem()
+    {
+        // TrinhVe cấp hàm đọc kho ném ngoại lệ: nạp gói mà lỡ gọi mạng là test đỏ.
+        await using var trinh = new TrinhVe();
+
+        trinh.Kho.NapGoi(DungGoiTrailWeb.Goi(DungLoTrailWeb.Chuoi(3)), "goi-trail.zip");
+
+        Assert.Null(trinh.Kho.DaDoc!.Loi);
+        Assert.Equal(3, trinh.Kho.DaDoc.Lo.Count);
+    }
+
+    [Fact]
+    public async Task NapGoi_KhungNoiRoLaNapTuGoi_ChuKhongPhaiChinhNoDaDocKho()
+    {
+        await using var trinh = new TrinhVe();
+        trinh.Kho.NapGoi(DungGoiTrailWeb.Goi(DungLoTrailWeb.Chuoi(3)), "goi-trail.zip");
+
+        var html = await VeKhung(trinh);
+
+        Assert.Contains("nạp 3 lô", html, StringComparison.Ordinal);
+        Assert.Contains("gói «goi-trail.zip»", html, StringComparison.Ordinal);
+        Assert.Contains("KHÔNG phải trình duyệt này đọc thẳng kho", html, StringComparison.Ordinal);
+    }
+
+    /// <summary>Mã băm gói phải là mã băm của ĐÚNG byte đã nạp — bản xuất kết quả in con số này ra.</summary>
+    [Fact]
+    public void NapGoi_GhiLaiMaBamDungByteCuaGoi()
+    {
+        var goi = DungGoiTrailWeb.Goi(DungLoTrailWeb.Chuoi(2));
+        var trangThai = new TrangThaiKho((_, _, _) => throw new NotSupportedException());
+
+        trangThai.NapGoi(goi, "goi-trail.zip");
+
+        Assert.Equal("goi-trail.zip", trangThai.Goi!.TenFile);
+        Assert.Equal(
+            Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(goi)).ToLowerInvariant(),
+            trangThai.Goi.MaBamSha256);
+    }
+
+    [Fact]
+    public void GoiHong_VanGiuMaBamGoi_ViDaThuKiemBangFileNayCungLaMotDuKien()
+    {
+        var trangThai = new TrangThaiKho((_, _, _) => throw new NotSupportedException());
+
+        trangThai.NapGoi(System.Text.Encoding.UTF8.GetBytes("không phải zip"), "nham.zip");
+
+        Assert.NotNull(trangThai.Goi);
+        Assert.NotNull(trangThai.DaDoc!.Loi);
+    }
+
+    [Fact]
+    public void Xoa_GoiVaTrailDeuBienMatKhoiBoNho()
+    {
+        var trangThai = new TrangThaiKho((_, _, _) => throw new NotSupportedException());
+        trangThai.NapGoi(DungGoiTrailWeb.Goi(DungLoTrailWeb.Chuoi(1)), "goi-trail.zip");
+
+        trangThai.Xoa();
+
+        Assert.Null(trangThai.Goi);
+        Assert.Null(trangThai.DaDoc);
+    }
+
+    /// <summary>
+    /// Đọc thẳng kho sau khi đã nạp gói thì bản xuất không được khai là đã kiểm bằng gói: hai đường
+    /// mang sức nặng khác nhau, lẫn vào nhau là bản xuất nói sai.
+    /// </summary>
+    [Fact]
+    public async Task DocThangKhoSauKhiNapGoi_KhongCoKhaiGoiNua()
+    {
+        var trangThai = new TrangThaiKho((_, _, _) =>
+            Task.FromResult(KhoBangChung.Doc(CheDoDocKho.AnDanh, DungLoTrailWeb.Chuoi(1), "kho thử")));
+        trangThai.NapGoi(DungGoiTrailWeb.Goi(DungLoTrailWeb.Chuoi(1)), "goi-trail.zip");
+
+        await trangThai.Doc(new ThongSoKho("https://s3.thu-nghiem.vn", "bang-chung", "hcm", "trail/"), null);
+
+        Assert.Null(trangThai.Goi);
+        Assert.Equal(CheDoDocKho.AnDanh, trangThai.DaDoc!.CheDo);
+    }
+}
+
+/// <summary>
+/// Dựng gói trail đúng khuôn script <c>cong-cu/tai-goi-trail.py</c> ghi ra — chỉ đủ cho phần vỏ:
+/// một trang danh sách liệt kê hết và byte thô từng lô.
+/// </summary>
+internal static class DungGoiTrailWeb
+{
+    public static byte[] Goi(IReadOnlyList<DoiTuongKho> lo)
+    {
+        var xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                  + "<ListBucketResult xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\">"
+                  + "<IsTruncated>false</IsTruncated>"
+                  + string.Concat(lo.Select(l => $"<Contents><Key>{l.Key}</Key></Contents>"))
+                  + "</ListBucketResult>";
+
+        using var bo = new MemoryStream();
+
+        using (var goi = new System.IO.Compression.ZipArchive(
+                   bo, System.IO.Compression.ZipArchiveMode.Create, leaveOpen: true))
+        {
+            Them(goi, "listing/000.xml", System.Text.Encoding.UTF8.GetBytes(xml));
+
+            foreach (var mot in lo) Them(goi, $"objects/{mot.Key}", mot.NoiDung);
+        }
+
+        return bo.ToArray();
+    }
+
+    private static void Them(System.IO.Compression.ZipArchive goi, string ten, byte[] noiDung)
+    {
+        using var dong = goi.CreateEntry(ten).Open();
+        dong.Write(noiDung);
+    }
+}
+
 internal static class DungLoTrailWeb
 {
     public static IReadOnlyList<DoiTuongKho> Chuoi(int soLuong)

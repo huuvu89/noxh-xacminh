@@ -14,3 +14,6 @@ xuat-ban/
 
 # Bộ đồ nghề agent — nguồn thật nằm ở monorepo gốc, không commit vào repo con
 .claude/
+
+# Python bytecode của script trong cong-cu/
+__pycache__/

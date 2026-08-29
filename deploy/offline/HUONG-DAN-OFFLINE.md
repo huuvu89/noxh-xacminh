@@ -46,6 +46,12 @@ dung thư mục `xuat-ban/offline/` chứ đừng chờ hai file zip trùng byte
 
 ## Giới hạn
 
-Bản offline không tra cứu được mốc neo chuỗi khối và không đọc được trail bằng chứng trên kho lưu
-trữ — hai việc đó cần mạng. Hai hạng mục ấy sẽ dừng ở **KHÔNG KIỂM ĐƯỢC**, kèm link tra cứu tay,
-chứ không bao giờ tự chuyển thành ĐẠT.
+Bản offline không tra cứu được mốc neo chuỗi khối và không đọc thẳng được trail bằng chứng trên kho
+lưu trữ — hai việc đó cần mạng. Hai hạng mục ấy sẽ dừng ở **KHÔNG KIỂM ĐƯỢC**, kèm link tra cứu
+tay, chứ không bao giờ tự chuyển thành ĐẠT.
+
+Riêng trail còn một lối: xin **gói trail** (`.zip`) mà tổ giám sát đã tải sẵn từ kho, rồi nạp vào ô
+“Nạp gói trail đã tải sẵn” trong mục trail bằng chứng — bước này không gọi mạng. Đường này yếu hơn
+đọc thẳng kho và màn hình nói rõ chỗ yếu: máy này không tự chứng kiến các lô đang nằm trên kho, nó
+chỉ băm lại đúng byte trong gói. Hãy đối chiếu `sha256sum` của gói với con số in trong bản xuất kết
+quả, và tốt nhất là xin gói từ hai nguồn độc lập rồi so mã băm.
