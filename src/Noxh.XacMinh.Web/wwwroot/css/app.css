@@ -313,6 +313,11 @@ h1 { font-size: 1.5rem; }
 .doc-trail { margin-top: .75rem; padding: .5rem 1rem; font-size: 1rem; }
 .ket-qua-doc-kho { margin-top: .5rem; font-size: .9rem; color: #555; }
 
+/* Nạp gói trail: lối thoát khi trình duyệt không gọi được kho — cụp sẵn để không lấn đường chính. */
+.o-nap-goi { margin-top: .75rem; font-size: .9rem; }
+.o-nap-goi summary { cursor: pointer; }
+.o-tha-file-goi-trail { margin-top: .75rem; text-align: left; font-size: .9rem; }
+
 footer {
     max-width: 46rem;
     margin: 2rem auto 0;

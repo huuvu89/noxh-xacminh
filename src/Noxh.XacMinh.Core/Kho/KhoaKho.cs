@@ -11,13 +11,21 @@ public sealed record KhoaKho(string MaKhoa, string BiMat, string? ThePhien = nul
 }
 
 /// <summary>
-/// Hai chế độ đọc kho, đúng hai hoàn cảnh có thật: <b>trong lễ</b> kho chưa mở công khai nên người
-/// kiểm dán khoá chỉ-đọc; <b>sau lễ</b> kho mở, ai cũng đọc ẩn danh được.
+/// Ba chế độ đọc kho, đúng ba hoàn cảnh có thật: <b>trong lễ</b> kho chưa mở công khai nên người
+/// kiểm dán khoá chỉ-đọc; <b>sau lễ</b> kho mở, ai cũng đọc ẩn danh được; và <b>khi trình duyệt
+/// không gọi được kho</b> (kho chưa bật CORS, hoặc máy đang chạy bản offline) thì kho được tải sẵn
+/// bằng script rồi nạp vào dưới dạng gói.
+///
+/// Chế độ thứ ba yếu hơn hai chế độ kia và phải nói ra chỗ yếu đó: đọc trực tiếp thì chính trình
+/// duyệt người kiểm chứng kiến các byte đang nằm trên kho, còn nạp gói thì mắt xích đó do người
+/// chạy script gánh. Công cụ vẫn tự băm lại từng byte trong gói, nhưng "byte này lấy từ kho ấy" là
+/// thứ nó không kiểm được — nên chế độ đọc đi kèm mọi kết luận trail.
 /// </summary>
 public enum CheDoDocKho
 {
     AnDanh,
     KhoaChiDoc,
+    GoiNhapTay,
 }
 
 /// <summary>Địa chỉ kho — người kiểm nhập theo thông báo của ban tổ chức, công cụ không đoán hộ.</summary>

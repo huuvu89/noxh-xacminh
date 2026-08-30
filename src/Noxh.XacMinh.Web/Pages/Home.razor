@@ -138,15 +138,25 @@
     }
 
     /// <summary>Mọi thứ đã đi vào lần kiểm này và đổi được kết luận — danh mục căn cũng là đầu vào.</summary>
-    private IReadOnlyList<DauVaoDaKiem> LietKeDauVao() =>
-    [
-        new($"Báo cáo minh bạch ({tenFileDauVao})", maBamDauVao),
-        new(
-            danhMuc.Nguon == NguonDanhMuc.Nhung
-                ? "Danh mục căn (bản nhúng sẵn trong công cụ)"
-                : $"Danh mục căn ({danhMuc.TenFile})",
-            danhMuc.DanhMuc.Sha256),
-    ];
+    private IReadOnlyList<DauVaoDaKiem> LietKeDauVao()
+    {
+        var dauVao = new List<DauVaoDaKiem>
+        {
+            new($"Báo cáo minh bạch ({tenFileDauVao})", maBamDauVao),
+            new(
+                danhMuc.Nguon == NguonDanhMuc.Nhung
+                    ? "Danh mục căn (bản nhúng sẵn trong công cụ)"
+                    : $"Danh mục căn ({danhMuc.TenFile})",
+                danhMuc.DanhMuc.Sha256),
+        };
+
+        // Trail nạp từ gói là đầu vào có mã băm kiểm lại được, nên nó phải đứng tên trong bản xuất:
+        // người thứ ba chạy `sha256sum` trên chính gói đó là biết kết luận trail dựng trên byte nào.
+        if (kho.Goi is not null)
+            dauVao.Add(new DauVaoDaKiem($"Gói trail bằng chứng ({kho.Goi.TenFile})", kho.Goi.MaBamSha256));
+
+        return dauVao;
+    }
 
     private VerificationInput DuLieuVaoLoi(TransparencyReport report) =>
         new(report, danhMuc.DanhMuc, mocNeo.DaDoc, danhSach.DaDan, kho.DaDoc);

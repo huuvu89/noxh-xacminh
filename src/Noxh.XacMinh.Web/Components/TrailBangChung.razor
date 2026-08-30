@@ -1,5 +1,6 @@
 @* Lớp bằng chứng nằm ngoài cơ sở dữ liệu: các lô bản ghi được đẩy thẳng lên kho chỉ-ghi trong lúc
-   lễ chạy. Đây là bước có gọi mạng, nên nó phải do người kiểm bấm và phải nói trước gửi đi cái gì. *@
+   lễ chạy. Vào trail bằng hai đường: đọc thẳng kho (có gọi mạng, nên phải do người kiểm bấm và
+   phải nói trước gửi đi cái gì) hoặc nạp gói đã tải sẵn bằng script (không gọi mạng). *@
 @using Noxh.XacMinh.Core.Kho
 @inject TrangThaiKho trangThai
 
@@ -14,9 +15,10 @@
         báo cáo minh bạch</strong>: bản đã lên kho không sửa lại được, nên báo cáo công bố sau mà
         khác đi là lộ ra ngay. Ngược lại, thứ <strong>chưa bao giờ được đẩy lên</strong> thì trail
         không thấy — giới hạn đó ghi kèm ở từng kết luận.
-        Bước này <strong>gọi mạng tới kho</strong>: chỉ gửi đi địa chỉ kho bạn nhập (và chữ ký của
-        khoá chỉ-đọc, nếu có) — <strong>không có dữ liệu nào của bạn rời khỏi máy này</strong>, và
-        vẫn không hỏi máy chủ bốc thăm câu nào.
+        Đọc thẳng kho là bước <strong>gọi mạng tới kho</strong>: chỉ gửi đi địa chỉ kho bạn nhập (và
+        chữ ký của khoá chỉ-đọc, nếu có) — <strong>không có dữ liệu nào của bạn rời khỏi máy này</strong>,
+        và vẫn không hỏi máy chủ bốc thăm câu nào. Trình duyệt không gọi được kho (kho chưa bật CORS)
+        thì dùng đường nạp gói ở dưới.
     </p>
 
     <div class="dia-chi-kho">
@@ -82,6 +84,39 @@
         @(DangDoc ? "Đang đọc kho bằng chứng…" : "Đọc trail bằng chứng trên kho")
     </button>
 
+    @* Trình duyệt chỉ đọc được kho khi chính kho bật CORS — thứ nằm ngoài tầm tay người kiểm. Nên
+       phải có đường thứ hai: kho được tải sẵn bằng script rồi nạp vào đây. Đường này không gọi
+       mạng, nhờ vậy bản offline cũng kiểm được trail. *@
+    <details class="o-nap-goi">
+        <summary>Kho chặn CORS, hoặc máy này không có mạng? Nạp gói trail đã tải sẵn</summary>
+
+        <p class="dan-nhap">
+            Gói trail là kho bằng chứng đã được tải sẵn bằng script <code>tai-goi-trail.py</code> (đi
+            kèm mã nguồn công cụ, tổ giám sát chạy) rồi nén thành một file <code>.zip</code>: bên trong
+            là <strong>nguyên văn</strong> các trang danh sách object của kho và <strong>byte thô</strong>
+            của từng lô. Công cụ tự bóc danh sách và <strong>tự băm lại</strong> từng lô trong gói — mã
+            băm không lấy theo lời khai của script, nên chuỗi móc xích vẫn do chính công cụ này kiểm.
+            Nạp gói <strong>không gọi mạng</strong> và không cần khoá.
+        </p>
+
+        <p class="canh-bao-khoa" role="alert">
+            Đường này <strong>yếu hơn đọc thẳng kho</strong>, và kết luận sẽ nói rõ điều đó: đọc thẳng
+            thì chính trình duyệt của bạn chứng kiến các lô đang nằm trên kho, còn nạp gói thì mắt xích
+            ấy do người chạy script gánh. Khi có thể, hãy <strong>tự chạy script trên máy bạn</strong>;
+            và đối chiếu <code>sha256sum</code> của gói với mã băm in trong bản xuất kết quả.
+        </p>
+
+        <label class="o-tha-file o-tha-file-goi-trail">
+            <InputFile OnChange="NhanGoi" accept=".zip,application/zip" />
+            <span>Bấm chọn hoặc kéo thả gói trail (<code>.zip</code>) vào đây</span>
+        </label>
+
+        @if (loiGoi is not null)
+        {
+            <div class="thong-bao-loi" role="alert">@loiGoi</div>
+        }
+    </details>
+
     @if (trangThai.DaDoc is not null)
     {
         <button type="button" class="xoa-khoa" @onclick="Xoa">Xoá khoá và trail khỏi bộ nhớ</button>
@@ -94,6 +129,9 @@
     /// <summary>Đọc xong là dữ liệu vào lõi đã đổi — kết luận đang hiện phải được tính lại.</summary>
     [Parameter] public EventCallback DaDoi { get; set; }
 
+    // 256 MB: trail cả buổi lễ nén lại chỉ vài MB; trần để file nhầm không treo tab người kiểm.
+    private const long GioiHanByteGoi = 256L * 1024 * 1024;
+
     // Chỉ sống trong component, không đi vào bất kỳ nơi lưu trữ nào.
     private string diemCuoi = string.Empty;
     private string bucket = string.Empty;
@@ -102,6 +140,7 @@
     private string maKhoa = string.Empty;
     private string biMat = string.Empty;
     private string thePhien = string.Empty;
+    private string? loiGoi;
 
     private bool DangDoc => trangThai.Buoc == BuocDocKho.DangDoc;
 
@@ -120,9 +159,31 @@
         await DaDoi.InvokeAsync();
     }
 
+    private async Task NhanGoi(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            var file = e.File;
+            await using var stream = file.OpenReadStream(GioiHanByteGoi);
+            using var buffer = new MemoryStream();
+            await stream.CopyToAsync(buffer);
+
+            loiGoi = null;
+            trangThai.NapGoi(buffer.ToArray(), file.Name);
+        }
+        catch (Exception ex)
+        {
+            // Không đọc nổi byte của file là lỗi nạp, chưa phải kết luận gì về trail.
+            loiGoi = $"Không đọc được gói: {ex.Message}";
+        }
+
+        await DaDoi.InvokeAsync();
+    }
+
     private async Task Xoa()
     {
         trangThai.Xoa();
+        loiGoi = null;
         maKhoa = string.Empty;
         biMat = string.Empty;
         thePhien = string.Empty;
@@ -138,9 +199,14 @@
 
         var kho = trangThai.DaDoc;
 
-        if (kho.Loi is not null) return $"— đọc kho không được: {kho.Loi}";
+        // Nạp gói và đọc thẳng kho là hai việc khác nhau, nên đừng nói chung một chữ "đọc kho".
+        var daNapGoi = trangThai.Goi is not null;
 
-        return $"— đã đọc {kho.Lo.Count} lô ({kho.Lo.Sum(l => l.BanGhi.Count)} bản ghi) từ {kho.MoTaNguon}, "
+        if (kho.Loi is not null)
+            return daNapGoi ? $"— gói nạp vào không dùng được: {kho.Loi}" : $"— đọc kho không được: {kho.Loi}";
+
+        return $"— đã {(daNapGoi ? "nạp" : "đọc")} {kho.Lo.Count} lô ({kho.Lo.Sum(l => l.BanGhi.Count)} bản ghi) "
+               + $"từ {kho.MoTaNguon}, "
                + $"{kho.MoTaCheDo}. Kết luận nằm ở các hạng mục trail phía trên.";
     }
 }
