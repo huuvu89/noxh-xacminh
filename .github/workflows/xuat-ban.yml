@@ -39,6 +39,10 @@ jobs:
       - name: Cấu hình địa chỉ tĩnh
         id: pages
         uses: actions/configure-pages@v5
+        # Lần xuất bản đầu tiên: bật Pages ngay trong lần chạy này thay vì bắt người ta vào
+        # Settings bấm tay — một bước tay là một bước có thể quên, và quên thì trang không lên.
+        with:
+          enablement: true
 
       - name: Dựng bản đem lên và gói offline
         env:
