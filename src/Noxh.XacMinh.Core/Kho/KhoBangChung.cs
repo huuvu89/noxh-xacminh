@@ -34,7 +34,7 @@ public sealed record KhoBangChung(
         CheDoDocKho.KhoaChiDoc => "đọc bằng khoá chỉ-đọc người kiểm dán vào",
         CheDoDocKho.GoiNhapTay =>
             "nạp từ gói đã tải sẵn bằng script — KHÔNG phải trình duyệt này đọc thẳng kho, nên "
-            + "\"các lô này đang nằm trên kho\" là điều công cụ không kiểm được, nó chỉ băm lại "
+            + "\"các lô này đang nằm trên kho\" là điều công cụ không tự chứng kiến được, nó chỉ băm lại "
             + "đúng byte trong gói",
         _ => "đọc ẩn danh (kho đã mở công khai)",
     };

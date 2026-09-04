@@ -24,6 +24,9 @@ public sealed class TrangThaiHienThi
         set => Dat(value ? CheDoHienThi.ChuyenSau : CheDoHienThi.NguoiDan);
     }
 
+    /// <summary>Thẻ đang mở — sống theo phiên để kiểm lại hay nạp báo cáo mới không nhảy thẻ.</summary>
+    public TheKiem TheDangChon { get; set; } = TheKiem.ChongPhieu;
+
     /// <summary>Component nào đang vẽ theo chế độ thì nghe sự kiện này để tự vẽ lại.</summary>
     public event Action? DaDoi;
 

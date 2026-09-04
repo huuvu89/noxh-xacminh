@@ -263,7 +263,7 @@ public class MocNeoVerificationTests
         Assert.Equal(CheckStatus.KhongDat, MotVong(khongDau, QuanSatKhoiGolden.DocDuoc()).Status);
     }
 
-    // ── AC4: nguồn ngoài lỗi/chặn ⇒ KHÔNG KIỂM ĐƯỢC kèm link tra cứu thủ công ────────────
+    // ── AC4: nguồn ngoài lỗi/chặn ⇒ CHƯA ĐỦ DỮ LIỆU kèm link tra cứu thủ công ────────────
 
     [Fact]
     public void AC4_ChuaTraCuuDuocBlockNao_KhongKiemDuoc_KemLinkTraCuuThuCong()

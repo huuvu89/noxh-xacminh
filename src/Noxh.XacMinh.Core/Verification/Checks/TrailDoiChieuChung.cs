@@ -12,7 +12,7 @@ namespace Noxh.XacMinh.Core.Verification.Checks;
 ///
 /// Ba chỗ dùng chung, và cả ba đều là chỗ dễ nói dối nếu mỗi hạng mục tự làm một kiểu:
 ///  · <b>Cửa vào</b> — chưa đọc kho, đọc không được, kho rỗng, hay trail của <b>dự án khác</b> thì
-///    phải là KHÔNG KIỂM ĐƯỢC, không bao giờ là KHÔNG ĐẠT.
+///    phải là CHƯA ĐỦ DỮ LIỆU, không bao giờ là KHÔNG ĐẠT.
 ///  · <b>Giới hạn</b> — mọi kết luận, kể cả kết luận đẹp nhất, phải nói ra rằng trail không thấy
 ///    được thứ chưa bao giờ được đẩy lên.
 ///  · <b>Số liệu thô</b> — cùng một cách đếm, để ba hạng mục không nói ba con số khác nhau về cùng

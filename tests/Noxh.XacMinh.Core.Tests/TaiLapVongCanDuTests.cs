@@ -371,7 +371,7 @@ public class TaiLapVongCanDuTests
         });
     }
 
-    // ── Suy diễn mâu thuẫn / thiếu dữ liệu → KHÔNG KIỂM ĐƯỢC ────────────────────────────
+    // ── Suy diễn mâu thuẫn / thiếu dữ liệu → CHƯA ĐỦ DỮ LIỆU ────────────────────────────
 
     [Fact]
     public void KhongCoDanhMucCan_KhongKiemDuoc_KemHuongDanNapDanhMuc()

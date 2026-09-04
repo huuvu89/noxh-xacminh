@@ -415,7 +415,7 @@ public class DauThoiGianVerificationTests
         Assert.Equal(CheckStatus.KhongDat, HangMuc(sua).Status);
     }
 
-    // ── Dữ liệu lạ: KHÔNG KIỂM ĐƯỢC, không ném ngoại lệ ─────────────────────────────────
+    // ── Dữ liệu lạ: CHƯA ĐỦ DỮ LIỆU, không ném ngoại lệ ─────────────────────────────────
 
     [Fact]
     public void PhanTuDauThoiGianRong_KhongNemNgoaiLe()

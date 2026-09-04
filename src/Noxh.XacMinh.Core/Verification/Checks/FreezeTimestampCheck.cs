@@ -44,7 +44,7 @@ internal static class FreezeTimestampCheck
     private const string KhongCoDauGiaiThich =
         "Mốc cam kết KHÔNG có bằng chứng thời gian độc lập: báo cáo không công bố dấu thời gian nào đóng lên "
         + "bộ số đã chốt. Không có dấu thì việc \"cam kết có trước khi block neo tồn tại\" chỉ còn là lời của "
-        + "ban tổ chức, không ai kiểm được — hãy đòi bản sao token và biên bản của buổi lễ trước khi tin phần "
+        + "ban tổ chức, không ai đối chiếu được — hãy đòi bản sao token và biên bản của buổi lễ trước khi tin phần "
         + "còn lại của báo cáo.";
 
     private const string DatGiaiThich =

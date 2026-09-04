@@ -16,7 +16,7 @@ public delegate Task<KhoBangChung> DocTrail(ThongSoKho kho, KhoaKho? khoa, Cance
 ///
 /// Mọi kiểu hỏng — mạng đứt, CORS chặn, kho từ chối, quá hạn chờ — đều trở thành một
 /// <see cref="KhoBangChung"/> mang <see cref="KhoBangChung.Loi"/>, vì lõi cần "đọc không được" như
-/// một dữ kiện để ra KHÔNG KIỂM ĐƯỢC, chứ không phải một ngoại lệ bị nuốt.
+/// một dữ kiện để ra CHƯA ĐỦ DỮ LIỆU, chứ không phải một ngoại lệ bị nuốt.
 /// </summary>
 public sealed class TaiKhoBangChung(HttpClient http)
 {

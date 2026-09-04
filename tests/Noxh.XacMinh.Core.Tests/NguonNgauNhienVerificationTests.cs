@@ -100,7 +100,7 @@ public class NguonNgauNhienVerificationTests
         }
     }
 
-    // ── AC2: vòng thiếu dữ liệu → KHÔNG KIỂM ĐƯỢC, không thành KHÔNG ĐẠT ────────────────
+    // ── AC2: vòng thiếu dữ liệu → CHƯA ĐỦ DỮ LIỆU, không thành KHÔNG ĐẠT ────────────────
 
     [Fact]
     public void AC2_VongChuaDongCong_ThieuRServer_KhongKiemDuoc_ChuKhongKhongDat()

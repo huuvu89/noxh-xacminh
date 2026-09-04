@@ -149,5 +149,5 @@ internal static class NhatKyBocChung
             : $"công bố {ten} không phải một định danh hợp lệ")
         + $", mà {ten} là một phần bắt buộc của chuỗi đem băm. Thiếu nó thì chỉ so được bước sau có trỏ đúng "
         + "bước trước hay không — kiểu so đó vẫn báo ĐẠT cho một nhật ký đã bị sửa, nên ở đây phải kết luận "
-        + "KHÔNG KIỂM ĐƯỢC thay vì ĐẠT.";
+        + "CHƯA ĐỦ DỮ LIỆU thay vì ĐẠT.";
 }

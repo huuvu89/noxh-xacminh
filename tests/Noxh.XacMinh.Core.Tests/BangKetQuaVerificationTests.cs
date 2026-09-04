@@ -235,7 +235,7 @@ public class BangKetQuaVerificationTests
         Assert.Contains("huỷ kết quả", HangMuc(Golden()).Explanation, StringComparison.Ordinal);
     }
 
-    // ── Thiếu dữ liệu: KHÔNG KIỂM ĐƯỢC, không được biến thành KHÔNG ĐẠT ──────────────────
+    // ── Thiếu dữ liệu: CHƯA ĐỦ DỮ LIỆU, không được biến thành KHÔNG ĐẠT ──────────────────
 
     [Fact]
     public void BaoCaoKhongCoKhoiKetQua_KhongKiemDuoc_ChuKhongImLang()

@@ -36,7 +36,7 @@ public class XuatKetQuaHienThiTests
             Expected: HexDai, Actual: HexDai),
         new CheckResult(
             "hang-muc-khong-kiem-duoc", "Mã băm chồng phiếu C", CheckStatus.KhongKiemDuoc,
-            "Chồng phiếu này chưa công bố nội dung vé, nên chưa kiểm được."),
+            "Chồng phiếu này chưa công bố nội dung vé, nên chưa có dữ liệu để đối chiếu."),
     ]);
 
     private static Task<string> Ve(TrinhVe trinh, VerificationReport baoCao) =>
@@ -98,7 +98,7 @@ public class XuatKetQuaHienThiTests
 
         var noiDung = FileTaiVe(await Ve(trinh, BaoCaoBaTrangThai()));
 
-        Assert.Contains("Mã băm chồng phiếu C — KHÔNG KIỂM ĐƯỢC", noiDung, StringComparison.Ordinal);
+        Assert.Contains("Mã băm chồng phiếu C — CHƯA ĐỦ DỮ LIỆU", noiDung, StringComparison.Ordinal);
     }
 
     [Fact]

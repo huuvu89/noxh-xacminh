@@ -80,6 +80,49 @@ h1 { font-size: 1.5rem; }
 
 .chuyen-sau { display: block; margin: 1rem 0; }
 
+/* ── Thẻ nhóm hạng mục ─────────────────────────────────────────────────────────────────── */
+
+.the-kiem { margin-top: 1rem; }
+
+/* Năm thẻ xuống dòng thành hai hàng trên điện thoại thay vì cuộn ngang: không thẻ nào bị cắt
+   khỏi tầm mắt — người dân phải thấy đủ năm tên thẻ mà không cần biết là có thể vuốt. */
+.thanh-the {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .35rem;
+    padding-bottom: .5rem;
+    border-bottom: 2px solid var(--vien);
+}
+
+.thanh-the button {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .1rem;
+    min-height: 2.75rem;
+    padding: .45rem .7rem;
+    border: 1px solid var(--vien);
+    border-radius: .25rem;
+    background: var(--nen-mo);
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.thanh-the button[aria-selected="true"] {
+    background: #fff;
+    border: 2px solid #1b1b1b;
+}
+
+.thanh-the .ten-the { font-weight: 600; }
+.thanh-the button[aria-selected="true"] .ten-the { text-decoration: underline; text-underline-offset: .2rem; }
+
+.bang-the { padding-top: .75rem; }
+.mo-ta-the { margin: 0 0 .75rem; }
+.the-trong { padding: .5rem .75rem; border-left: .35rem solid var(--vien); background: var(--nen-mo); }
+
 .hang-muc { list-style: none; padding: 0; margin: 0; }
 
 .hang-muc li {

@@ -17,6 +17,6 @@ public static class CheckStatusText
     {
         CheckStatus.Dat => "ĐẠT",
         CheckStatus.KhongDat => "KHÔNG ĐẠT",
-        _ => "KHÔNG KIỂM ĐƯỢC",
+        _ => "CHƯA ĐỦ DỮ LIỆU",
     };
 }

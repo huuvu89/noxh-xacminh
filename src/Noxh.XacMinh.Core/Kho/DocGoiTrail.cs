@@ -73,7 +73,7 @@ public static class DocGoiTrail
             if (trang.Count == 0)
                 return Hong(
                     $"gói không có trang danh sách nào ({ThuMucTrangDanhSach}…): không biết kho khai có "
-                    + "những lô nào thì không kiểm được lô nào thiếu — hãy tải lại gói bằng script.",
+                    + "những lô nào thì không biết được lô nào thiếu — hãy tải lại gói bằng script.",
                     nguon);
 
             var key = new List<string>();

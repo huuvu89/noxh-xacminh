@@ -8,7 +8,7 @@ namespace Noxh.XacMinh.Core.XuatKetQua;
 /// Bản xuất kết quả kiểm ra một file Markdown — thứ người ta trích dẫn, gửi đi, kẹp vào hồ sơ.
 /// Nguyên tắc: file nói <b>đủ hơn</b> màn hình, không bao giờ ít hơn. Chế độ hiển thị là chuyện của
 /// màn hình; file luôn mang đủ giá trị kỳ vọng, giá trị tính được và preimage để người khác tính
-/// lại bằng công cụ của họ. Hạng mục KHÔNG KIỂM ĐƯỢC ở lại nguyên trạng thái đó — lược nó đi là
+/// lại bằng công cụ của họ. Hạng mục CHƯA ĐỦ DỮ LIỆU ở lại nguyên trạng thái đó — lược nó đi là
 /// biến một file "chưa kết luận được" thành một file trông như đã đạt.
 /// </summary>
 public static class BanXuatVanBan
@@ -64,8 +64,8 @@ public static class BanXuatVanBan
         }
 
         ra.Append(
-            "\n> KHÔNG KIỂM ĐƯỢC là một kết luận, không phải một hạng mục bị bỏ qua: hạng mục đó thiếu "
-            + "dữ liệu nên chưa kết luận được. Thiếu dữ liệu không có nghĩa là đạt.\n");
+            "\n> CHƯA ĐỦ DỮ LIỆU là một kết luận, không phải một hạng mục bị bỏ qua: hạng mục đó còn thiếu "
+            + "dữ liệu để đối chiếu nên chưa kết luận được. Thiếu dữ liệu không có nghĩa là đạt.\n");
 
         ra.Append(
             "\nFile này do công cụ kiểm chứng độc lập sinh ra từ dữ liệu người kiểm tự nạp vào. Muốn "
@@ -107,6 +107,6 @@ public static class BanXuatVanBan
         var khongDat = baoCao.Items.Count(i => i.Status == CheckStatus.KhongDat);
         var chuaKiem = baoCao.Items.Count(i => i.Status == CheckStatus.KhongKiemDuoc);
 
-        return $"{baoCao.Items.Count} — {dat} ĐẠT · {khongDat} KHÔNG ĐẠT · {chuaKiem} KHÔNG KIỂM ĐƯỢC";
+        return $"{baoCao.Items.Count} — {dat} ĐẠT · {khongDat} KHÔNG ĐẠT · {chuaKiem} CHƯA ĐỦ DỮ LIỆU";
     }
 }

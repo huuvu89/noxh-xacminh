@@ -105,7 +105,7 @@ public class DanhSachHoSoHienThiTests
 
     /// <summary>
     /// Vỏ đọc byte rồi đưa vào lõi, không tự diễn giải: file hỏng phải đi hết đường tới màn hình
-    /// kết quả thành KHÔNG KIỂM ĐƯỢC có nói tên file, chứ không thành ngoại lệ hay im lặng.
+    /// kết quả thành CHƯA ĐỦ DỮ LIỆU có nói tên file, chứ không thành ngoại lệ hay im lặng.
     /// </summary>
     [Fact]
     public async Task AC1_ThaFileExcelHong_ManHinhNoiKhongKiemDuocVaNoiTenFile()
@@ -116,7 +116,7 @@ public class DanhSachHoSoHienThiTests
             new NguonBang.Excel("danh-sach-goc.xlsx", "không phải file Excel"u8.ToArray()),
             GoldenFixture.DanhSachKhoaHex()));
 
-        Assert.Contains("KHÔNG KIỂM ĐƯỢC", html, StringComparison.Ordinal);
+        Assert.Contains("CHƯA ĐỦ DỮ LIỆU", html, StringComparison.Ordinal);
         Assert.Contains("danh-sach-goc.xlsx", html, StringComparison.Ordinal);
     }
 
@@ -210,7 +210,7 @@ public class DanhSachHoSoHienThiTests
         var html = await VeKetQua(trinh, null);
 
         Assert.Contains("Danh sách hồ sơ đầu vào", html, StringComparison.Ordinal);
-        Assert.Contains("KHÔNG KIỂM ĐƯỢC", html, StringComparison.Ordinal);
+        Assert.Contains("CHƯA ĐỦ DỮ LIỆU", html, StringComparison.Ordinal);
     }
 
     /// <summary>Họ tên trong bảng là dữ liệu cá nhân — kết luận không được bày nó ra màn hình.</summary>

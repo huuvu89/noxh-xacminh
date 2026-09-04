@@ -11,7 +11,7 @@ namespace Noxh.XacMinh.Core.Verification.Checks;
 ///  · <b>Trail có mà báo cáo thiếu</b> (hoặc cùng một ô phiếu mà hai bên khai khác nhau) — KHÔNG ĐẠT.
 ///    Bản ghi đã nằm trên kho chỉ-ghi từ lúc lễ chạy thì không sửa lại được nữa; báo cáo công bố sau
 ///    lại nói khác đi nghĩa là dữ liệu đã bị đổi ở khoảng giữa.
-///  · <b>Báo cáo có mà trail thiếu</b> — chỉ KHÔNG KIỂM ĐƯỢC. Đường đẩy bằng chứng là best-effort có
+///  · <b>Báo cáo có mà trail thiếu</b> — chỉ CHƯA ĐỦ DỮ LIỆU. Đường đẩy bằng chứng là best-effort có
 ///    chủ ý (hàng đợi đầy thì máy chủ bỏ bản ghi chứ không chặn lượt bốc), và vé do <b>máy bốc thay</b>
 ///    thì không đi qua đường bốc vé nên không bao giờ lên trail. Biến chỗ đó thành lời buộc tội là vu
 ///    oan cho một hàng đợi đầy.

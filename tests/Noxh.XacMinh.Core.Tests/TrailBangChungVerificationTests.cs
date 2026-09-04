@@ -170,7 +170,7 @@ public class TrailBangChungVerificationTests
 
     /// <summary>
     /// Nội dung trên kho là thứ công cụ không kiểm soát được: số thứ tự lô âm hay lớn vô lý phải cho
-    /// KHÔNG KIỂM ĐƯỢC, chứ không được làm nổ phép kiểm và kéo cả trang xuống theo.
+    /// CHƯA ĐỦ DỮ LIỆU, chứ không được làm nổ phép kiểm và kéo cả trang xuống theo.
     /// </summary>
     [Theory]
     [InlineData(-1)]
@@ -185,7 +185,7 @@ public class TrailBangChungVerificationTests
         Assert.Equal(CheckStatus.KhongKiemDuoc, KhoangTrong(DaDoc(CheDoDocKho.AnDanh, day)).Status);
     }
 
-    // ── AC6: kho không truy cập được ⇒ KHÔNG KIỂM ĐƯỢC, không ảnh hưởng hạng mục khác ───────
+    // ── AC6: kho không truy cập được ⇒ CHƯA ĐỦ DỮ LIỆU, không ảnh hưởng hạng mục khác ───────
 
     [Fact]
     public void AC6_ChuaDocKho_HaiHangMucTrailDeuKhongKiemDuoc()

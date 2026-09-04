@@ -38,19 +38,31 @@
     <div class="thong-bao-loi" role="alert">@loi</div>
 }
 
+@* Mỗi khối phụ nằm trong thẻ của hạng mục nó phục vụ. Đổi danh mục hay đọc thêm dữ liệu thì kiểm
+   lại: kết luận cũ đứng yên là nói dối. *@
 @if (baoCao is not null)
 {
-    <KetQuaKiem BaoCao="baoCao" Nguon="@nguon" ThongTinXuat="thongTinXuat" />
-    <MocNeoChuoiKhoi DaDoi="KiemLaiBaoCaoDaNap" />
-    <DanhSachHoSo DaDoi="KiemLaiBaoCaoDaNap" />
-    <TrailBangChung DaDoi="KiemLaiBaoCaoDaNap" />
-    <KhungLuoiPhieu BaoCao="nguonBaoCao" DanhMuc="danhMuc.DanhMuc" />
+    <KetQuaKiem BaoCao="baoCao" Nguon="@nguon" ThongTinXuat="thongTinXuat">
+        <ChongPhieu>
+            <KhungLuoiPhieu BaoCao="nguonBaoCao" DanhMuc="danhMuc.DanhMuc" />
+            <DanhMucCan DaDoi="KiemLaiBaoCaoDaNap" />
+        </ChongPhieu>
+        <MocNeo>
+            <MocNeoChuoiKhoi DaDoi="KiemLaiBaoCaoDaNap" />
+        </MocNeo>
+        <KhoBangChung>
+            <TrailBangChung DaDoi="KiemLaiBaoCaoDaNap" />
+        </KhoBangChung>
+        <ToGiamSat>
+            <DanhSachHoSo DaDoi="KiemLaiBaoCaoDaNap" />
+        </ToGiamSat>
+    </KetQuaKiem>
 }
-
-@* Danh mục căn là dữ liệu công cụ tự mang theo, không đến từ file người dùng thả vào — nên hiện
-   sẵn kể cả khi chưa nạp báo cáo nào. Đổi danh mục thì kiểm lại: vòng phân căn ưu tiên dựng lại từ
-   chính nó, để kết luận cũ đứng yên là nói dối. *@
-<DanhMucCan DaDoi="KiemLaiBaoCaoDaNap" />
+else
+{
+    @* Danh mục căn là dữ liệu công cụ tự mang theo — hiện sẵn kể cả khi chưa nạp báo cáo nào. *@
+    <DanhMucCan DaDoi="KiemLaiBaoCaoDaNap" />
+}
 
 @code {
     // 64 MB: báo cáo của một dự án ~900 vé chỉ vài MB; giới hạn để file nhầm không treo tab.

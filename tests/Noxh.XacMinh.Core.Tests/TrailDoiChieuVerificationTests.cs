@@ -85,7 +85,7 @@ public class TrailDoiChieuVerificationTests
 
     /// <summary>
     /// Chiều ngược lại nhẹ hơn hẳn: đẩy trail là best-effort (hàng đợi đầy thì máy chủ bỏ bản ghi,
-    /// không chặn lượt bốc), nên "báo cáo có mà trail không có" phải là KHÔNG KIỂM ĐƯỢC. Biến nó
+    /// không chặn lượt bốc), nên "báo cáo có mà trail không có" phải là CHƯA ĐỦ DỮ LIỆU. Biến nó
     /// thành KHÔNG ĐẠT là vu cho ban tổ chức vì một hàng đợi đầy.
     /// </summary>
     [Fact]
@@ -244,7 +244,7 @@ public class TrailDoiChieuVerificationTests
     /// <summary>
     /// Đầu chuỗi là giá trị cộng dồn "tới hết vòng X". Nhật ký mang một nhãn vòng công cụ không biết
     /// thì ranh giới ấy không vạch được — kết luận lệch lúc đó chỉ phản ánh việc công cụ không hiểu
-    /// nhãn vòng, nên phải dừng ở KHÔNG KIỂM ĐƯỢC.
+    /// nhãn vòng, nên phải dừng ở CHƯA ĐỦ DỮ LIỆU.
     /// </summary>
     [Fact]
     public void AC4_NhatKyMangVongCongCuKhongBiet_KhongKiemDuoc_ChuKhongVuOanKhongDat()
@@ -292,7 +292,7 @@ public class TrailDoiChieuVerificationTests
             Assert.Contains("chưa bao giờ được đẩy lên", k.Explanation, StringComparison.Ordinal));
     }
 
-    // ── AC6: không có dữ liệu trail ⇒ KHÔNG KIỂM ĐƯỢC, không phải KHÔNG ĐẠT ────────────────
+    // ── AC6: không có dữ liệu trail ⇒ CHƯA ĐỦ DỮ LIỆU, không phải KHÔNG ĐẠT ────────────────
 
     [Fact]
     public void AC6_ChuaDocKho_CaBaHangMucDeuKhongKiemDuoc()

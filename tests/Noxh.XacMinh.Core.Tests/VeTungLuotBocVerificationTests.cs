@@ -280,7 +280,7 @@ public class VeTungLuotBocVerificationTests
         Assert.Contains(DiemLech(item), m => m.Value.Contains("vị trí 0", StringComparison.Ordinal));
     }
 
-    // ── Thiếu dữ liệu: KHÔNG KIỂM ĐƯỢC, không được biến thành KHÔNG ĐẠT ──────────────────
+    // ── Thiếu dữ liệu: CHƯA ĐỦ DỮ LIỆU, không được biến thành KHÔNG ĐẠT ──────────────────
 
     [Theory]
     [InlineData("position")]

@@ -37,7 +37,7 @@ public class XuatKetQuaTests
             Expected: HexDai, Actual: HexDai.Replace('3', '4')),
         new CheckResult(
             "hang-muc-khong-kiem-duoc", "Mã băm chồng phiếu C", CheckStatus.KhongKiemDuoc,
-            "Chồng phiếu này chưa công bố nội dung vé, nên chưa kiểm được."),
+            "Chồng phiếu này chưa công bố nội dung vé, nên chưa có dữ liệu để đối chiếu."),
     ]);
 
     private static VerificationReport BaoCaoChuanVang()
@@ -189,14 +189,14 @@ public class XuatKetQuaTests
         Assert.Contains("Dự án Chung cư X — bao-cao.json", vanBan, StringComparison.Ordinal);
     }
 
-    // ── AC4: hạng mục KHÔNG KIỂM ĐƯỢC xuất hiện đúng trạng thái đó, không bị lược mất ────
+    // ── AC4: hạng mục CHƯA ĐỦ DỮ LIỆU xuất hiện đúng trạng thái đó, không bị lược mất ────
 
     [Fact]
     public void AC4_HangMucKhongKiemDuoc_CoMatTrongFile_DungTrangThaiDo()
     {
         var vanBan = BanXuatVanBan.Dung(BaoCaoBaTrangThai(), ThongTin());
 
-        Assert.Contains("Mã băm chồng phiếu C — KHÔNG KIỂM ĐƯỢC", vanBan, StringComparison.Ordinal);
+        Assert.Contains("Mã băm chồng phiếu C — CHƯA ĐỦ DỮ LIỆU", vanBan, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -208,7 +208,7 @@ public class XuatKetQuaTests
         var vanBan = BanXuatVanBan.Dung(chuaDu, ThongTin());
 
         Assert.Equal(CheckStatus.KhongKiemDuoc, chuaDu.Overall);
-        Assert.Contains("Kết luận chung: KHÔNG KIỂM ĐƯỢC", vanBan, StringComparison.Ordinal);
+        Assert.Contains("Kết luận chung: CHƯA ĐỦ DỮ LIỆU", vanBan, StringComparison.Ordinal);
         Assert.Contains("Thiếu dữ liệu không có nghĩa là đạt", vanBan, StringComparison.Ordinal);
     }
 
@@ -219,7 +219,7 @@ public class XuatKetQuaTests
 
         Assert.Contains("1 ĐẠT", vanBan, StringComparison.Ordinal);
         Assert.Contains("1 KHÔNG ĐẠT", vanBan, StringComparison.Ordinal);
-        Assert.Contains("1 KHÔNG KIỂM ĐƯỢC", vanBan, StringComparison.Ordinal);
+        Assert.Contains("1 CHƯA ĐỦ DỮ LIỆU", vanBan, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -230,8 +230,8 @@ public class XuatKetQuaTests
 
         var vanBan = BanXuatVanBan.Dung(baoCao, ThongTin());
 
-        Assert.True(soChuaKiem > 0, "Fixture chuẩn vàng không nạp trail/block nên phải có hạng mục chưa kiểm được.");
-        Assert.Contains($"{soChuaKiem} KHÔNG KIỂM ĐƯỢC", vanBan, StringComparison.Ordinal);
+        Assert.True(soChuaKiem > 0, "Fixture chuẩn vàng không nạp trail/block nên phải có hạng mục chưa đủ dữ liệu.");
+        Assert.Contains($"{soChuaKiem} CHƯA ĐỦ DỮ LIỆU", vanBan, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -239,7 +239,7 @@ public class XuatKetQuaTests
     {
         var vanBan = BanXuatVanBan.Dung(new VerificationReport([]), ThongTin());
 
-        Assert.Contains("Kết luận chung: KHÔNG KIỂM ĐƯỢC", vanBan, StringComparison.Ordinal);
+        Assert.Contains("Kết luận chung: CHƯA ĐỦ DỮ LIỆU", vanBan, StringComparison.Ordinal);
     }
 
     // ── Dữ liệu lạ trong file người dùng thả vào không được phá cấu trúc bản xuất ────────

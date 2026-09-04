@@ -40,8 +40,8 @@ internal static class ResultsHashCheck
                 CheckIds.ResultsHash,
                 Title,
                 CheckStatus.KhongKiemDuoc,
-                "Báo cáo không công bố bảng kết quả chung cuộc, nên không kiểm được bảng đang công bố có đúng bản "
-                + "đã ghim mã băm hay không.");
+                "Báo cáo không công bố bảng kết quả chung cuộc, nên chưa có dữ liệu để đối chiếu bảng đang công bố "
+                + "với bản đã ghim mã băm.");
 
         var dong = bang.Rows;
         var soLieu = SoLieu(dong);

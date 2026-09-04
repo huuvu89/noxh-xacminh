@@ -1,4 +1,6 @@
-@* Khuôn hiển thị chung: mọi hạng mục kiểm (vé sau cắm thêm vào Verifier) đều vẽ qua đây. *@
+@* Khuôn hiển thị chung: kết luận tổng luôn ở trên, rồi hạng mục chia theo năm thẻ. Mọi thẻ đều vẽ
+   sẵn và chỉ ẩn bằng `hidden`: ô nhập trong các khối (địa chỉ kho, khoá) là state cục bộ, chuyển thẻ
+   mà unmount là mất chữ đã gõ. *@
 @implements IDisposable
 @using Noxh.XacMinh.Core.XuatKetQua
 @inject TrangThaiHienThi trangThai
@@ -12,12 +14,50 @@
 
 <CongTacCheDo />
 
-<ul class="hang-muc">
-    @foreach (var item in BaoCao.Items)
+<div class="the-kiem">
+    <div class="thanh-the" role="tablist" aria-label="Nhóm hạng mục kiểm">
+        @foreach (var the in NhomHangMuc.ThuTu)
+        {
+            var chon = the == trangThai.TheDangChon;
+            var tinhTrang = NhomHangMuc.TrangThai(HangMucCua(the));
+            <button type="button" role="tab" id="the-@the.Ma()" aria-controls="bang-@the.Ma()"
+                    aria-selected="@(chon ? "true" : "false")" tabindex="@(chon ? 0 : -1)"
+                    class="@(tinhTrang is null ? "" : LopTrangThai.Cua(tinhTrang.Value))"
+                    @onclick="() => Chon(the)">
+                <span class="ten-the">@the.Ten()</span>
+                @if (tinhTrang is not null)
+                {
+                    <span class="nhan">@tinhTrang.Value.Nhan()</span>
+                }
+            </button>
+        }
+    </div>
+
+    @foreach (var the in NhomHangMuc.ThuTu)
     {
-        <HangMucKiem KetQua="item" />
+        var hangMuc = HangMucCua(the);
+        <section role="tabpanel" id="bang-@the.Ma()" aria-labelledby="the-@the.Ma()"
+                 class="bang-the bang-@the.Ma()" hidden="@(the != trangThai.TheDangChon)">
+            <p class="dan-nhap mo-ta-the">@the.MoTa()</p>
+
+            @if (hangMuc.Count == 0)
+            {
+                <p class="the-trong">Báo cáo này không có hạng mục nào thuộc nhóm này.</p>
+            }
+            else
+            {
+                <ul class="hang-muc">
+                    @foreach (var item in hangMuc)
+                    {
+                        <HangMucKiem KetQua="item" />
+                    }
+                </ul>
+            }
+
+            @KhoiCua(the)
+        </section>
     }
-</ul>
+</div>
 
 @code {
     [Parameter, EditorRequired] public VerificationReport BaoCao { get; set; } = default!;
@@ -27,10 +67,36 @@
     /// <summary>Thiếu thì không có nút tải — trang chủ luôn đưa xuống, test canh cho khỏi rơi.</summary>
     [Parameter] public ThongTinBanXuat? ThongTinXuat { get; set; }
 
+    // Khối phụ (lưới ô phiếu, nút tra cứu, form đọc kho…) do trang chủ ghép vào từng thẻ.
+    [Parameter] public RenderFragment? ChongPhieu { get; set; }
+
+    [Parameter] public RenderFragment? ChuoiNgauNhien { get; set; }
+
+    [Parameter] public RenderFragment? MocNeo { get; set; }
+
+    [Parameter] public RenderFragment? KhoBangChung { get; set; }
+
+    [Parameter] public RenderFragment? ToGiamSat { get; set; }
+
     // Chế độ sống ngoài component này (theo phiên), nên phải nghe để vẽ lại cả danh sách khi đổi.
     protected override void OnInitialized() => trangThai.DaDoi += VeLai;
 
     public void Dispose() => trangThai.DaDoi -= VeLai;
 
     private void VeLai() => StateHasChanged();
+
+    private void Chon(TheKiem the) => trangThai.TheDangChon = the;
+
+    // Giữ đúng thứ tự Verifier trong từng thẻ.
+    private IReadOnlyList<CheckResult> HangMucCua(TheKiem the) =>
+        BaoCao.Items.Where(i => NhomHangMuc.TheHoacMacDinh(i.Id) == the).ToList();
+
+    private RenderFragment? KhoiCua(TheKiem the) => the switch
+    {
+        TheKiem.ChongPhieu => ChongPhieu,
+        TheKiem.ChuoiNgauNhien => ChuoiNgauNhien,
+        TheKiem.MocNeo => MocNeo,
+        TheKiem.KhoBangChung => KhoBangChung,
+        _ => ToGiamSat,
+    };
 }

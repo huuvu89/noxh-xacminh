@@ -46,7 +46,7 @@ public class MocNeoHienThiTests
 
         var html = await VeKetQua(trinh, new VerificationInput(baoCao));
 
-        Assert.Contains("KHÔNG KIỂM ĐƯỢC", html, StringComparison.Ordinal);
+        Assert.Contains("CHƯA ĐỦ DỮ LIỆU", html, StringComparison.Ordinal);
         Assert.Contains(LinkChuanVang(baoCao), html, StringComparison.Ordinal);
     }
 

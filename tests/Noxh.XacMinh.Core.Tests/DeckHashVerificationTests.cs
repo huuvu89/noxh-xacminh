@@ -131,7 +131,7 @@ public class DeckHashVerificationTests
             i => Assert.Equal(CheckStatus.Dat, i.Status));
     }
 
-    // ── AC4: thiếu nội dung vé → KHÔNG KIỂM ĐƯỢC, không phải ĐẠT ─────────────────────────
+    // ── AC4: thiếu nội dung vé → CHƯA ĐỦ DỮ LIỆU, không phải ĐẠT ─────────────────────────
 
     [Fact]
     public void AC4_ChongPhieuThieuNoiDungVe_KhongKiemDuoc()

@@ -17,10 +17,10 @@
     private static string GiaiThich(CheckStatus status) => status switch
     {
         CheckStatus.Dat =>
-            "Mọi hạng mục kiểm được đều khớp. Bản công bố đúng là bản đã niêm phong.",
+            "Mọi hạng mục đều khớp. Bản công bố đúng là bản đã niêm phong.",
         CheckStatus.KhongDat =>
             "Có hạng mục KHÔNG khớp. Số liệu công bố không đúng bản đã niêm phong — xem chi tiết bên dưới.",
         _ =>
-            "Có hạng mục không kiểm được vì thiếu dữ liệu. Thiếu dữ liệu không có nghĩa là đạt.",
+            "Có hạng mục chưa đủ dữ liệu để kết luận — bổ sung ở các thẻ bên dưới. Thiếu dữ liệu không có nghĩa là đạt.",
     };
 }

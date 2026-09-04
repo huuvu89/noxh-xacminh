@@ -13,7 +13,7 @@ namespace Noxh.XacMinh.Core.Verification.Checks;
 /// Một trong hai hạng mục cần dữ liệu ngoài (hạng mục kia là trail bằng chứng) — nhưng lõi vẫn
 /// thuần: block do vỏ UI đọc từ nguồn công khai
 /// rồi đưa vào <see cref="VerificationInput.Blocks"/> dưới dạng dữ liệu. Chưa đọc được (chưa bấm tra
-/// cứu, mạng hỏng, bị chặn) là KHÔNG KIỂM ĐƯỢC kèm link tra cứu thủ công — không bao giờ là ĐẠT.
+/// cứu, mạng hỏng, bị chặn) là CHƯA ĐỦ DỮ LIỆU kèm link tra cứu thủ công — không bao giờ là ĐẠT.
 /// </summary>
 internal static class MocNeoCheck
 {
@@ -55,8 +55,8 @@ internal static class MocNeoCheck
                 ? "Vòng này không nói neo vào chuỗi khối nào, nên không biết phải hỏi sổ cái công khai nào để "
                   + "biết block có thật hay không."
                 : $"Vòng này khai neo vào chuỗi khối «{MoTaGiaTri.Gon(nguon.AnchorChain!.Trim())}» — công cụ chỉ "
-                  + "biết đọc Ethereum và Bitcoin. Đoán bừa sổ cái rồi kết luận là điều nguy hiểm hơn nói chưa "
-                  + "kiểm được.");
+                  + "biết đọc Ethereum và Bitcoin. Đoán bừa sổ cái rồi kết luận là điều nguy hiểm hơn dừng lại ở "
+                  + "chưa đủ dữ liệu.");
 
         var tenChuoi = ChuoiKhoiNeo.TenHienThi(chuoiKhoi);
         var daCamKet = MocNeoTraCuu.DoCaoDaCamKet(bc, chuoiKhoi);
@@ -208,7 +208,7 @@ internal static class MocNeoCheck
         if (daoLuc is null)
             return ChuaKiemDuoc(
                 khopMaBam
-                + "Nhưng nguồn công khai không cho biết block được đào lúc nào, nên chưa kiểm được cam kết có "
+                + "Nhưng nguồn công khai không cho biết block được đào lúc nào, nên chưa đối chiếu được cam kết có "
                 + $"trước khi block ra đời hay không — phần lá chắn quan trọng nhất còn bỏ ngỏ. Tự đối chiếu giờ "
                 + $"đào tại {link}.");
 

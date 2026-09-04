@@ -10,7 +10,7 @@ sát và người vận hành, chạy trên máy của họ.
 Công cụ kiểm chứng là trang tĩnh chạy trong trình duyệt. Trình duyệt chỉ đọc được kho bằng chứng
 khi **chính kho** trả tiêu đề CORS (`Access-Control-Allow-Origin`, và cả `OPTIONS` nếu đọc bằng
 khoá) — thứ nằm ở cấu hình bucket, ngoài tầm tay người kiểm. Kho chưa bật CORS thì màn hình trail
-dừng ở **KHÔNG KIỂM ĐƯỢC**, dù kho đã mở công khai.
+dừng ở **CHƯA ĐỦ DỮ LIỆU**, dù kho đã mở công khai.
 
 Script chạy ngoài trình duyệt nên không vướng CORS. Nó tải kho về thành một gói `.zip`, người kiểm
 nạp gói đó vào mục **“Trail bằng chứng trên kho lưu trữ chỉ-ghi”** của công cụ. Gói cũng là cách

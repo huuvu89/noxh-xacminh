@@ -27,7 +27,7 @@ internal static class DeckHashCheck
                 CheckIds.DeckHash,
                 "Mã băm chồng phiếu",
                 CheckStatus.KhongKiemDuoc,
-                "Báo cáo không có chồng phiếu nào, nên không kiểm được nội dung vé có đúng bản đã niêm phong không.");
+                "Báo cáo không có chồng phiếu nào, nên chưa có dữ liệu để đối chiếu nội dung vé với bản đã niêm phong.");
             yield break;
         }
 
@@ -50,7 +50,7 @@ internal static class DeckHashCheck
             return ChuaKiemDuoc("Chồng phiếu này không công bố mã băm đã niêm phong, nên không có gì để đối chiếu.");
 
         if (deck.Tickets is null)
-            return ChuaKiemDuoc("Chồng phiếu này chưa công bố nội dung vé, nên chưa kiểm được nó có đúng bản đã niêm phong không.");
+            return ChuaKiemDuoc("Chồng phiếu này chưa công bố nội dung vé, nên chưa có dữ liệu để đối chiếu với bản đã niêm phong.");
 
         if (deck.Tickets.Any(t => t is null))
             return ChuaKiemDuoc("Chồng phiếu này có ô vé rỗng trong bản công bố, nên chuỗi nội dung để băm lại không đầy đủ.");

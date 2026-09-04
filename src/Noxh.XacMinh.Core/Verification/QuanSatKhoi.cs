@@ -43,7 +43,7 @@ public sealed record YeuCauTraCuuKhoi(string ChuoiKhoi, long DoCao)
 /// <summary>
 /// Kết quả một lần tra cứu block trên nguồn công khai, đã trở thành <b>dữ liệu</b> trước khi vào lõi.
 /// <see cref="Loi"/> khác <c>null</c> nghĩa là hỏi không được (mạng hỏng, bị chặn, nguồn trả rác) —
-/// đó là một câu trả lời hợp lệ và phải dẫn tới KHÔNG KIỂM ĐƯỢC, không phải một ngoại lệ bị nuốt.
+/// đó là một câu trả lời hợp lệ và phải dẫn tới CHƯA ĐỦ DỮ LIỆU, không phải một ngoại lệ bị nuốt.
 /// </summary>
 public sealed record QuanSatKhoi(
     string ChuoiKhoi,

@@ -244,7 +244,7 @@ public class TaiLapVongUuTienTests
         Assert.Equal(CheckStatus.KhongKiemDuoc, item.Status);
     }
 
-    // ── AC4: thiếu danh mục căn → KHÔNG KIỂM ĐƯỢC kèm hướng dẫn nạp danh mục ────────────
+    // ── AC4: thiếu danh mục căn → CHƯA ĐỦ DỮ LIỆU kèm hướng dẫn nạp danh mục ────────────
 
     [Fact]
     public void AC4_KhongCoDanhMucCan_KhongKiemDuoc_KemHuongDanNapDanhMuc()

@@ -48,7 +48,7 @@ public class TrailDoiChieuHienThiTests
 
         Assert.All(TenHangMuc, ten => Assert.Contains(ten, html, StringComparison.Ordinal));
         Assert.Contains(GioiHan, html, StringComparison.Ordinal);
-        Assert.Contains("KHÔNG KIỂM ĐƯỢC", html, StringComparison.Ordinal);
+        Assert.Contains("CHƯA ĐỦ DỮ LIỆU", html, StringComparison.Ordinal);
     }
 
     /// <summary>

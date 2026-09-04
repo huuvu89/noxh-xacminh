@@ -17,7 +17,7 @@ public delegate Task<QuanSatKhoi> DocKhoiCongKhai(YeuCauTraCuuKhoi yeu, Cancella
 ///
 /// Mọi kiểu hỏng — mạng đứt, trình duyệt chặn CORS, nguồn trả rác, quá hạn chờ — đều trở thành một
 /// <see cref="QuanSatKhoi"/> mang <see cref="QuanSatKhoi.Loi"/>, vì lõi cần "hỏi không được" như một
-/// dữ kiện để ra KHÔNG KIỂM ĐƯỢC kèm link tra cứu tay, chứ không phải một ngoại lệ bị nuốt.
+/// dữ kiện để ra CHƯA ĐỦ DỮ LIỆU kèm link tra cứu tay, chứ không phải một ngoại lệ bị nuốt.
 /// </summary>
 public sealed class TraCuuKhoiCongKhai(HttpClient http)
 {

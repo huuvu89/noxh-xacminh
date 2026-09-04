@@ -12,7 +12,7 @@ internal static class NguonNgauNhienChung
 
     /// <summary>
     /// Chạy một phép kiểm cho từng vòng. Báo cáo không có khối nguồn ngẫu nhiên thì ra đúng một
-    /// kết luận KHÔNG KIỂM ĐƯỢC — im lặng bỏ qua là để người đọc tưởng hạng mục đã ĐẠT.
+    /// kết luận CHƯA ĐỦ DỮ LIỆU — im lặng bỏ qua là để người đọc tưởng hạng mục đã ĐẠT.
     /// </summary>
     public static IEnumerable<CheckResult> TungVong(
         VerificationInput input,

@@ -22,8 +22,8 @@ internal static class MasterSeedCheck
             input,
             CheckIds.MasterSeed,
             "Hạt giống gốc",
-            "Báo cáo không công bố nguồn ngẫu nhiên vòng nào, nên không kiểm được hạt giống gốc có đúng là "
-            + "tổ hợp của ba nguồn đã công bố hay không.",
+            "Báo cáo không công bố nguồn ngẫu nhiên vòng nào, nên chưa có dữ liệu để đối chiếu hạt giống gốc "
+            + "với tổ hợp của ba nguồn đã công bố.",
             Kiem);
 
     private static CheckResult Kiem(EntropySource nguon, string id, string ten)

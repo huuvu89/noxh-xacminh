@@ -38,7 +38,7 @@ public class HaiCheDoHienThiTests
         },
         new CheckResult(
             "hang-muc-khong-kiem-duoc", "Mã băm chồng phiếu C", CheckStatus.KhongKiemDuoc,
-            "Chồng phiếu này chưa công bố nội dung vé, nên chưa kiểm được."),
+            "Chồng phiếu này chưa công bố nội dung vé, nên chưa có dữ liệu để đối chiếu."),
     ]);
 
     private static VerificationReport BaoCaoChuanVang()

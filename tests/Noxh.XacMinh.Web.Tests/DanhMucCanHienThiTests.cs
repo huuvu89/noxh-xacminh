@@ -141,7 +141,9 @@ public class DanhMucCanHienThiTests
         var html = await Ve(trinh);
 
         Assert.Contains("dữ liệu đầu vào do ban tổ chức công bố", html);
-        Assert.Contains("không phải thứ công cụ", html);
+        Assert.Contains("nạp được file danh mục khác đè lên", html);
+        // Câu phủ định "không phải thứ công cụ tự chứng minh" làm người dân hoang mang — đã bỏ.
+        Assert.DoesNotContain("không phải thứ công cụ", html);
     }
 
     // ── AC5: file sai định dạng cho thông báo dễ hiểu, không phá trạng thái đang có ───────

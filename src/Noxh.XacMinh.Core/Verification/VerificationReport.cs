@@ -3,7 +3,7 @@ namespace Noxh.XacMinh.Core.Verification;
 public sealed record VerificationReport(IReadOnlyList<CheckResult> Items)
 {
     /// <summary>
-    /// Kết luận chung. Một hạng mục KHÔNG KIỂM ĐƯỢC cũng kéo kết luận chung xuống — màn hình toàn
+    /// Kết luận chung. Một hạng mục CHƯA ĐỦ DỮ LIỆU cũng kéo kết luận chung xuống — màn hình toàn
     /// màu xanh trong khi có hạng mục chưa kiểm được là kiểu nói dối nguy hiểm nhất của công cụ này.
     /// </summary>
     public CheckStatus Overall =>

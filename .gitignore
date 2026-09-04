@@ -17,3 +17,5 @@ xuat-ban/
 
 # Python bytecode của script trong cong-cu/
 __pycache__/
+tmp/
+goi-trail.zip

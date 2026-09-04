@@ -22,8 +22,8 @@ internal static class RServerCommitCheck
             input,
             CheckIds.RServerCommit,
             "Cam kết ngẫu nhiên máy chủ",
-            "Báo cáo không công bố nguồn ngẫu nhiên vòng nào, nên không kiểm được máy chủ có niêm phong "
-            + "phần ngẫu nhiên của mình trước khi biết mốc neo hay không.",
+            "Báo cáo không công bố nguồn ngẫu nhiên vòng nào, nên chưa có dữ liệu để đối chiếu phần ngẫu nhiên "
+            + "máy chủ với cam kết đã niêm phong trước khi biết mốc neo.",
             Kiem);
 
     private static CheckResult Kiem(EntropySource nguon, string id, string ten)
@@ -46,7 +46,7 @@ internal static class RServerCommitCheck
         var rServer = Hex.Doc(nguon.RServer);
         if (rServer is null)
             return ChuaKiemDuoc(string.IsNullOrWhiteSpace(nguon.RServer)
-                ? "Vòng này chưa mở phần ngẫu nhiên máy chủ (cổng chưa đóng), nên chưa kiểm được nó có khớp cam kết không."
+                ? "Vòng này chưa mở phần ngẫu nhiên máy chủ (cổng chưa đóng), nên chưa có dữ liệu để đối chiếu với cam kết."
                 : "Phần ngẫu nhiên máy chủ của vòng này không phải chuỗi hợp lệ, nên chưa băm lại được để đối chiếu.");
 
         var tinhDuoc = Hex.Sha256Hex(rServer);

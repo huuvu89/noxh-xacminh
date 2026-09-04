@@ -6,7 +6,7 @@ namespace Noxh.XacMinh.Core.Crypto;
 /// Hex của bên kiểm: <see cref="Sha256Hex"/> copy nguyên văn từ backend
 /// (<c>CryptoHelper.Sha256Hex</c>) vì nó sinh ra chính chuỗi đang được công bố; phần đọc hex thì
 /// KHOAN DUNG có chủ ý — file người dùng thả vào có thể cụt, viết hoa, hoặc không phải hex, và
-/// những ca đó phải ra KHÔNG KIỂM ĐƯỢC chứ không phải một ngoại lệ làm trắng trang.
+/// những ca đó phải ra CHƯA ĐỦ DỮ LIỆU chứ không phải một ngoại lệ làm trắng trang.
 /// </summary>
 public static class Hex
 {

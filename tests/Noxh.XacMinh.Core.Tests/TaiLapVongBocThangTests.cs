@@ -12,7 +12,7 @@ namespace Noxh.XacMinh.Core.Tests;
 /// <summary>
 /// Vé #13 — tái lập vòng bốc thẳng theo loại căn (B), vòng đông người nhất. Khác vòng phân căn ưu
 /// tiên ở chỗ <b>quỹ căn còn dư không nằm trong báo cáo</b>: công cụ phải suy ra nó từ những căn đã
-/// phân ở vòng trước. Suy diễn mâu thuẫn thì kết luận KHÔNG KIỂM ĐƯỢC — kết luận KHÔNG ĐẠT dựa trên
+/// phân ở vòng trước. Suy diễn mâu thuẫn thì kết luận CHƯA ĐỦ DỮ LIỆU — kết luận KHÔNG ĐẠT dựa trên
 /// một suy diễn của chính công cụ là vu oan một buổi lễ sạch.
 /// </summary>
 public class TaiLapVongBocThangTests
@@ -171,7 +171,7 @@ public class TaiLapVongBocThangTests
     /// <summary>
     /// Ca gian lận đáng sợ nhất: ban tổ chức tự sắp lại chồng phiếu rồi niêm phong chính bản sắp đặt,
     /// nên mã băm công bố khớp nội dung công bố. Quỹ căn không đổi ⇒ suy diễn vẫn nhất quán ⇒ công cụ
-    /// phải kết luận thẳng KHÔNG ĐẠT, không được né sang KHÔNG KIỂM ĐƯỢC.
+    /// phải kết luận thẳng KHÔNG ĐẠT, không được né sang CHƯA ĐỦ DỮ LIỆU.
     /// </summary>
     [Fact]
     public void AC2_ChongPhieuSapLaiRoiNiemPhongBanSapDat_KetLuanKhongDat_ChuKhongNe()
@@ -213,7 +213,7 @@ public class TaiLapVongBocThangTests
         Assert.DoesNotContain(item.Metrics, m => m.Label.Contains("suy ra", StringComparison.OrdinalIgnoreCase));
     }
 
-    // ── AC4: suy diễn mâu thuẫn → KHÔNG KIỂM ĐƯỢC kèm nêu rõ mâu thuẫn ──────────────────
+    // ── AC4: suy diễn mâu thuẫn → CHƯA ĐỦ DỮ LIỆU kèm nêu rõ mâu thuẫn ──────────────────
 
     [Fact]
     public void AC4_MotCanDuocPhanChoHaiHoSo_KhongKiemDuoc_VaNeuRoCanNao()

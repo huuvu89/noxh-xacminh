@@ -98,7 +98,7 @@ public class NhatKyBocVerificationTests
         Assert.Equal(lanDau, lanSau);
     }
 
-    // ── AC3: thiếu định danh hồ sơ / chồng phiếu → KHÔNG KIỂM ĐƯỢC kèm lý do ────────────
+    // ── AC3: thiếu định danh hồ sơ / chồng phiếu → CHƯA ĐỦ DỮ LIỆU kèm lý do ────────────
 
     [Theory]
     [InlineData("applicantId", "hồ sơ")]
