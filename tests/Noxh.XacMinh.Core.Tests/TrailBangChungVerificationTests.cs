@@ -130,7 +130,7 @@ public class TrailBangChungVerificationTests
         Assert.Equal(CheckStatus.KhongKiemDuoc, ketQua.Status);
     }
 
-    // ── AC3: khoảng trống số thứ tự lô + giới hạn cắt cụt phần đuôi ─────────────────────────
+    // ── AC3: khoảng trống số thứ tự lô + giới hạn thiếu các lô cuối ─────────────────────────
 
     [Fact]
     public void AC3_KhoangTrongSoThuTuLo_CanhBaoVaNeuDichSoLoConThieu()
@@ -148,7 +148,7 @@ public class TrailBangChungVerificationTests
         var ketQua = KhoangTrong(DaDoc(CheDoDocKho.KhoaChiDoc, Chuoi(1, 2, 3)));
 
         Assert.Equal(CheckStatus.Dat, ketQua.Status);
-        Assert.Contains("cắt cụt", ketQua.Explanation, StringComparison.Ordinal);
+        Assert.Contains("không có mốc độc lập", ketQua.Explanation, StringComparison.Ordinal);
     }
 
     [Fact]

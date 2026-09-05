@@ -76,7 +76,7 @@ public class DanhMucCanHienThiTests
         var html = await Ve(trinh);
 
         Assert.Equal(NguonDanhMuc.Nhung, trinh.DanhMuc.Nguon);
-        Assert.Contains("bản nhúng sẵn", html);
+        Assert.Contains("danh mục có sẵn", html);
         Assert.DoesNotContain("bản do bạn nạp", html);
     }
 
@@ -116,7 +116,7 @@ public class DanhMucCanHienThiTests
 
         Assert.Equal(NguonDanhMuc.Nhung, trinh.DanhMuc.Nguon);
         Assert.Contains(EmbeddedUnitCatalog.Value.Sha256, html);
-        Assert.Contains("bản nhúng sẵn", html);
+        Assert.Contains("danh mục có sẵn", html);
     }
 
     [Fact]
@@ -141,7 +141,8 @@ public class DanhMucCanHienThiTests
         var html = await Ve(trinh);
 
         Assert.Contains("dữ liệu đầu vào do ban tổ chức công bố", html);
-        Assert.Contains("nạp được file danh mục khác đè lên", html);
+        Assert.Contains("hoặc nạp", html);
+        Assert.Contains("file danh mục khác để thay thế", html);
         // Câu phủ định "không phải thứ công cụ tự chứng minh" làm người dân hoang mang — đã bỏ.
         Assert.DoesNotContain("không phải thứ công cụ", html);
     }
@@ -160,7 +161,7 @@ public class DanhMucCanHienThiTests
         Assert.Contains("509", html);
         Assert.Contains(EmbeddedUnitCatalog.Value.Sha256, html);
         Assert.Contains("JSON", html);
-        Assert.Contains("Vẫn đang dùng bản nhúng sẵn", html);
+        Assert.Contains("Vẫn đang dùng danh mục có sẵn", html);
     }
 
     [Fact]

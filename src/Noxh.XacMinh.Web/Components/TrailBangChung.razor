@@ -8,22 +8,27 @@
     <h2>Trail bằng chứng trên kho lưu trữ chỉ-ghi</h2>
 
     <p class="dan-nhap">
-        Trong lúc lễ chạy, từng lô bản ghi (vé đã bốc, cam kết ngẫu nhiên, đầu chuỗi băm) được đẩy
-        thẳng lên một kho lưu trữ mà máy chủ bốc thăm <strong>chỉ có quyền ghi thêm</strong> —
-        chiếm được máy chủ hay cơ sở dữ liệu cũng không xoá được thứ đã lên kho. Đọc trail để xem
-        các lô có móc xích liền nhau hay không, và để <strong>đối chiếu từng bản ghi trên kho với
-        báo cáo minh bạch</strong>: bản đã lên kho không sửa lại được, nên báo cáo công bố sau mà
-        khác đi là lộ ra ngay. Thứ <strong>chưa từng được đẩy lên kho</strong> thì không có trên trail;
-        khi đó hạng mục tương ứng dừng ở CHƯA ĐỦ DỮ LIỆU, không kết luận thay.
-        Đọc thẳng kho là bước <strong>gọi mạng tới kho</strong>: chỉ gửi đi địa chỉ kho bạn nhập (và
-        chữ ký của khoá chỉ-đọc, nếu có) — <strong>không có dữ liệu nào của bạn rời khỏi máy này</strong>,
-        và vẫn không hỏi máy chủ bốc thăm câu nào. Trình duyệt không gọi được kho (kho chưa bật CORS)
-        thì dùng đường nạp gói ở dưới.
+        Trong buổi lễ, các lô bằng chứng — vé đã bốc, cam kết ngẫu nhiên và đầu chuỗi băm — được ghi
+        vào kho lưu trữ chỉ-ghi. Máy chủ bốc thăm chỉ có quyền ghi thêm nên không thể sửa hoặc xoá dữ
+        liệu đã lưu.
+    </p>
+
+    <p class="dan-nhap">
+        Công cụ kiểm tra liên kết giữa các lô và đối chiếu chúng với báo cáo minh bạch. Trail chỉ
+        chứng minh dữ liệu đã được đẩy lên kho; dữ liệu chưa từng được đẩy lên sẽ khiến hạng mục tương
+        ứng ở trạng thái CHƯA ĐỦ DỮ LIỆU.
+    </p>
+
+    <p class="dan-nhap">
+        Đọc trực tiếp từ kho sẽ gửi yêu cầu <code>GET</code> tới endpoint bạn nhập, kèm thông tin xác
+        thực được ký bằng khoá chỉ-đọc nếu có. Công cụ <strong>không gửi nội dung báo cáo, danh sách hồ
+        sơ hoặc khoá bí mật</strong> và không gọi máy chủ bốc thăm. Nếu trình duyệt bị CORS chặn, hãy
+        nạp gói trail đã tải sẵn ở phần bên dưới.
     </p>
 
     <div class="dia-chi-kho">
         <label>
-            <span>Điểm cuối kho (theo thông báo của ban tổ chức)</span>
+            <span>Địa chỉ dịch vụ lưu trữ (endpoint)</span>
             <input type="url" spellcheck="false" placeholder="https://s3.vd-cloud.vn" @bind="diemCuoi"
                    @bind:event="oninput" />
         </label>
@@ -32,7 +37,7 @@
             <input type="text" spellcheck="false" @bind="bucket" @bind:event="oninput" />
         </label>
         <label>
-            <span>Tiền tố khoá object</span>
+            <span>Tiền tố đường dẫn dữ liệu (object key prefix)</span>
             <input type="text" spellcheck="false" @bind="tienTo" @bind:event="oninput" />
         </label>
         <label>
@@ -46,10 +51,12 @@
     <p class="canh-bao-khoa" role="alert">
         <strong>Sau lễ kho mở công khai:</strong> không cần khoá, cứ bấm đọc.
         <strong>Trong lễ kho chưa mở</strong> nên cần khoá <strong>chỉ-đọc</strong> ban tổ chức cấp
-        cho người kiểm — và chỉ khoá chỉ-đọc. Công cụ không ký nổi một request ghi (hàm ký chỉ ký
-        GET) nên khoá có quyền ghi dán vào đây vừa vô dụng vừa mang khoá quan trọng đi lung tung.
-        Khoá bạn dán <strong>chỉ nằm trong bộ nhớ của tab</strong>: không ghi đĩa, không cookie,
-        không gửi đi đâu ngoài chính kho để ký request, đóng tab là mất.
+        cho người kiểm — và chỉ khoá chỉ-đọc. Công cụ chỉ tạo yêu cầu <code>GET</code> và không thể
+        thực hiện thao tác ghi. Không sử dụng khoá có quyền ghi tại đây để tránh làm lộ thông tin
+        nhạy cảm.
+        Khoá bạn dán <strong>chỉ nằm trong bộ nhớ của tab</strong>: không ghi ra đĩa, không lưu cookie.
+        Khoá bí mật được dùng ngay trong trình duyệt để ký yêu cầu và không được gửi tới kho; đóng
+        tab là mất.
     </p>
 
     @if (!trangThai.DaHieuCanhBao)
@@ -88,7 +95,9 @@
        phải có đường thứ hai: kho được tải sẵn bằng script rồi nạp vào đây. Đường này không gọi
        mạng, nhờ vậy bản offline cũng kiểm được trail. *@
     <details class="o-nap-goi">
-        <summary>Kho chặn CORS, hoặc máy này không có mạng? Nạp gói trail đã tải sẵn</summary>
+        <summary>
+            Trình duyệt không đọc được kho, hoặc máy này không có mạng? Nạp gói trail đã tải sẵn
+        </summary>
 
         <p class="dan-nhap">
             Gói trail là kho bằng chứng đã được tải sẵn bằng script <code>tai-goi-trail.py</code> (đi
@@ -100,10 +109,10 @@
         </p>
 
         <p class="canh-bao-khoa" role="alert">
-            Đường này <strong>yếu hơn đọc thẳng kho</strong>, và kết luận sẽ nói rõ điều đó: đọc thẳng
-            thì chính trình duyệt của bạn chứng kiến các lô đang nằm trên kho, còn nạp gói thì mắt xích
-            ấy do người chạy script gánh. Khi có thể, hãy <strong>tự chạy script trên máy bạn</strong>;
-            và đối chiếu <code>sha256sum</code> của gói với mã băm in trong bản xuất kết quả.
+            Nạp gói <strong>yếu hơn đọc trực tiếp từ kho</strong>: công cụ kiểm tra được nội dung gói
+            nhưng không tự xác nhận gói chứa đầy đủ dữ liệu đang có trên kho. Khi có thể, hãy
+            <strong>tự chạy script trên máy của bạn</strong> và đối chiếu <code>sha256sum</code> của gói
+            với mã băm trong báo cáo kiểm chứng.
         </p>
 
         <label class="o-tha-file o-tha-file-goi-trail">

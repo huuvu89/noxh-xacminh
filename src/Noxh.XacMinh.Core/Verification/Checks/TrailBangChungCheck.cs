@@ -27,9 +27,9 @@ internal static class TrailBangChungCheck
 
     /// <summary>Giới hạn phải nói ở mọi kết luận, kể cả kết luận đẹp nhất — im lặng ở đây là ru ngủ.</summary>
     private const string GioiHanCatCut =
-        "Lưu ý giới hạn của phép kiểm này: phần đuôi bị cắt cụt thì KHÔNG phát hiện được. Ai đó chặn không cho các "
-        + "lô cuối lên kho thì chẳng có gì lộ ra, vì không ai chứng minh được lô cuối cùng là lô cuối cùng. "
-        + "Trail chỉ chứng minh những gì ĐÃ lên kho thì không bị sửa, không chứng minh được thứ chưa bao giờ lên kho.";
+        "Giới hạn: phép kiểm không phát hiện được các lô cuối chưa từng được ghi lên kho, vì không có mốc độc lập "
+        + "xác nhận lô cuối cùng. Trail chỉ chứng minh rằng dữ liệu đã có trên kho không bị sửa; không chứng minh "
+        + "dữ liệu chưa từng được ghi.";
 
     /// <summary>Trần số thứ tự lô coi là đọc được — trên nữa thì dữ liệu hỏng, không phải kho lớn.</summary>
     private const long SoLoToiDa = 1_000_000;

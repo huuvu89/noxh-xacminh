@@ -5,13 +5,13 @@
 
 <footer class="chan-trang">
     <p class="cam-ket">
-        Công cụ chạy hoàn toàn trong trình duyệt của bạn — mã nguồn mở, không gửi dữ liệu đi đâu.
+        Dữ liệu bạn nạp được xử lý ngay trong trình duyệt, không tải lên máy chủ bốc thăm.
     </p>
 
     @if (ThongTin.CoDauVet)
     {
         <dl class="dau-vet-ban-dung">
-            <dt>Mã commit đã dựng</dt>
+            <dt>Mã commit của bản dựng</dt>
             <dd><code>@ThongTin.MaCommit</code></dd>
 
             @if (ThongTin.CoMaBamGoi)
@@ -32,7 +32,7 @@
 
             @if (ThongTin.CoThoiDiem)
             {
-                <dt>Dựng lúc</dt>
+                <dt>Thời điểm dựng</dt>
                 <dd>@ThongTin.ThoiDiemDung</dd>
             }
         </dl>
@@ -43,8 +43,8 @@
                 <a class="nut-tai-offline" download href="@ThongTin.TenGoi">Tải bản offline (.zip)</a>
             </p>
             <p class="ghi-chu">
-                Tải gói về rồi chạy <code>sha256sum</code> ngay trên máy bạn: ra đúng mã băm ở trên
-                nghĩa là gói này đúng là thứ lần chạy dựng công khai đã sinh ra từ commit này.
+                Tải gói về và chạy <code>sha256sum</code> trên máy của bạn. Nếu kết quả trùng với mã
+                băm ở trên, gói tải về chính là gói được tạo từ lần dựng công khai này.
             </p>
         }
         else

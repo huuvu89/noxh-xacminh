@@ -71,7 +71,7 @@ public class TrailBangChungHienThiTests
         });
 
         Assert.Contains("chuỗi móc xích", html, StringComparison.Ordinal);
-        Assert.Contains("cắt cụt", html, StringComparison.Ordinal);
+        Assert.Contains("không có mốc độc lập", html, StringComparison.Ordinal);
     }
 
     // ── AC4: khoá chỉ-đọc — cảnh báo trước, và xoá được khỏi bộ nhớ ─────────────────────────
@@ -84,7 +84,7 @@ public class TrailBangChungHienThiTests
         var html = await VeKhung(trinh);
 
         Assert.Contains("chỉ-đọc", html, StringComparison.Ordinal);
-        Assert.DoesNotContain("Khoá bí mật", html, StringComparison.Ordinal);
+        Assert.DoesNotContain("o-dan-khoa-kho", html, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -97,6 +97,7 @@ public class TrailBangChungHienThiTests
 
         var html = await VeKhung(trinh);
 
+        Assert.Contains("o-dan-khoa-kho", html, StringComparison.Ordinal);
         Assert.Contains("Khoá bí mật", html, StringComparison.Ordinal);
     }
 

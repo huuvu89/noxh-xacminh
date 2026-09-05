@@ -36,7 +36,7 @@ public class MocNeoHienThiTests
     private static Task<string> VeMocNeo(TrinhVe trinh) =>
         trinh.Ve<MocNeoChuoiKhoi>(new Dictionary<string, object?>());
 
-    // ── AC4: chưa tra cứu / hỏi không được ⇒ link tra cứu thủ công hiện ngay ở kết luận ──
+    // ── AC4: chưa tra cứu / tra cứu lỗi ⇒ link tra cứu thủ công hiện ngay ở kết luận ─────
 
     [Fact]
     public async Task AC4_ChuaTraCuuDuocBlock_CheDoNguoiDan_VanThayLinkTraCuuThuCong()
@@ -66,7 +66,7 @@ public class MocNeoHienThiTests
 
         Assert.Contains("trình duyệt chặn (CORS)", ketQua, StringComparison.Ordinal);
         Assert.Contains(LinkChuanVang(baoCao), ketQua, StringComparison.Ordinal);
-        Assert.Contains("hỏi không được", khungTraCuu, StringComparison.Ordinal);
+        Assert.Contains("tra cứu không thành công", khungTraCuu, StringComparison.Ordinal);
         Assert.Contains(LinkChuanVang(baoCao), khungTraCuu, StringComparison.Ordinal);
     }
 
@@ -83,7 +83,7 @@ public class MocNeoHienThiTests
 
         Assert.Contains("Tra cứu block trên nguồn công khai", html, StringComparison.Ordinal);
         Assert.Contains("chưa tra cứu", html, StringComparison.Ordinal);
-        Assert.Contains("không có dữ liệu nào của bạn rời khỏi máy này", html, StringComparison.Ordinal);
+        Assert.Contains("không gửi nội dung file bạn đã nạp", html, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -117,7 +117,7 @@ public class MocNeoHienThiTests
 
         Assert.Contains("Mốc neo chuỗi khối vòng A", ketQua, StringComparison.Ordinal);
         Assert.Contains("thử đi thử lại", ketQua, StringComparison.Ordinal);
-        Assert.Contains("đã đọc từ nguồn công khai (dựng trong test)", khungTraCuu, StringComparison.Ordinal);
+        Assert.Contains("đã tra cứu từ nguồn công khai (dựng trong test)", khungTraCuu, StringComparison.Ordinal);
     }
 
     [Fact]

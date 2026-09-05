@@ -9,7 +9,7 @@ namespace Noxh.XacMinh.Core.Tests;
 
 /// <summary>
 /// Vé #9 — lưới ô phiếu. Phần dựng lưới (phân loại vé, ghép nhật ký bốc vào từng ô, đếm số liệu
-/// tóm tắt, lọc và tra cứu theo mã hồ sơ giả) là logic thuần nên nằm ở lõi và kiểm ở đây; vỏ Blazor
+/// tóm tắt, lọc và tra cứu theo mã định danh hồ sơ) là logic thuần nên nằm ở lõi và kiểm ở đây; vỏ Blazor
 /// chỉ vẽ lại thứ lõi đã tính.
 /// </summary>
 public class LuoiOPhieuTests
@@ -100,7 +100,7 @@ public class LuoiOPhieuTests
         Assert.Empty(luoi.Cells);
     }
 
-    // ── AC2: từng ô mang vị trí, nội dung vé, mã hồ sơ giả, người bấm hay máy bốc ────────
+    // ── AC2: từng ô mang vị trí, nội dung vé, mã định danh hồ sơ, người bấm hay máy bốc ────────
 
     [Fact]
     public void AC2_ODaBoc_MangMaHoSoGiaVaNhanNguoiBamHayMayBoc_CuaDungLuotBocOViTriDo()
@@ -281,7 +281,7 @@ public class LuoiOPhieuTests
         Assert.Contains(luoi.Cells, o => !o.Drawn);
     }
 
-    // ── AC6: tìm ô theo mã hồ sơ giả ─────────────────────────────────────────────────────
+    // ── AC6: tìm ô theo mã định danh hồ sơ ───────────────────────────────────────────────
 
     [Fact]
     public void AC6_TimTheoMaHoSoGia_RaDungOCuaHoSoDo()

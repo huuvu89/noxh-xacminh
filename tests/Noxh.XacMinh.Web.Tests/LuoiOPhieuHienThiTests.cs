@@ -108,7 +108,7 @@ public class LuoiOPhieuHienThiTests
         Assert.Contains("chưa công bố nội dung vé", html);
     }
 
-    // ── AC2: chạm/rê vào ô hiện vị trí, nội dung vé, mã hồ sơ giả, người bấm hay máy bốc ─
+    // ── AC2: chạm/rê vào ô hiện vị trí, nội dung vé, mã định danh hồ sơ, người bấm hay máy bốc ─
 
     [Fact]
     public async Task AC2_MoiO_CoMoTaKemViTriVaNoiDungVe()
@@ -171,7 +171,7 @@ public class LuoiOPhieuHienThiTests
         var html = await VeKhung(trinh, Golden());
 
         Assert.Contains("Chỉ vé trúng", html);
-        Assert.Contains("Chỉ vé máy bốc", html);
+        Assert.Contains("Chỉ vé máy bốc thay", html);
         Assert.Contains("Chỉ ô chưa ai bốc", html);
         Assert.Contains("tim-ho-so", html);
     }
@@ -253,7 +253,7 @@ public class LuoiOPhieuHienThiTests
         Assert.Equal(luoi.Cells.Count(o => !o.Drawn), Regex.Matches(html, " chua-boc").Count);
     }
 
-    // ── AC6: tìm được ô theo mã hồ sơ giả ────────────────────────────────────────────────
+    // ── AC6: tìm được ô theo mã định danh hồ sơ ──────────────────────────────────────────
 
     [Fact]
     public async Task AC6_LuoiVeDungTapOLocDuoc_ChuKhongVeCaChongPhieu()

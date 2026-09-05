@@ -28,9 +28,8 @@ internal static class TrailDoiChieuChung
 
     /// <summary>Giới hạn phải nói ở mọi kết luận — im lặng ở đây là ru ngủ người đọc.</summary>
     public const string GioiHan =
-        "Giới hạn của phép đối chiếu này phải nói thẳng: trail chỉ chứng minh được những gì ĐÃ lên kho. Bản ghi "
-        + "chưa bao giờ được đẩy lên thì không để lại dấu vết nào ở đây, nên đối chiếu cách mấy cũng không phát "
-        + "hiện được — trail bịt đường sửa dữ liệu đã đẩy, không bịt đường không đẩy gì cả.";
+        "Giới hạn: phép đối chiếu chỉ xác nhận dữ liệu đã có trên kho không bị thay đổi. Nó không tự chứng minh "
+        + "mọi bản ghi đáng lẽ phải có đều đã được đẩy lên kho.";
 
     private const string ChuaDoc =
         "Chưa đọc kho bằng chứng, nên chưa có bản ghi nào để đối chiếu với báo cáo. Trong lễ, kho chưa mở công "
