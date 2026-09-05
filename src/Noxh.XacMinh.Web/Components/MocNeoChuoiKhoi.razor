@@ -9,9 +9,9 @@
     <p class="dan-nhap">
         Hạng mục này cần hỏi một <strong>sổ cái công khai</strong> bên ngoài: đọc block ở độ cao đã
         cam kết để xem mốc neo có phải block <strong>có thật</strong> hay không. Bấm nút bên dưới chỉ
-        gửi đi <strong>độ cao block</strong> — con số vốn đã nằm trong báo cáo công khai — tới sổ cái
-        công khai; <strong>không có dữ liệu nào của bạn rời khỏi máy này</strong>. Không bấm cũng
-        được: hạng mục sẽ ở trạng thái CHƯA ĐỦ DỮ LIỆU và bạn tự đối chiếu bằng mắt qua link.
+        gửi <strong>độ cao block</strong> — con số vốn đã nằm trong báo cáo công khai — tới nguồn tra
+        cứu; <strong>không gửi nội dung file bạn đã nạp</strong>. Nếu bỏ qua bước này, hạng mục sẽ ở
+        trạng thái CHƯA ĐỦ DỮ LIỆU; bạn vẫn có thể tự đối chiếu qua link tra cứu thủ công.
     </p>
 
     @if (trangThai.CanDoc.Count == 0)
@@ -35,7 +35,7 @@
         </ul>
 
         <button type="button" class="tra-cuu-moc-neo" @onclick="TraCuu" disabled="@DangTraCuu">
-            @(DangTraCuu ? "Đang hỏi nguồn công khai…" : "Tra cứu block trên nguồn công khai")
+            @(DangTraCuu ? "Đang tra cứu nguồn công khai…" : "Tra cứu block trên nguồn công khai")
         </button>
     }
 </section>
@@ -59,8 +59,8 @@
         var quanSat = trangThai.DaDoc.FirstOrDefault(q => q.ChuoiKhoi == yeu.ChuoiKhoi && q.DoCao == yeu.DoCao);
 
         if (quanSat is null) return "— chưa tra cứu";
-        if (quanSat.Loi is not null) return $"— hỏi không được: {quanSat.Loi}";
+        if (quanSat.Loi is not null) return $"— tra cứu không thành công: {quanSat.Loi}";
 
-        return $"— đã đọc từ {quanSat.Nguon}";
+        return $"— đã tra cứu từ {quanSat.Nguon}";
     }
 }

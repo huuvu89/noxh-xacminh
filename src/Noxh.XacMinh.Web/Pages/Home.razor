@@ -12,9 +12,10 @@
 <h1>Kiểm chứng kết quả bốc thăm</h1>
 
 <p class="dan-nhap">
-    Thả vào đây file báo cáo minh bạch (JSON) tải từ trang công bố kết quả. Công cụ tự tính lại mã
-    băm và nói cho bạn biết bản công bố có đúng bản đã niêm phong hay không.
-    <strong>Dữ liệu của bạn không rời khỏi máy này.</strong>
+    Hãy tải file báo cáo minh bạch (JSON) từ trang công bố kết quả, sau đó chọn hoặc kéo thả file
+    vào đây. Công cụ tự thực hiện các phép kiểm và cho bạn biết hạng mục nào khớp, không khớp hoặc
+    chưa đủ dữ liệu.
+    <strong>File bạn nạp được xử lý ngay trong trình duyệt, không tải lên máy chủ bốc thăm.</strong>
 </p>
 
 <label class="o-tha-file">
@@ -23,13 +24,13 @@
 </label>
 
 @* Không điều khiển thuộc tính open: để trình duyệt giữ trạng thái người dùng tự mở, kẻo bấm
-   "Kiểm nội dung đã dán" xong ô văn bản lại tự cụp vào. *@
+   "Kiểm chứng nội dung đã dán" xong ô văn bản lại tự cụp vào. *@
 <details class="o-dan">
     <summary>Hoặc dán nội dung JSON</summary>
     <textarea @bind="noiDungDan" @bind:event="oninput" rows="6"
               placeholder="Dán toàn bộ nội dung file JSON vào đây"></textarea>
     <button type="button" @onclick="KiemNoiDungDan" disabled="@string.IsNullOrWhiteSpace(noiDungDan)">
-        Kiểm nội dung đã dán
+        Kiểm chứng nội dung đã dán
     </button>
 </details>
 
@@ -157,7 +158,7 @@ else
             new($"Báo cáo minh bạch ({tenFileDauVao})", maBamDauVao),
             new(
                 danhMuc.Nguon == NguonDanhMuc.Nhung
-                    ? "Danh mục căn (bản nhúng sẵn trong công cụ)"
+                    ? "Danh mục căn (bản có sẵn trong công cụ)"
                     : $"Danh mục căn ({danhMuc.TenFile})",
                 danhMuc.DanhMuc.Sha256),
         };

@@ -76,7 +76,7 @@ public sealed record DeckGrid(
     DeckRebuild? Rebuild = null)
 {
     /// <summary>
-    /// Lọc theo loại vé/lượt bốc rồi lọc tiếp theo mã hồ sơ giả (chuỗi con, không phân biệt hoa
+    /// Lọc theo loại vé/lượt bốc rồi lọc tiếp theo mã định danh hồ sơ (chuỗi con, không phân biệt hoa
     /// thường). Chưa ghép được nhật ký bốc thì hai bộ lọc theo lượt bốc trả rỗng: nhãn "chưa ai bốc"
     /// cho ô mà công cụ không biết gì là nói dối.
     /// </summary>

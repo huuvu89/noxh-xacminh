@@ -39,7 +39,7 @@ public static class NhomHangMuc
     public static string Ten(this TheKiem the) => the switch
     {
         TheKiem.ChongPhieu => "Chồng phiếu",
-        TheKiem.ChuoiNgauNhien => "Chuỗi ngẫu nhiên",
+        TheKiem.ChuoiNgauNhien => "Nguồn ngẫu nhiên",
         TheKiem.MocNeo => "Mốc neo chuỗi khối",
         TheKiem.KhoBangChung => "Kho bằng chứng",
         _ => "Tổ giám sát",
@@ -55,8 +55,8 @@ public static class NhomHangMuc
             "Nguồn ngẫu nhiên tạo ra thứ tự bốc: phần máy chủ đã cam kết trước, hạt giống gốc và dấu "
             + "thời gian niêm phong.",
         TheKiem.MocNeo =>
-            "Mốc ngẫu nhiên lấy từ sổ cái công khai mà không ai điều khiển được. Cần bạn bấm tra cứu "
-            + "một lần.",
+            "Mốc ngẫu nhiên lấy từ sổ cái công khai, nằm ngoài quyền kiểm soát riêng của ban tổ chức. "
+            + "Cần bạn bấm tra cứu một lần.",
         TheKiem.KhoBangChung =>
             "Bản ghi được đẩy lên kho chỉ-ghi ngay trong lễ, đối chiếu với báo cáo công bố sau. Cần "
             + "đọc kho hoặc nạp gói đã tải sẵn.",

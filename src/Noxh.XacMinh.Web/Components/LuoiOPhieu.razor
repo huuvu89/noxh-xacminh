@@ -192,8 +192,9 @@ else
             @if (!chon.Drawn)
             {
                 <span>
-                    Ô này không có lượt bốc nào. Vị trí bị đốt khi một lượt rút bị huỷ giữa đường, nên
-                    ô trống không nói lên điều gì về gian lận.
+                    Ô này không có lượt bốc nào. Vị trí này có thể bị bỏ trống khi một lượt bốc bị
+                    huỷ trước khi hoàn tất. Vì vậy, việc ô này chưa được bốc không có nghĩa là kết quả
+                    đã bị can thiệp.
                 </span>
             }
             else
@@ -201,7 +202,7 @@ else
                 @foreach (var boc in chon.Draws)
                 {
                     <p>
-                        Mã hồ sơ giả <code>@(boc.ApplicantId ?? "(không công bố)")</code> — @AiBoc(boc.AutoDrawn)
+                        Mã định danh hồ sơ <code>@(boc.ApplicantId ?? "(không công bố)")</code> — @AiBoc(boc.AutoDrawn)
                     </p>
                 }
             }

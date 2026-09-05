@@ -83,7 +83,7 @@ public class DanhSachHoSoHienThiTests
 
         var html = await VeKhung(trinh);
 
-        Assert.Contains("Thả thẳng file Excel gốc", html, StringComparison.Ordinal);
+        Assert.Contains("Chọn hoặc kéo thả file Excel gốc", html, StringComparison.Ordinal);
         Assert.Contains("accept=\".xlsx\"", html, StringComparison.Ordinal);
         Assert.Contains("tên tiêu đề", html, StringComparison.Ordinal);
     }

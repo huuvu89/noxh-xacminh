@@ -66,8 +66,8 @@ internal static class DanhSachHoSoCheck
         if (input.DanhSach is null)
             return ChuaKiemDuoc(
                 "Chưa nạp danh sách hồ sơ và khoá chỉ mục mù, nên chưa dựng lại được mã băm danh sách để đối chiếu. "
-                + "Thả thẳng file Excel gốc đã dùng để nhập danh sách, hoặc dán bảng danh sách đã khoá. Đây là hạng "
-                + "mục dành cho tổ giám sát — người có danh sách đã khoá và khoá chỉ mục mù trong tay.",
+                + "Chọn hoặc kéo thả file Excel gốc đã dùng để nhập danh sách, hoặc dán bảng danh sách đã khoá. "
+                + "Đây là hạng mục dành cho tổ giám sát — người có danh sách đã khoá và khoá chỉ mục mù trong tay.",
                 daCongBo);
 
         var nguon = input.DanhSach.Nguon;

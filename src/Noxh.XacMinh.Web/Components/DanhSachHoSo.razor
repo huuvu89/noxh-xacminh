@@ -16,8 +16,8 @@
     <p class="canh-bao-khoa" role="alert">
         <strong>Khoá chỉ mục mù là dữ liệu tối mật.</strong> Nó là khoá của chính hệ thống bốc thăm:
         ai có nó thì tự tính được chỉ mục mù của bất kỳ số định danh nào, tức là dò được một người
-        có tên trong danh sách hay không. Chỉ dán khi bạn là người được giao giữ khoá, và chỉ trên
-        máy bạn tin.
+        có tên trong danh sách hay không. Chỉ nhập khoá khi bạn được giao quản lý và đang sử dụng
+        thiết bị đáng tin cậy.
         Ở màn hình này công cụ <strong>không gửi đi bất kỳ request nào</strong>: file, bảng và khoá
         chỉ nằm trong bộ nhớ của tab, không tải lên đâu cả, không ghi ra đĩa, không lưu cookie, đóng
         tab là mất.
@@ -34,7 +34,7 @@
         <label class="o-tha-file o-tha-file-danh-sach">
             <InputFile OnChange="NhanFile" accept=".xlsx" />
             <span>
-                <strong>Thả thẳng file Excel gốc</strong> — đúng file đã nhập danh sách vào hệ thống.
+                <strong>Chọn hoặc kéo thả file Excel gốc</strong> — đúng file đã nhập danh sách vào hệ thống.
                 Công cụ đọc trang tính đầu tiên và nhận cột theo <strong>tên tiêu đề</strong>
                 (mã hồ sơ · họ tên · số định danh · nhóm đối tượng), đúng như hệ thống đã đọc lúc
                 nhập, nên thứ tự cột không quan trọng. File không rời khỏi máy bạn.
@@ -44,8 +44,8 @@
         @if (fileExcel is not null)
         {
             <p class="file-dang-dung">
-                Đang dùng file <strong>@fileExcel.TenFile</strong> — ô dán bên dưới tạm thời không
-                dùng đến.
+                Đang dùng file <strong>@fileExcel.TenFile</strong>. Nội dung trong ô dán bên dưới sẽ
+                được bỏ qua.
                 <button type="button" class="bo-file" @onclick="BoFile">Bỏ file, quay lại dán bảng</button>
             </p>
         }
@@ -57,9 +57,9 @@
 
         <label class="o-dan-danh-sach">
             <span>
-                Hoặc <strong>dán bảng</strong> — lối thoát khi file lạ quá. Bốn cột theo đúng thứ tự
-                biên bản: mã hồ sơ · họ tên · số định danh · nhóm đối tượng. Dán thẳng từ bảng tính
-                (cột ngăn nhau bằng tab) hoặc dán bảng kiểu <code>| … | … |</code>. Dòng tiêu đề để
+                Hoặc <strong>dán bảng</strong> — dùng khi công cụ không đọc được file Excel. Bốn cột
+                theo đúng thứ tự biên bản: mã hồ sơ · họ tên · số định danh · nhóm đối tượng. Dán
+                thẳng từ bảng tính (cột ngăn nhau bằng tab) hoặc dán bảng kiểu <code>| … | … |</code>. Dòng tiêu đề để
                 nguyên cũng được.
             </span>
             <textarea @bind="bang" @bind:event="oninput" rows="8" spellcheck="false"

@@ -56,9 +56,8 @@ chồng phiếu mọc ra từ hạt giống đã cam kết trước, không ph�
   nhập kèm chữ ký của khoá chỉ-đọc nếu có. Không đường nào mang dữ liệu người dùng thả vào đi cả.
   Kho chưa bật CORS (trình duyệt không đọc nổi kho dù kho đã mở) hoặc máy đang chạy bản offline thì
   trail vào bằng đường thứ hai **không phải đường mạng**: gói `.zip` do tổ giám sát tải sẵn bằng
-  [`cong-cu/tai-goi-trail.py`](cong-cu/README.md), nạp vào như nạp một file. Đường này yếu hơn và
-  công cụ nói rõ chỗ yếu ở mọi kết luận trail — đọc thẳng thì chính trình duyệt người kiểm chứng
-  kiến các lô đang nằm trên kho, nạp gói thì mắt xích đó do người chạy script gánh.
+  [`cong-cu/tai-goi-trail.py`](cong-cu/README.md), nạp vào như nạp một file. Đường này yếu hơn: công
+  cụ kiểm tra được nội dung gói nhưng không tự xác nhận gói chứa đầy đủ dữ liệu đang có trên kho.
 - **Toàn bộ logic kiểm nằm sau một hàm thuần, không I/O** — mọi thứ cần mạng do lớp giao diện lấy
   về rồi đưa vào dưới dạng dữ liệu. Nhờ vậy kiểm được bằng fixture, tất định, không cần trình duyệt.
 - **Lõi mật mã copy nguyên văn từ backend**, kèm test vector ghim. Viết lại theo trí nhớ là cách
@@ -115,7 +114,7 @@ chứng đó gồm ba mắt xích, in ngay ở chân trang:
 
 | Ở chân trang | Đối chiếu với |
 |---|---|
-| **mã commit đã dựng** | commit trong repo công khai — đọc được toàn bộ mã nguồn tại đúng điểm đó |
+| **mã commit của bản dựng** | commit trong repo công khai — đọc được toàn bộ mã nguồn tại đúng điểm đó |
 | **SHA-256 của gói offline** | `sha256sum` trên gói bạn tự tải về, và con số in trong nhật ký lần chạy dựng |
 | **link tới lần chạy dựng** | nhật ký công khai: nó dựng từ commit nào, bằng lệnh gì, ra mã băm gì |
 
@@ -183,7 +182,7 @@ chiếu xong.
 
 ## Xuất kết quả ra file
 
-Trang có nút **Tải kết quả kiểm (.md)** ngay dưới kết luận tổng: một file Markdown sinh thẳng trong
+Trang có nút **Tải báo cáo kiểm chứng (.md)** ngay dưới kết luận tổng: một file Markdown sinh thẳng trong
 trình duyệt (link `data:`, không máy chủ, không JS) để trích dẫn, lưu hồ sơ hoặc gửi cho người khác
 thay vì chụp màn hình. File mang:
 

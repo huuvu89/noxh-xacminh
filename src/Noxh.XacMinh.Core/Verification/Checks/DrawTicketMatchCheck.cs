@@ -23,9 +23,10 @@ internal static class DrawTicketMatchCheck
     private const string Ten = "Vé từng lượt bốc";
 
     private const string DatGiaiThich =
-        "Mỗi lượt bốc của vòng này nhận đúng lá vé nằm ở vị trí đó trong chồng phiếu đã niêm phong: sau khi "
-        + "niêm phong, không ai tráo kết quả của ai. (Ô phiếu không có lượt bốc là chuyện bình thường — vị trí "
-        + "bị đốt khi một lượt rút bị huỷ giữa đường — nên số ô trống không nói lên điều gì về gian lận.)";
+        "Mỗi lượt bốc của vòng này khớp với lá vé ở đúng vị trí trong chồng phiếu đã niêm phong. Nếu kết quả "
+        + "công bố bị thay bằng lá vé khác, hạng mục này sẽ phát hiện. (Ô phiếu không có lượt bốc là chuyện "
+        + "bình thường: vị trí có thể bị bỏ trống khi một lượt bốc bị huỷ trước khi hoàn tất. Vì vậy, ô chưa "
+        + "được bốc không có nghĩa là kết quả đã bị can thiệp.)";
 
     public static IEnumerable<CheckResult> Run(VerificationInput input)
     {

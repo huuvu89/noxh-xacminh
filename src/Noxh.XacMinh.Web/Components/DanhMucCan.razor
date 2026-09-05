@@ -5,8 +5,9 @@
     <h2>Danh mục căn hộ công cụ đang dùng</h2>
 
     <p class="dan-nhap">
-        Danh mục căn là <strong>dữ liệu đầu vào do ban tổ chức công bố</strong>. Công cụ mang sẵn một bản để mở là chạy được ngay; mã băm bên dưới để bạn đối
-        chiếu với bản công bố, và bạn nạp được file danh mục khác đè lên.
+        Danh mục căn là <strong>dữ liệu đầu vào do ban tổ chức công bố</strong>. Công cụ có sẵn một
+        danh mục để bạn kiểm tra ngay. Bạn có thể đối chiếu mã băm bên dưới với bản công bố hoặc nạp
+        file danh mục khác để thay thế.
     </p>
 
     <p class="nguon-danh-muc">
@@ -39,13 +40,13 @@
 
     <label class="o-tha-file">
         <InputFile OnChange="NhanFile" accept=".json,application/json" />
-        <span>Nạp file danh mục khác đè lên</span>
+        <span>Chọn file danh mục khác</span>
     </label>
 
     @if (trangThai.Nguon == NguonDanhMuc.NguoiDungNap)
     {
         <button type="button" class="dung-ban-nhung" @onclick="DungBanNhung">
-            Dùng lại bản nhúng sẵn
+            Dùng lại danh mục có sẵn
         </button>
     }
 
@@ -66,7 +67,7 @@
     [Parameter] public EventCallback DaDoi { get; set; }
 
     private string MoTaNguon => trangThai.Nguon == NguonDanhMuc.Nhung
-        ? "bản nhúng sẵn trong công cụ"
+        ? "danh mục có sẵn trong công cụ"
         : $"bản do bạn nạp — {trangThai.TenFile}";
 
     private async Task NhanFile(InputFileChangeEventArgs e)

@@ -12,8 +12,8 @@
     else
     {
         <p class="dan-nhap">
-            Mỗi ô là một lá vé trong chồng phiếu đã niêm phong, xếp đúng thứ tự vị trí. Chạm vào một ô
-            để xem vé đó là gì và ai đã bốc nó.
+            Mỗi ô là một lá vé trong chồng phiếu đã niêm phong, xếp đúng thứ tự vị trí. Chọn một ô
+            để xem nội dung vé và lượt bốc tương ứng.
         </p>
 
         <label class="chon-chong-phieu">
@@ -38,9 +38,9 @@
         </fieldset>
 
         <label class="tim-ho-so">
-            Tìm theo mã hồ sơ giả
+            Tìm theo mã định danh hồ sơ
             <input type="search" @bind="maHoSo" @bind:event="oninput"
-                   placeholder="Dán mã hồ sơ giả trên tin nhắn kết quả của bạn" />
+                   placeholder="Dán mã định danh hồ sơ trong tin nhắn kết quả của bạn" />
         </label>
 
         <LuoiOPhieu Luoi="Hien" OHienThi="OHienThi" ViTriChon="viTriChon" ChonO="ChonO" />
@@ -52,7 +52,7 @@
     [
         (DeckFilter.TatCa, "Tất cả"),
         (DeckFilter.ChiTrung, "Chỉ vé trúng"),
-        (DeckFilter.ChiMayBoc, "Chỉ vé máy bốc"),
+        (DeckFilter.ChiMayBoc, "Chỉ vé máy bốc thay"),
         (DeckFilter.ChiChuaBoc, "Chỉ ô chưa ai bốc"),
     ];
 
