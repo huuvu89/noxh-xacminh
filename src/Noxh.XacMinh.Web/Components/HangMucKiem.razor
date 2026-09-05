@@ -8,24 +8,27 @@
     </div>
     <p class="giai-thich">@KetQua.Explanation</p>
 
-    @if (trangThai.ChuyenSau)
+    @if (trangThai.ChuyenSau || LaKiemTraDanhSach)
     {
         <dl class="chi-tiet">
-            <dt>Giá trị kỳ vọng</dt>
+            <dt>@(LaKiemTraDanhSach ? "ListHash đã công bố" : "Giá trị kỳ vọng")</dt>
             <dd><code>@(KetQua.Expected ?? "(không công bố)")</code></dd>
-            <dt>Giá trị tính được</dt>
+            <dt>@(LaKiemTraDanhSach ? "ListHash tính từ danh sách" : "Giá trị tính được")</dt>
             <dd><code>@(KetQua.Actual ?? "(chưa tính được)")</code></dd>
 
-            @if (KetQua.Preimage is not null)
+            @if (trangThai.ChuyenSau && KetQua.Preimage is not null)
             {
                 <dt>Chuỗi đem băm (preimage)</dt>
                 <dd><pre>@RutGon(KetQua.Preimage)</pre></dd>
             }
 
-            @foreach (var soLieu in KetQua.Metrics)
+            @if (trangThai.ChuyenSau)
             {
-                <dt>@soLieu.Label</dt>
-                <dd>@soLieu.Value</dd>
+                @foreach (var soLieu in KetQua.Metrics)
+                {
+                    <dt>@soLieu.Label</dt>
+                    <dd>@soLieu.Value</dd>
+                }
             }
         </dl>
     }
@@ -35,6 +38,8 @@
     private const int SoDongPreimageHienThi = 20;
 
     [Parameter, EditorRequired] public CheckResult KetQua { get; set; } = default!;
+
+    private bool LaKiemTraDanhSach => KetQua.Id == CheckIds.DanhSachHoSo;
 
     private static string RutGon(string preimage)
     {
