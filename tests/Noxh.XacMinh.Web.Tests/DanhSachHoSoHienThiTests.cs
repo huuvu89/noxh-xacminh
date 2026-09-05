@@ -200,6 +200,12 @@ public class DanhSachHoSoHienThiTests
         Assert.Contains("Danh sách hồ sơ đầu vào", html, StringComparison.Ordinal);
         Assert.Contains("ĐẠT", html, StringComparison.Ordinal);
         Assert.Contains("40 hồ sơ", html, StringComparison.Ordinal);
+        Assert.Contains("ListHash đã công bố", html, StringComparison.Ordinal);
+        Assert.Contains("ListHash tính từ danh sách", html, StringComparison.Ordinal);
+
+        var listHash = GoldenFixture.DanhSachListHash();
+        Assert.True(html.Split(listHash, StringSplitOptions.None).Length >= 3,
+            "ListHash phải xuất hiện ở cả giá trị đã công bố và giá trị tính lại.");
     }
 
     [Fact]
